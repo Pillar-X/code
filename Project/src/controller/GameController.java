@@ -2,6 +2,7 @@ package controller;
 
 import model.Direction;
 import model.MapMatrix;
+import view.game.Box;
 import view.game.GamePanel;
 import view.game.GridComponent;
 import view.game.Hero;
@@ -29,7 +30,10 @@ public class GameController {
         //target row can column.
         int tRow = row + direction.getRow();
         int tCol = col + direction.getCol();
+        int ttRow = tRow + direction.getRow();
+        int ttCol = tCol + direction.getCol();
         GridComponent targetGrid = view.getGridComponent(tRow, tCol);
+        GridComponent ttargetGrid = view.getGridComponent(ttRow,ttCol);
         int[][] map = model.getMatrix();
         if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2) {
             //update hero in MapMatrix
@@ -42,6 +46,19 @@ public class GameController {
             h.setRow(tRow);
             h.setCol(tCol);
             return true;
+        }
+        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)){
+            model.getMatrix()[row][col] -= 20;
+            model.getMatrix()[tRow][tCol] += (20-10);
+            model.getMatrix()[ttRow][ttCol] +=10;
+            Hero h = currentGrid.removeHeroFromGrid();//从当前格子中移除玩家（将当前图形换成白底）
+            Box b = targetGrid.removeBoxFromGrid();
+            targetGrid.setHeroInGrid(h);//在目标单元格图形改为“英雄”图形
+            ttargetGrid.setBoxInGrid(b);
+            h.setRow(tRow);
+            h.setCol(tCol);
+            return true;
+
         }
         return false;
     }
