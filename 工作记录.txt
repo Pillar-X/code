@@ -1,5 +1,8 @@
-1.Pillar-X  11月19日
+1.Pillar-X  11月19日 第一次修改
 	1.在LevelFrame文件加入5个level的地图
 	2.调整了LevelFrame页面的布局和窗口大小
 
-2.
+2.Pillar-X 11月20日 第二次修改
+	1.在GameController文件加入了推动箱子代码
+
+3.
