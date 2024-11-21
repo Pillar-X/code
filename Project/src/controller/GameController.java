@@ -23,6 +23,7 @@ public class GameController {
 
     public void restartGame() {
         System.out.println("Do restart game here");
+
     }
 
     public boolean doMove(int row, int col, Direction direction) {
@@ -33,6 +34,9 @@ public class GameController {
         int ttRow = tRow + direction.getRow();
         int ttCol = tCol + direction.getCol();
         GridComponent targetGrid = view.getGridComponent(tRow, tCol);
+        if(ttRow<0 || ttRow>= model.getHeight() || ttCol<0 || ttCol>= model.getWidth()) {
+            return false;//如果ttRow 或者ttCol越界说明箱子已经靠到了外围墙面，直接返回false，避免数组越界
+        }
         GridComponent ttargetGrid = view.getGridComponent(ttRow,ttCol);
         int[][] map = model.getMatrix();
         if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2) {
@@ -47,10 +51,11 @@ public class GameController {
             h.setCol(tCol);
             return true;
         }
-        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)){
+        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)) {
+
             model.getMatrix()[row][col] -= 20;
-            model.getMatrix()[tRow][tCol] += (20-10);
-            model.getMatrix()[ttRow][ttCol] +=10;
+            model.getMatrix()[tRow][tCol] += (20 - 10);
+            model.getMatrix()[ttRow][ttCol] += 10;
             Hero h = currentGrid.removeHeroFromGrid();//从当前格子中移除玩家（将当前图形换成白底）
             Box b = targetGrid.removeBoxFromGrid();
             targetGrid.setHeroInGrid(h);//在目标单元格图形改为“英雄”图形
@@ -58,8 +63,9 @@ public class GameController {
             h.setRow(tRow);
             h.setCol(tCol);
             return true;
-
         }
+
+
         return false;
     }
 

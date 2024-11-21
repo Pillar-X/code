@@ -5,4 +5,7 @@
 2.Pillar-X 11月20日 第二次修改
 	1.在GameController文件加入了推动箱子代码
 
-3.
+3.Pillar-X 11月21日 第三次修改
+	1. 清除推箱子代码的bug
+	2. 在LevelFrame文件 创建变量int LevelNumber用于记录用户按了第几个关卡
+4.
