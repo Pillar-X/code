@@ -7,5 +7,15 @@
 
 3.Pillar-X 11月21日 第三次修改
 	1. 清除推箱子代码的bug
-	2. 在LevelFrame文件 创建变量int LevelNumber用于记录用户按了第几个关卡
-4.
+
+4.Pillar-X 11月24日 第四次修改
+	1.调整了原来Demo版的变量命名：(这样所有对象和它的类的名称相同，而且由于以下都是引用传递，改名后，现在只要名称相同指的就是是同一个实例）
+               GamePanel中     model -> mapMatrix      controller -> gameController     
+               GameFrame中    controller -> gameController
+               GameController中  view ->gamePanel     model ->mapMatrix
+	2.加入“重新开始”相关代码：
+             （1）在MapMatrix中加入int copyMatrix[][] 和copy方法，用于储存初态地图矩阵，和重置地图矩阵。
+             （2）在GamePanel中加入restart()方法，重新开始游戏
+               (3)   补全GameController中restartGame（）方法
+
+5.

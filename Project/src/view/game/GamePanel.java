@@ -15,8 +15,8 @@ import java.awt.*;
 public class GamePanel extends ListenerPanel {
 
     private GridComponent[][] grids;
-    private MapMatrix model;
-    private GameController controller;
+    private MapMatrix mapMatrix;
+    private GameController gameController;
     private JLabel stepLabel;
     private int steps;
     private final int GRID_SIZE = 50;
@@ -24,13 +24,13 @@ public class GamePanel extends ListenerPanel {
     private Hero hero;
 
 
-    public GamePanel(MapMatrix model) {
+    public GamePanel(MapMatrix mapMatrix) {
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
-        this.setSize(model.getWidth() * GRID_SIZE + 4, model.getHeight() * GRID_SIZE + 4);
-        this.model = model;
-        this.grids = new GridComponent[model.getHeight()][model.getWidth()];
+        this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
+        this.mapMatrix = mapMatrix;
+        this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
         initialGame();
 
     }
@@ -40,10 +40,10 @@ public class GamePanel extends ListenerPanel {
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 //Units digit maps to id attribute in GridComponent. (The no change value)
-                grids[i][j] = new GridComponent(i, j, model.getId(i, j) % 10, this.GRID_SIZE);
+                grids[i][j] = new GridComponent(i, j, mapMatrix.getId(i, j) % 10, this.GRID_SIZE);
                 grids[i][j].setLocation(j * GRID_SIZE + 2, i * GRID_SIZE + 2);
                 //Ten digit maps to Box or Hero in corresponding location in the GridComponent. (Changed value)
-                switch (model.getId(i, j) / 10) {
+                switch (mapMatrix.getId(i, j) / 10) {
                     case 1:
                         grids[i][j].setBoxInGrid(new Box(GRID_SIZE - 10, GRID_SIZE - 10));
                         break;
@@ -58,10 +58,49 @@ public class GamePanel extends ListenerPanel {
         this.repaint();
     }
 
+    public void restart(){
+        //从零开始，计量步数
+        this.steps = -1;
+        afterMove();
+        //从原来的图中移除箱子和英雄
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        Box b = grids[i][j].removeBoxFromGrid();
+                        break;
+                    case 2:
+                        hero = grids[i][j].removeHeroFromGrid();
+                        break;
+                }
+            }
+        }
+        this.repaint();
+        mapMatrix.copy();//把地图矩阵恢复到初始状态
+        //把地图矩阵更新后，重新放置好箱子和英雄
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        grids[i][j].setBoxInGrid(new Box(GRID_SIZE - 10, GRID_SIZE - 10));
+                        break;
+                    case 2:
+                        grids[i][j].setHeroInGrid(hero);
+                        hero.setRow(i);
+                        hero.setCol(j);
+                        break;
+                }
+                this.add(grids[i][j]);
+            }
+        }
+    }
+
+
+
     @Override
     public void doMoveRight() {
         System.out.println("Click VK_RIGHT");
-        if (controller.doMove(hero.getRow(), hero.getCol(), Direction.RIGHT)) {
+        if (gameController.doMove(hero.getRow(), hero.getCol(), Direction.RIGHT)) {
             this.afterMove();
         }
     }
@@ -69,7 +108,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveLeft() {
         System.out.println("Click VK_LEFT");
-        if(controller.doMove(hero.getRow(), hero.getCol(), Direction.LEFT)){
+        if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.LEFT)){
             this.afterMove();
         }
     }
@@ -77,7 +116,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveUp() {
         System.out.println("Click VK_Up");
-       if( controller.doMove(hero.getRow(), hero.getCol(), Direction.UP)){
+       if( gameController.doMove(hero.getRow(), hero.getCol(), Direction.UP)){
            this.afterMove();
        }
     }
@@ -85,7 +124,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveDown() {
         System.out.println("Click VK_DOWN");
-        if(controller.doMove(hero.getRow(), hero.getCol(), Direction.DOWN)){
+        if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.DOWN)){
             this.afterMove();
         }
     }
@@ -102,7 +141,7 @@ public class GamePanel extends ListenerPanel {
 
 
     public void setController(GameController controller) {
-        this.controller = controller;
+        this.gameController = controller;
     }
 
     public GridComponent getGridComponent(int row, int col) {

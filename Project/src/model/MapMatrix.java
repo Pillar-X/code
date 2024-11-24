@@ -1,28 +1,22 @@
 package model;
 
-/**
- * This class is to record the map of one game. For example:
- * matrix =
- * {1, 1, 1, 1, 1, 1},
- * {1, 0, 0, 0, 0, 1},
- * {1, 0, 20, 12, 0, 1},
- * {1, 0, 10, 2, 0, 1},
- * {1, 1, 1, 1, 1, 1}
- * The Unit digit number cannot be changed during one game.
- * 1 represents the wall
- * 0 represents the free space
- * 2 represents the target location
- * The Then digit number can be changed during one game.
- * Ten digit 1 represents the box
- * Ten digit 2 represents the hero/player
- * So that 12 represents a box on the target location and 22 represents the player on the target location.
- */
 public class MapMatrix {
     int[][] matrix;
-
+    private int[][] copymatrix;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
+        copymatrix = new int[matrix.length][matrix[0].length];
+        for(int i=0;i<matrix.length;i++){//把matrix按值复制给copyMatrix
+            System.arraycopy(matrix[i], 0, copymatrix[i], 0, matrix[0].length);
+        }
+
+    }
+
+    public void copy(){
+        for(int i=0;i<copymatrix.length;i++){
+            System.arraycopy(copymatrix[i], 0, matrix[i], 0, copymatrix[0].length);
+        }
 
     }
 

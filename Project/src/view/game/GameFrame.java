@@ -9,7 +9,7 @@ import view.FrameUtil;
 
 public class GameFrame extends JFrame {
 
-    private GameController controller;
+    private GameController gameController;
     private JButton restartBtn;
     private JButton loadBtn;
 
@@ -23,7 +23,7 @@ public class GameFrame extends JFrame {
         gamePanel = new GamePanel(mapMatrix);
         gamePanel.setLocation(30, height / 2 - gamePanel.getHeight() / 2);
         this.add(gamePanel);
-        this.controller = new GameController(gamePanel, mapMatrix);
+        this.gameController = new GameController(gamePanel, mapMatrix);
 
         this.restartBtn = FrameUtil.createButton(this, "Restart", new Point(gamePanel.getWidth() + 80, 120), 80, 50);
         this.loadBtn = FrameUtil.createButton(this, "Load", new Point(gamePanel.getWidth() + 80, 210), 80, 50);
@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
         gamePanel.setStepLabel(stepLabel);
 
         this.restartBtn.addActionListener(e -> {
-            controller.restartGame();
+            gameController.restartGame();
             gamePanel.requestFocusInWindow();//enable key listener
         });
         this.loadBtn.addActionListener(e -> {

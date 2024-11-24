@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelFrame extends JFrame {
-    public int LevelNumber=0;
 
     public LevelFrame(int width, int height) {
         this.setTitle("Level");
@@ -22,7 +21,7 @@ public class LevelFrame extends JFrame {
 
 
         level1Btn.addActionListener(l->{
-            LevelNumber =1;
+
             MapMatrix mapMatrix = new MapMatrix(new int[][]{
                     {1, 1, 1, 1, 1, 1},
                     {1, 20, 0, 0, 0, 1},
@@ -36,7 +35,7 @@ public class LevelFrame extends JFrame {
         });
 
         level2Btn.addActionListener(l->{
-            LevelNumber=2;
+
             MapMatrix mapMatrix = new MapMatrix(new int[][]{
                     {1, 1, 1, 1, 1, 1, 0},
                     {1, 20, 0, 0, 0, 1, 1},
@@ -51,7 +50,7 @@ public class LevelFrame extends JFrame {
         });
 
         level3Btn.addActionListener(l->{
-            LevelNumber =3;
+
             MapMatrix mapMatrix = new MapMatrix(new int[][]{
                     {0, 0, 1, 1, 1, 1, 0},
                     {1, 1, 1, 0, 0, 1, 0},
@@ -67,7 +66,7 @@ public class LevelFrame extends JFrame {
         });
 
         level4Btn.addActionListener(l->{
-            LevelNumber =4;
+
             MapMatrix mapMatrix = new MapMatrix(new int[][]{
                     {0, 1, 1, 1, 1, 1, 0},
                     {1, 1, 20, 0, 0, 1, 1},
@@ -83,7 +82,7 @@ public class LevelFrame extends JFrame {
         });
 
         level5Btn.addActionListener(l->{
-            LevelNumber =5;
+
             MapMatrix mapMatrix = new MapMatrix(new int[][]{
                     {1, 1, 1, 1, 1, 1, 0, 0},
                     {1, 0, 0, 0, 0, 1, 1, 1},
@@ -96,10 +95,6 @@ public class LevelFrame extends JFrame {
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
-
-
-
-        //todo: complete all level.
 
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
