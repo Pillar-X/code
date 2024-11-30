@@ -15,6 +15,7 @@ public class FrameUtil {
         return jLabel;
     }
 
+
     public static JLabel createJLabel(JFrame frame, String name, Font font, Point location, int width, int height) {
         JLabel label = new JLabel(name);
         label.setFont(font);

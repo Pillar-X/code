@@ -18,4 +18,20 @@
              （2）在GamePanel中加入restart()方法，重新开始游戏
                (3)   补全GameController中restartGame（）方法
 
-5.
+5.Pillar-X 11月30日 第五次修改
+        1.新建Data文件夹:
+             (1) Vector2D类                 : 人为设定的二维字符串向量，存有username和password
+             (2) UserList数组                ：以Vector2D类为元素的ArrayList
+             (3) DeserializeUserList类  :  反序列化UserList.ser文件，该文件内存着 UserList数组
+             (4) SerializeUserList类      : 序列化UserList数组，让其存到UserList.ser文件中
+             (5) UserCheck类                : 包含各种check方法（检测注册的用户名和密码是否合法）和AddUser方法（把新注册的用户名和密码写入文件）。 
+
+       2.在login中新建 SignUpFrame 和 LoginCheck 类：
+(1) SignUpFrame  :  弹出注册界面，把注册的用户名和密码传给UserCheck，若合法则写入UserList数组，并储存到UserList.ser文件。
+(2) LoginCheck  :    检查登录的用户名和密码是否在UserList中，如果在，则进入LevelFrame界面
+
+6.
+
+
+
+
