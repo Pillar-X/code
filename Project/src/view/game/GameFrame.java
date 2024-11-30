@@ -6,9 +6,11 @@ import java.awt.*;
 import controller.GameController;
 import model.MapMatrix;
 import view.FrameUtil;
+import view.level.LevelFrame;
 
 public class GameFrame extends JFrame {
 
+    private final JButton returnBtn;
     private GameController gameController;
     private JButton restartBtn;
     private JButton loadBtn;
@@ -27,6 +29,8 @@ public class GameFrame extends JFrame {
 
         this.restartBtn = FrameUtil.createButton(this, "Restart", new Point(gamePanel.getWidth() + 80, 120), 80, 50);
         this.loadBtn = FrameUtil.createButton(this, "Load", new Point(gamePanel.getWidth() + 80, 210), 80, 50);
+        this.returnBtn = FrameUtil.createButton(this, "Return", new Point(gamePanel.getWidth() + 80, 300), 80, 50);//返回按钮
+
         this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
         gamePanel.setStepLabel(stepLabel);
 
@@ -38,6 +42,10 @@ public class GameFrame extends JFrame {
             String string = JOptionPane.showInputDialog(this, "Input path:");
             System.out.println(string);
             gamePanel.requestFocusInWindow();//enable key listener
+        });
+        this.returnBtn.addActionListener(e -> {
+            LevelFrame.getFrameController().returnLevelFrame(this);
+            gamePanel.requestFocusInWindow();//返回按钮的监听器
         });
         //todo: add other button here
         this.setLocationRelativeTo(null);

@@ -1,13 +1,18 @@
 package view.level;
 
+import controller.FrameController;
 import model.MapMatrix;
 import view.FrameUtil;
 import view.game.GameFrame;
+import view.game.GamePanel;
+import view.login.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LevelFrame extends JFrame {
+    private static FrameController frameController = new FrameController();
+
 
     public LevelFrame(int width, int height) {
         this.setTitle("Level");
@@ -18,7 +23,7 @@ public class LevelFrame extends JFrame {
         JButton level3Btn = FrameUtil.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60);
         JButton level4Btn = FrameUtil.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60);
         JButton level5Btn = FrameUtil.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60);
-
+        JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 80, 60);
 
         level1Btn.addActionListener(l->{
 
@@ -96,8 +101,16 @@ public class LevelFrame extends JFrame {
             gameFrame.setVisible(true);
         });
 
+        ReLoginBtn.addActionListener(e -> {
+            LoginFrame.getFrameController().returnLoginFrame(this);
+            requestFocusInWindow();
+        });//增加重新登录界面按钮
+
+        frameController.setLevelFrame(this);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-
+    public static FrameController getFrameController() {
+        return frameController;
+    }
 }

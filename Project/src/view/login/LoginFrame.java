@@ -1,6 +1,7 @@
 package view.login;
 
 import Data.Vector2D;
+import controller.FrameController;
 import view.FrameUtil;
 import view.level.LevelFrame;
 
@@ -17,8 +18,9 @@ public class LoginFrame extends JFrame {
     private JButton submitBtn;
     private JButton resetBtn;
     private JButton signupBtn;
+    private JButton guestBtn;
     private LevelFrame levelFrame;
-
+    private static FrameController frameController = new FrameController();
 
     public LoginFrame(int width, int height) {
         this.setTitle("Login Frame");
@@ -35,6 +37,7 @@ public class LoginFrame extends JFrame {
         submitBtn = FrameUtil.createButton(this, "Confirm", new Point(40, 140), 100, 40);
         resetBtn = FrameUtil.createButton(this, "Reset", new Point(160, 140), 100, 40);
         signupBtn = FrameUtil.createButton(this,"Sign Up",new Point(280,140),100,40);
+        guestBtn = FrameUtil.createButton(this, "Guest", new Point(400, 140), 100, 40);//添加游客按钮
 
         submitBtn.addActionListener(e -> {
             System.out.println("Username = " + username.getText());
@@ -44,6 +47,7 @@ public class LoginFrame extends JFrame {
 
             try {
                 LoginCheck loginCheck = new LoginCheck(vector2D,this);
+                this.clearText();//登录检查后清理残余文本
             } catch (IOException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -68,8 +72,24 @@ public class LoginFrame extends JFrame {
 
             });
 
+        guestBtn.addActionListener(e -> {
+            Vector2D vector2D = new Vector2D("youke","123456");
+
+            try {
+                LoginCheck loginCheck = new LoginCheck(vector2D,this);
+            } catch (IOException | ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });//增加游客按钮，以youke账户登录
+
+        frameController.setLoginFrame(this);
+
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public static FrameController getFrameController() {
+        return frameController;
     }
 
     public void setLevelFrame(LevelFrame levelFrame) {
@@ -83,4 +103,10 @@ public class LoginFrame extends JFrame {
     public LevelFrame getLevelFrame() {
         return levelFrame;
     }
+
+    public void clearText(){
+        username.setText("");
+        password.setText("");
+    }//清理登陆界面的残留信息
 }
+

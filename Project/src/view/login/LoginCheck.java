@@ -2,6 +2,7 @@ package view.login;
 
 import Data.SignUp.DeserializeUserList;
 import Data.Vector2D;
+import controller.FrameController;
 import view.level.LevelFrame;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class LoginCheck {
                 loginFrame.setNote("Username or password is incorrect");
             }
         }
+
     }
 
     public boolean checkIfEmpty (){
@@ -53,4 +55,7 @@ public class LoginCheck {
         }
         return false;
     }
+
+
+
 }
