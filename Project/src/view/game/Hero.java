@@ -1,28 +1,51 @@
 package view.game;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class Hero extends JComponent {
     private int row;
     private int col;
-
+    private Image image;
     private final int value = 20;
     private static Color color = new Color(87, 171, 220);
-
+    private String direction;
     public Hero(int width, int height, int row, int col) {
         this.row = row;
         this.col = col;
         this.setSize(width, height);
         this.setLocation(8, 8);
+        loadImage("down");
+
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillOval(0, 0, getWidth(), getHeight());
-        g.setColor(color);
-        g.fillOval(1,1,getWidth()-2,getHeight()-2);
+    public void loadImage(String direction) {
+        try {
+            // 根据方向加载图片文件
+            image = ImageIO.read(new File("PictureResource/hero_" + direction + ".png"));
+            this.direction = direction;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (image!= null) {
+            // 绘制图片
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        } else {
+            // 如果图片未加载，绘制一个默认的矩形
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
+
 
     public int getValue() {
         return value;
@@ -44,3 +67,6 @@ public class Hero extends JComponent {
         this.col = col;
     }
 }
+
+
+

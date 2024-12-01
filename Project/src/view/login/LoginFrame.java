@@ -32,7 +32,9 @@ public class LoginFrame extends JFrame {
 
         username = FrameUtil.createJTextField(this, new Point(120, 20), 120, 40);
         password = FrameUtil.createJTextField(this, new Point(120, 80), 120, 40);
-
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
+        setIconImage(img);//设置图标
 
         submitBtn = FrameUtil.createButton(this, "Confirm", new Point(40, 140), 100, 40);
         resetBtn = FrameUtil.createButton(this, "Reset", new Point(160, 140), 100, 40);

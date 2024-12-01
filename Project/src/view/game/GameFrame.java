@@ -26,7 +26,9 @@ public class GameFrame extends JFrame {
         gamePanel.setLocation(30, height / 2 - gamePanel.getHeight() / 2);
         this.add(gamePanel);
         this.gameController = new GameController(gamePanel, mapMatrix);
-
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
+        setIconImage(img);//设置图标
         this.restartBtn = FrameUtil.createButton(this, "Restart", new Point(gamePanel.getWidth() + 80, 120), 80, 50);
         this.loadBtn = FrameUtil.createButton(this, "Load", new Point(gamePanel.getWidth() + 80, 210), 80, 50);
         this.returnBtn = FrameUtil.createButton(this, "Return", new Point(gamePanel.getWidth() + 80, 300), 80, 50);//返回按钮

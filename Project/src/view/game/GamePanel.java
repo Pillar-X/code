@@ -4,9 +4,12 @@ import controller.GameController;
 import model.Direction;
 import model.MapMatrix;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * It is the subclass of ListenerPanel, so that it should implement those four methods: do move left, up, down ,right.
@@ -20,9 +23,9 @@ public class GamePanel extends ListenerPanel {
     private JLabel stepLabel;
     private int steps;
     private final int GRID_SIZE = 50;
-
+    private Image image;
     private Hero hero;
-
+    private String direction;
 
     public GamePanel(MapMatrix mapMatrix) {
         this.setVisible(true);

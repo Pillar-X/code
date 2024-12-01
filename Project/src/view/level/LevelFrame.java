@@ -24,7 +24,9 @@ public class LevelFrame extends JFrame {
         JButton level4Btn = FrameUtil.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60);
         JButton level5Btn = FrameUtil.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60);
         JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 80, 60);
-
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
+        setIconImage(img);//设置图标
         level1Btn.addActionListener(l->{
 
             MapMatrix mapMatrix = new MapMatrix(new int[][]{

@@ -7,6 +7,8 @@ import view.game.GamePanel;
 import view.game.GridComponent;
 import view.game.Hero;
 
+import java.io.*;
+
 /**
  * It is a bridge to combine GamePanel(view) and MapMatrix(model) in one game.
  * You can design several methods about the game logic in this class.
@@ -45,6 +47,7 @@ public class GameController {
             targetGrid.setHeroInGrid(h);
             h.setRow(tRow);
             h.setCol(tCol);
+            h.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
             return true;
         }
         if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)) {
@@ -58,6 +61,7 @@ public class GameController {
             ttargetGrid.setBoxInGrid(b);
             h.setRow(tRow);
             h.setCol(tCol);
+            h.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
             return true;
         }
 
