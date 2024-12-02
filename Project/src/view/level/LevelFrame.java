@@ -23,7 +23,7 @@ public class LevelFrame extends JFrame {
         JButton level3Btn = FrameUtil.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60);
         JButton level4Btn = FrameUtil.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60);
         JButton level5Btn = FrameUtil.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60);
-        JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 80, 60);
+        JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 120, 60);
         Toolkit tk = Toolkit.getDefaultToolkit();
         java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
@@ -36,7 +36,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 2, 10, 0, 1},
                     {1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(600, 450, mapMatrix);
+            GameFrame gameFrame = new GameFrame(600, 500, mapMatrix,1);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -51,7 +51,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 0, 0, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(600, 450, mapMatrix);
+            GameFrame gameFrame = new GameFrame(600, 500, mapMatrix,2);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -67,7 +67,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 0, 0, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1}
             });
-            GameFrame gameFrame = new GameFrame(600, 450, mapMatrix);
+            GameFrame gameFrame = new GameFrame(600, 500, mapMatrix,3);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -83,7 +83,7 @@ public class LevelFrame extends JFrame {
                     {1, 1, 0, 2, 0, 1, 1},
                     {0, 1, 1, 1, 1, 1, 0}
             });
-            GameFrame gameFrame = new GameFrame(600, 450, mapMatrix);
+            GameFrame gameFrame = new GameFrame(600, 500, mapMatrix,4);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -98,7 +98,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 1, 0, 2, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(600, 450, mapMatrix);
+            GameFrame gameFrame = new GameFrame(600, 500, mapMatrix,5);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });

@@ -1,3 +1,11 @@
+bug: 1.如果在pathway乱输入，会储存为相对路径而不会提示输入错误
+         2.
+
+
+
+
+
+
 1.Pillar-X  11月19日 第一次修改
 	1.在LevelFrame文件加入5个level的地图
 	2.调整了LevelFrame页面的布局和窗口大小
@@ -45,5 +53,15 @@
   1.增加了英雄、墙壁、地板、终点、箱子的图片；
   2.为英雄增加了根据移动方向切换英雄朝向的功能；
   3.为窗口增加了LOGO；
+
+8.Pillar-X 12月2日 第八次修改
+  1.调整了各窗口大小，使按钮可以显示全
+  2.在MapMatrix中加入了 levelNumber 和 laststep 变量，用于记录该地图矩阵所属关卡和当前步数
+                （这样用MapMatrix作为储存对象就可以完全还原相应的游戏状态）
+  3.在Data中添加GameArchive方法，包含DeserializeGame 和 SerializeGame
+        SerializeGame: 传入地址和mapmatrix ，把mapmatrix对象写到地址指向的文件中
+        DeserializeGame: 传入地址和关卡编号，把此关卡对应的对象组成Vector<Mapmatrix>数组返回（方便未来进行多次存档记录读取，但还未实现）
+
+ 4. 在GameFrame中添加 save和load按钮和相关代码（1.只需在第一次输入储存路径，之后的save和load会默认储存在该路径 2.若存档或读取失败，会有提示且不会导致程序终止）
 
 
