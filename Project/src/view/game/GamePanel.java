@@ -66,6 +66,14 @@ public class GamePanel extends ListenerPanel {
         this.steps = -1;
         afterMove();
         //从原来的图中移除箱子和英雄
+        RemoveBoxAndHero();
+        this.repaint();
+        mapMatrix.copy();//把地图矩阵恢复到初始状态
+        //把地图矩阵更新后，重新放置好箱子和英雄
+        ResetBoxAndHero();
+    }
+
+    public void RemoveBoxAndHero(){
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 switch (mapMatrix.getId(i, j) / 10) {
@@ -78,9 +86,9 @@ public class GamePanel extends ListenerPanel {
                 }
             }
         }
-        this.repaint();
-        mapMatrix.copy();//把地图矩阵恢复到初始状态
-        //把地图矩阵更新后，重新放置好箱子和英雄
+    }
+
+    public void ResetBoxAndHero(){
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 switch (mapMatrix.getId(i, j) / 10) {
@@ -97,6 +105,8 @@ public class GamePanel extends ListenerPanel {
             }
         }
     }
+
+
 
 
 
@@ -135,6 +145,7 @@ public class GamePanel extends ListenerPanel {
     public void afterMove() {
         this.steps++;
         this.stepLabel.setText(String.format("Step: %d", this.steps));
+        System.out.println(gameController.isGameWin());
     }
 
     public void setStepLabel(JLabel stepLabel) {
@@ -149,5 +160,13 @@ public class GamePanel extends ListenerPanel {
 
     public GridComponent getGridComponent(int row, int col) {
         return grids[row][col];
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 }

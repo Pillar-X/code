@@ -1,8 +1,14 @@
 package model;
 
-public class MapMatrix {
+import Data.GameArchive.SerializeGame;
+
+import java.io.Serializable;
+
+public class MapMatrix implements Serializable {
     int[][] matrix;
     private int[][] copymatrix;
+    private int lastStep;
+    private int levelNumber;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
@@ -34,5 +40,21 @@ public class MapMatrix {
 
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public int getFinalStep() {
+        return lastStep;
+    }
+
+    public void setFinalStep(int lastStep) {
+        this.lastStep = lastStep;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
     }
 }

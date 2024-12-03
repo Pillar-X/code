@@ -68,6 +68,30 @@ public class GameController {
 
         return false;
     }
+    public boolean isGameWin(){
+        int[][] map = mapMatrix.getMatrix();
+        int count = 0;
+        int total = 0;
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j<map[0].length;j++){
+                if(map[i][j]/10 ==1){
+                    total++;
+                }
+            }
+        }//计算有多少个箱子
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j<map[0].length;j++){
+                if(map[i][j]==12){
+                    count++;
+                }
+            }
+        }//计算有多少个箱子在目标位置
+        if(count==total){
+            System.out.println("游戏胜利");
+            return true;
+        }
+        return false;
+    }//判断游戏是否胜利
 
     //todo: add other methods such as loadGame, saveGame...
 
