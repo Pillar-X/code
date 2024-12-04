@@ -2,6 +2,7 @@ package view.game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class GameFrame extends JFrame {
 
     private final JButton returnBtn;
     private GameController gameController;
+
     private JButton restartBtn;
     private JButton loadBtn;
     private JButton saveBtn;
@@ -88,17 +90,21 @@ public class GameFrame extends JFrame {
             }
 
             //以下代码用于按存档中的matrix设置游戏画面
-            gamePanel.RemoveBoxAndHero();
-            gamePanel.repaint();
-            MapMatrix lastMapMatrix = mapMatrixList.getLast();//取出最后一个存档的对象
-            for(int i=0;i<lastMapMatrix.getMatrix().length;i++){
-                System.arraycopy(lastMapMatrix.getMatrix()[i], 0, this.mapMatrix.getMatrix()[i], 0, lastMapMatrix.getMatrix()[0].length);
+
+            if(mapMatrixList.isEmpty()){
+                JOptionPane.showMessageDialog(this,"The GameArchive is empty","Warning",JOptionPane.INFORMATION_MESSAGE);
             }
-            gamePanel.setSteps(lastMapMatrix.getFinalStep()-1);
-            gamePanel.afterMove();
-            gamePanel.ResetBoxAndHero();
-
-
+            else {
+                gamePanel.RemoveBoxAndHero();
+                gamePanel.repaint();
+                MapMatrix lastMapMatrix = mapMatrixList.getLast();//取出最后一个存档的对象
+                for (int i = 0; i < lastMapMatrix.getMatrix().length; i++) {
+                    System.arraycopy(lastMapMatrix.getMatrix()[i], 0, this.mapMatrix.getMatrix()[i], 0, lastMapMatrix.getMatrix()[0].length);
+                }
+                gamePanel.setSteps(lastMapMatrix.getFinalStep() - 1);
+                gamePanel.afterMove();
+                gamePanel.ResetBoxAndHero();
+            }
 
             System.out.println(pathway);
             gamePanel.requestFocusInWindow();//enable key listener
@@ -136,15 +142,19 @@ public class GameFrame extends JFrame {
 
         this.upBtn.addActionListener(e -> {
             gamePanel.doMoveUp();
+            gamePanel.requestFocusInWindow();//把焦点还给gamePanel让其对键盘事件继续监听
         });
         this.downBtn.addActionListener(e -> {
             gamePanel.doMoveDown();
+            gamePanel.requestFocusInWindow();
         });
         this.leftBtn.addActionListener(e -> {
             gamePanel.doMoveLeft();
+            gamePanel.requestFocusInWindow();
         });
         this.rightBtn.addActionListener(e -> {
             gamePanel.doMoveRight();
+            gamePanel.requestFocusInWindow();
         });
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
