@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelFrame extends JFrame {
-    private static FrameController frameController = new FrameController();
+
 
 
     public LevelFrame(int width, int height) {
@@ -104,15 +104,15 @@ public class LevelFrame extends JFrame {
         });
 
         ReLoginBtn.addActionListener(e -> {
-            LoginFrame.getFrameController().returnLoginFrame(this);
+            FrameController.returnLoginFrame(this);
             requestFocusInWindow();
         });//增加重新登录界面按钮
 
-        frameController.setLevelFrame(this);
+        FrameController.setLevelFrame(this);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-    public static FrameController getFrameController() {
-        return frameController;
-    }
+    //public static FrameController getFrameController() {
+     //   return frameController;
+    //}
 }

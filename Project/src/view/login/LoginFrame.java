@@ -20,7 +20,7 @@ public class LoginFrame extends JFrame {
     private JButton signupBtn;
     private JButton guestBtn;
     private LevelFrame levelFrame;
-    private static FrameController frameController = new FrameController();
+
 
     public LoginFrame(int width, int height) {
         this.setTitle("Login Frame");
@@ -65,9 +65,7 @@ public class LoginFrame extends JFrame {
             SignUpFrame signUpFrame = null;
             try {
                 signUpFrame = new SignUpFrame(500,350);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
             signUpFrame.setVisible(true);
@@ -84,15 +82,15 @@ public class LoginFrame extends JFrame {
             }
         });//增加游客按钮，以youke账户登录
 
-        frameController.setLoginFrame(this);
+        FrameController.setLoginFrame(this);
 
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public static FrameController getFrameController() {
-        return frameController;
-    }
+    //public static FrameController getFrameController() {
+    //    return frameController;
+    //}
 
     public void setLevelFrame(LevelFrame levelFrame) {
         this.levelFrame = levelFrame;

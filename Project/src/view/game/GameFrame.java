@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import Data.GameArchive.DeserializeGame;
 import Data.GameArchive.SerializeGame;
+import controller.FrameController;
 import controller.GameController;
 import model.Direction;
 import model.MapMatrix;
@@ -135,7 +136,7 @@ public class GameFrame extends JFrame {
         });
 
         this.returnBtn.addActionListener(e -> {
-            LevelFrame.getFrameController().returnLevelFrame(this);
+            FrameController.returnLevelFrame(this);
             gamePanel.requestFocusInWindow();//返回按钮的监听器
         });
 
