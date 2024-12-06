@@ -26,8 +26,7 @@ import view.level.LevelFrame;
 
 public class GameFrame extends JFrame {
 
-
-
+    
     private final JButton returnBtn;
     private GameController gameController;
 
@@ -84,6 +83,7 @@ public class GameFrame extends JFrame {
         tryAddLoadComboBox();//看有没有存档，如果有就把下拉框加入到界面中
 
         gamePanel.setStepLabel(stepLabel);
+        gamePanel.renewStepsLabel();
 
         this.moveBackBtn.addActionListener(e -> {
             gamePanel.MoveBack();
@@ -126,13 +126,13 @@ public class GameFrame extends JFrame {
                     mapMatrixList = DeserializeGame.deserializeGame(pathway, this.levelNumber, SetUpFrame.getUsername());
                     this.mapMatrix.setFinalStep(gamePanel.getSteps());
                     //让新加入的mapMatrix的cnt成为数组中最大的
-                    if (saveNameText.getText().equals("")) {
+                    if (saveNameText.getText().equals("")) {//如果没有自定义名称就自动生成
                         int tmp = 1;
                         for (MapMatrix m : mapMatrixList) {
                             if (m.getCnt() >= tmp) tmp = m.getCnt() + 1;
                         }
                         this.mapMatrix.setCnt(tmp);
-                    } else {
+                    } else {//如果自定义了就按自定义的名称显示
                         this.mapMatrix.setCnt(0);
                         this.mapMatrix.setSaveName(saveNameText.getText());
                         saveNameText.setText("");
@@ -145,7 +145,7 @@ public class GameFrame extends JFrame {
                     this.repaint();
 
                 } catch (IOException | ClassNotFoundException ex) {
-                    System.out.println("未成功反序列化，直接序列化一个新文件");
+                    System.out.println("未成功反序列化，说明文件还不存在，直接序列化一个新文件");
 
                     mapMatrixList.add(this.mapMatrix.clone());
                     try {
@@ -163,7 +163,8 @@ public class GameFrame extends JFrame {
         });
 
         this.deleteBtn.addActionListener(e ->  {
-                // 获取当前选择的选项
+            if(loadComboBox != null){
+                //获取当前下拉框中选项
                 MapMatrix selectedItem = (MapMatrix) loadComboBox.getSelectedItem();
                 if (selectedItem != null) {
                     // 从 JComboBox 中删除选项
@@ -183,10 +184,6 @@ public class GameFrame extends JFrame {
                         // 由于下拉框从后往前显示数组，删除下拉框中索引i，相当于索引n-i-1处的mapMatrix
                         System.out.println("删完后，数组长度为："+mapMatrixList.size());
                     }
-                    //if(mapMatrixList.size()==1){
-                    //    mapMatrixList.clear();
-                    //}
-
                     try {
                         SerializeGame.serializeGame(pathway,mapMatrixList);
                     } catch (IOException ex) {
@@ -194,7 +191,8 @@ public class GameFrame extends JFrame {
                     }
 
                 }
-                gamePanel.requestFocusInWindow();
+            }
+            gamePanel.requestFocusInWindow();
         });
 
         this.loadBtn.addActionListener(e -> {
@@ -292,6 +290,10 @@ public class GameFrame extends JFrame {
 
     public JTextField getSaveNameText() {
         return saveNameText;
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 }
 

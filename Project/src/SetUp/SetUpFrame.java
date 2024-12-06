@@ -8,12 +8,14 @@ public class SetUpFrame extends JFrame {
     private String pathway;
     private static  String MainPath;
     private static String savePath;
+    private static String autoSavePath;
 
 
     public SetUpFrame (int width , int height , String username){
         SetUpFrame.username = username;
         CreateMainFile();
         CreateSaveFile();
+        CreateAutoSaveFile();
 
     }
 
@@ -38,20 +40,16 @@ public class SetUpFrame extends JFrame {
         }else {
             System.out.println("Save文件夹创建失败，可能是文件夹已存在或者路径有误。");
         }
-        /*
-        File file1 = new File(savePath+"/level1/");
-        File file2 = new File(savePath+ "/level2/");
-        File file3 = new File(savePath+"/level3/");
-        File file4 = new File(savePath+ "/level4/");
-        File file5 = new File(savePath+"/level5/");
-        file1.mkdirs();
-        file2.mkdirs();
-        file3.mkdirs();
-        file4.mkdirs();
-        file5.mkdirs();
-        */
+    }
 
-
+    public void CreateAutoSaveFile(){
+        autoSavePath = MainPath + "/autoSave/";
+        File file = new File(autoSavePath);
+        if(file.mkdirs()){
+            System.out.println("AutoSave文件夹创建成功");
+        }else{
+            System.out.println("AutoSave文件夹创建失败，可能是文件夹已存在或者路径有误。");
+        }
     }
 
     public static String getUsername() {
@@ -60,6 +58,10 @@ public class SetUpFrame extends JFrame {
 
     public static String getSavePath() {
         return savePath;
+    }
+
+    public static String getAutoSavePath() {
+        return autoSavePath;
     }
 
     public static void setSavePath(String savePath) {

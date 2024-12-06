@@ -42,7 +42,11 @@ public class GamePanel extends ListenerPanel {
     }
 
     public void initialGame() {
-        this.steps = 0;
+        if(mapMatrix.getFinalStep() ==0) this.steps = 0;
+        else this.steps = mapMatrix.getFinalStep();
+        System.out.println("初始化步数为"+steps);
+
+
         //必须对mapMatrix进行深拷贝再传入ArrayList
         mapMatrix.setFinalStep(steps);
         moveBackList.add(mapMatrix.clone());
@@ -66,6 +70,7 @@ public class GamePanel extends ListenerPanel {
             }
         }
         this.repaint();
+
     }
 
     public void restart(){
@@ -205,5 +210,11 @@ public class GamePanel extends ListenerPanel {
 
     public void setSteps(int steps) {
         this.steps = steps;
+    }
+
+    public MapMatrix getMapMatrix() {
+        mapMatrix.setFinalStep(steps);
+        return mapMatrix;
+
     }
 }

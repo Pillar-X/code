@@ -88,4 +88,8 @@ tryAddLoadComboBox: 调用这个方法会检测是否有历史存档，如果有
 
 2.在GameFrame中加入saveNameText文本框，可以自行设定存档名称
 
-14.
+14.Pillar-X 12月16日 第十四次修改
+1.在GameArchive中加入AutoDeserialize和AutoSeralize方法
+2.将levelFrame中每处需要新建GameFrame的地方都添加操作：实现点击关闭窗口前，先把此时的mapMatrix序列化。 每次创建levelFrame直接传入上次关闭页面时的mapMatrix
+
+15.
