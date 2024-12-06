@@ -76,4 +76,9 @@ bug: 1.如果在pathway乱输入，会储存为相对路径而不会提示输入
 2.在GamePanel中加入以Mapmatrix为元素的动态数组moveBackList，每次执行Aftermove就把当前Mapmatrix加入数组中，添加MoveBack方法把数组中最后记录的地图矩阵读出。
 3.在MapMatrix类中重写clone方法，这样可以对Mapmatrix进行深拷贝，进而能把Mapmatrix的副本添加到moveBackList中。
 
+12.Pillar-X 12 月16日 第十二次修改
+1.添加SetUp软件包和SetUpFrame类，该类会在LoginCheck检测用户登录成功后创建
+2.SetUpFrame: 自动创建Sokoban文件夹在电脑的C:\Users\a1202\AppData\Local\Packages\Sokoban  并创建以用户名作为名称的子文件夹
+3.修改游戏地图序列化方式，每次把同一个level的存档储存在一个文件内，每次读取和存储 以mapMatrix作为元素的可变长度数组mapMatrixList 
 
+13.

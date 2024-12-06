@@ -1,6 +1,7 @@
 package model;
 
 import Data.GameArchive.SerializeGame;
+import SetUp.SetUpFrame;
 
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ public class MapMatrix implements Serializable,Cloneable {
     private int[][] copymatrix;
     private int lastStep;
     private int levelNumber;
+    private String userName;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
@@ -16,6 +18,7 @@ public class MapMatrix implements Serializable,Cloneable {
         for(int i=0;i<matrix.length;i++){//把matrix按值复制给copyMatrix
             System.arraycopy(matrix[i], 0, copymatrix[i], 0, matrix[0].length);
         }
+        this.userName = SetUpFrame.getUsername();
 
     }
 
@@ -46,6 +49,14 @@ public class MapMatrix implements Serializable,Cloneable {
             System.arraycopy(copymatrix[i], 0, matrix[i], 0, copymatrix[0].length);
         }
 
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setMatrix(int[][] matrix) {

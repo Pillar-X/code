@@ -2,6 +2,8 @@ package view.login;
 
 import Data.SignUp.DeserializeUserList;
 import Data.Vector2D;
+
+import SetUp.SetUpFrame;
 import controller.FrameController;
 import view.level.LevelFrame;
 
@@ -13,6 +15,8 @@ public class LoginCheck {
     private Vector2D vector2D;
     private LoginFrame loginFrame;
     private LevelFrame levelFrame;
+    private SetUpFrame setUpFrame;
+
 
     public LoginCheck(Vector2D vector2D,LoginFrame loginFrame) throws IOException, ClassNotFoundException {
         this.userList = DeserializeUserList.deserializeUserList("UserList.ser");
@@ -32,12 +36,20 @@ public class LoginCheck {
                 loginFrame.setNote("");
                 levelFrame.setVisible(true);
                 loginFrame.setVisible(false);
+                setUpFrame = new SetUpFrame(500,500, vector2D.getUsername());
+                FrameController.setSetUpFrame(setUpFrame);
+
+
             }
             else{
                 loginFrame.setNote("Username or password is incorrect");
             }
         }
 
+    }
+
+    public SetUpFrame getSetUpFrame() {
+        return setUpFrame;
     }
 
     public boolean checkIfEmpty (){

@@ -1,5 +1,6 @@
 package controller;
 
+import SetUp.SetUpFrame;
 import view.game.GameFrame;
 import view.level.LevelFrame;
 import view.login.LoginFrame;
@@ -9,18 +10,22 @@ import java.awt.*;
 public class FrameController {
     private static LevelFrame levelFrame;
     private static LoginFrame loginFrame;
+    private static SetUpFrame setUpFrame;
+
+    //LevelFrame的 getter,setter 和 从 gameFrame -> levelFrame
     public static LevelFrame getLevelFrame() {
         return levelFrame;
     }
     public static void setLevelFrame(LevelFrame levelFrame) {
         FrameController.levelFrame = levelFrame;
     }
-
     public static void returnLevelFrame(GameFrame gameFrame) {
         gameFrame.dispose();
         levelFrame.setVisible(true);
     }
 
+
+    //LoginFrame的getter,setter 和 从 levelFrame -> LoginFrame 的方法
     public static LoginFrame getLoginFrame() {
         return loginFrame;
     }
@@ -32,7 +37,7 @@ public class FrameController {
         loginFrame.setVisible(true);
     }
 
-
-
+    public static SetUpFrame getSetUpFrame() {return setUpFrame;}
+    public static void setSetUpFrame(SetUpFrame setUpFrame) {FrameController.setUpFrame = setUpFrame;}
 
 }

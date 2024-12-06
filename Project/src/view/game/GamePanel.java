@@ -133,9 +133,13 @@ public class GamePanel extends ListenerPanel {
         }
     }
 
+    public ArrayList<MapMatrix> getMoveBackList() {
+        return moveBackList;
+    }
 
-
-
+    public void setMoveBackList(ArrayList<MapMatrix> moveBackList) {
+        this.moveBackList = moveBackList;
+    }
 
     @Override
     public void doMoveRight() {
