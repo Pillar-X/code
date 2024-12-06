@@ -82,7 +82,6 @@ public class GamePanel extends ListenerPanel {
         ResetBoxAndHero();
         mapMatrix.setFinalStep(steps);
         moveBackList.add(mapMatrix.clone());
-
     }
 
     public void MoveBack(){

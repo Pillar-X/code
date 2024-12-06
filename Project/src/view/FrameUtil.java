@@ -1,7 +1,10 @@
 package view;
 
+import model.MapMatrix;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * This class is to create basic JComponent.
@@ -39,6 +42,16 @@ public class FrameUtil {
         button.setSize(width, height);
         frame.add(button);
         return button;
+    }
+
+    public static JComboBox<MapMatrix> createComboBox(JFrame frame,Point location,int width,int height,ArrayList<MapMatrix> mapMatrixList){
+        DefaultComboBoxModel<MapMatrix> model = new DefaultComboBoxModel<>(mapMatrixList.toArray(new MapMatrix[0]));
+        JComboBox<MapMatrix> jComboBox = new JComboBox<>(model);
+
+        jComboBox.setSize(width,height);
+        jComboBox.setLocation(location);
+        frame.add(jComboBox);
+        return jComboBox;
     }
 
 }

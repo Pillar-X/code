@@ -81,4 +81,11 @@ bug: 1.如果在pathway乱输入，会储存为相对路径而不会提示输入
 2.SetUpFrame: 自动创建Sokoban文件夹在电脑的C:\Users\a1202\AppData\Local\Packages\Sokoban  并创建以用户名作为名称的子文件夹
 3.修改游戏地图序列化方式，每次把同一个level的存档储存在一个文件内，每次读取和存储 以mapMatrix作为元素的可变长度数组mapMatrixList 
 
-13.
+13.Pillar-X 12月16日  第十三次修改
+1.在GameFrame中加入下拉框、tryAddLoadComboBox方法，delete按钮。 
+tryAddLoadComboBox: 调用这个方法会检测是否有历史存档，如果有就在GameFrame中建立一个下拉框
+细节部分较为繁琐，懒得写。
+
+2.在GameFrame中加入saveNameText文本框，可以自行设定存档名称
+
+14.

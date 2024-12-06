@@ -17,7 +17,4 @@ public class SerializeGame {
         System.out.println("MapMatrixList 对象已序列化到: " + pathway);  // 输出成功信息
 
     }
-
-
-
 }

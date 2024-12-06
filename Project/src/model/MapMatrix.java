@@ -11,6 +11,8 @@ public class MapMatrix implements Serializable,Cloneable {
     private int lastStep;
     private int levelNumber;
     private String userName;
+    private int cnt=1;
+    private String saveName = "null";
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
@@ -42,13 +44,26 @@ public class MapMatrix implements Serializable,Cloneable {
         return null;
     }
 
+    @Override
+    public String toString() {
+        if(cnt !=0){
+            return "Save "+cnt;
+        }
+        else{
+            return saveName;
+        }
 
+    }
 
     public void copy(){
         for(int i=0;i<copymatrix.length;i++){
             System.arraycopy(copymatrix[i], 0, matrix[i], 0, copymatrix[0].length);
         }
 
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
     }
 
     public String getUserName() {
@@ -101,5 +116,13 @@ public class MapMatrix implements Serializable,Cloneable {
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
+    }
+
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
     }
 }
