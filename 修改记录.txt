@@ -71,6 +71,9 @@ bug: 1.如果在pathway乱输入，会储存为相对路径而不会提示输入
 10.Pillar-X 12月14日 第十次修改
  1.修复读档bug
 
-11.
+11.Pillar-X 12月16日 第十一次修改
+1.把FrameController中所有方法和变量改为静态的，之后直接用 类名+方法名 调用相应方法
+2.在GamePanel中加入以Mapmatrix为元素的动态数组moveBackList，每次执行Aftermove就把当前Mapmatrix加入数组中，添加MoveBack方法把数组中最后记录的地图矩阵读出。
+3.在MapMatrix类中重写clone方法，这样可以对Mapmatrix进行深拷贝，进而能把Mapmatrix的副本添加到moveBackList中。
 
 

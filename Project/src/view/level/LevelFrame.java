@@ -36,7 +36,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 2, 10, 0, 1},
                     {1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(700, 500, mapMatrix,1);
+            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,1);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -51,7 +51,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 0, 0, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(700, 500, mapMatrix,2);
+            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,2);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -67,7 +67,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 0, 0, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1}
             });
-            GameFrame gameFrame = new GameFrame(700, 500, mapMatrix,3);
+            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,3);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -83,7 +83,7 @@ public class LevelFrame extends JFrame {
                     {1, 1, 0, 2, 0, 1, 1},
                     {0, 1, 1, 1, 1, 1, 0}
             });
-            GameFrame gameFrame = new GameFrame(700, 500, mapMatrix,4);
+            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,4);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });
@@ -98,7 +98,7 @@ public class LevelFrame extends JFrame {
                     {1, 0, 0, 1, 0, 2, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1, 1},
             });
-            GameFrame gameFrame = new GameFrame(800, 500, mapMatrix,5);
+            GameFrame gameFrame = new GameFrame(1000, 500, mapMatrix,5);
             this.setVisible(false);
             gameFrame.setVisible(true);
         });

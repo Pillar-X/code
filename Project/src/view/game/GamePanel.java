@@ -10,6 +10,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * It is the subclass of ListenerPanel, so that it should implement those four methods: do move left, up, down ,right.
@@ -26,6 +27,7 @@ public class GamePanel extends ListenerPanel {
     private Image image;
     private Hero hero;
     private String direction;
+    private ArrayList<MapMatrix> moveBackList;
 
     public GamePanel(MapMatrix mapMatrix) {
         this.setVisible(true);
@@ -34,12 +36,17 @@ public class GamePanel extends ListenerPanel {
         this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
         this.mapMatrix = mapMatrix;
         this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
+        this.moveBackList = new ArrayList<>();
         initialGame();
 
     }
 
     public void initialGame() {
         this.steps = 0;
+        //必须对mapMatrix进行深拷贝再传入ArrayList
+        mapMatrix.setFinalStep(steps);
+        moveBackList.add(mapMatrix.clone());
+
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
                 //Units digit maps to id attribute in GridComponent. (The no change value)
@@ -63,14 +70,34 @@ public class GamePanel extends ListenerPanel {
 
     public void restart(){
         //从零开始，计量步数
-        this.steps = -1;
-        afterMove();
+        moveBackList.clear();
+        this.steps = 0;
+        renewStepsLabel();
         //从原来的图中移除箱子和英雄
         RemoveBoxAndHero();
         this.repaint();
         mapMatrix.copy();//把地图矩阵恢复到初始状态
+
         //把地图矩阵更新后，重新放置好箱子和英雄
         ResetBoxAndHero();
+        mapMatrix.setFinalStep(steps);
+        moveBackList.add(mapMatrix.clone());
+
+    }
+
+    public void MoveBack(){
+        if(moveBackList.size()>1){
+            moveBackList.removeLast();//先把当前记录的MapMatrix数据删除
+            this.steps = moveBackList.getLast().getFinalStep();//设置标签为数组中最后一个MapMatrix的lastStep值
+            renewStepsLabel();
+            RemoveBoxAndHero();
+            this.mapMatrix.setMatrix(moveBackList.getLast().clone().getMatrix());//设置mapMatrix中的地图矩阵Matrix为数组中最后一个元素的Matrix值
+            ResetBoxAndHero();
+            this.repaint();
+            System.out.println("The moveBackList have "+moveBackList.size());
+        } else{
+            System.out.println("The moveBackList is empty ");
+        }
     }
 
     public void RemoveBoxAndHero(){
@@ -143,9 +170,16 @@ public class GamePanel extends ListenerPanel {
     }
 
     public void afterMove() {
+
         this.steps++;
+        mapMatrix.setFinalStep(steps);
+        moveBackList.add(mapMatrix.clone());
         this.stepLabel.setText(String.format("Step: %d", this.steps));
         System.out.println(gameController.isGameWin());
+    }
+
+    public void renewStepsLabel(){
+        this.stepLabel.setText(String.format("Step: %d", this.steps));
     }
 
     public void setStepLabel(JLabel stepLabel) {

@@ -27,9 +27,11 @@ public class GameFrame extends JFrame {
     private final JButton returnBtn;
     private GameController gameController;
 
+
     private JButton restartBtn;
     private JButton loadBtn;
     private JButton saveBtn;
+    private JButton moveBackBtn;
     private int levelNumber;
     private String pathway;
 
@@ -63,13 +65,26 @@ public class GameFrame extends JFrame {
         this.downBtn = FrameUtil.createButton(this, "↓", new Point(gamePanel.getWidth() + 200, 210), 80, 50);
         this.leftBtn = FrameUtil.createButton(this, "←", new Point(gamePanel.getWidth() + 200, 300), 80, 50);
         this.rightBtn = FrameUtil.createButton(this, "→", new Point(gamePanel.getWidth() + 200, 390), 80, 50);//上下左右移动按钮
+        this.moveBackBtn = FrameUtil.createButton(this,"Move Back",new Point(gamePanel.getWidth()+320,120),120,50);
+
         this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
+
         gamePanel.setStepLabel(stepLabel);
+
+        this.moveBackBtn.addActionListener(e -> {
+            gamePanel.MoveBack();
+            gamePanel.requestFocusInWindow();
+        });
+
+
 
         this.restartBtn.addActionListener(e -> {
             gameController.restartGame();
             gamePanel.requestFocusInWindow();//enable key listener
         });
+
+
+
         this.loadBtn.addActionListener(e -> {
             if(pathway == null){//如果为空，则弹出pathway输入框
                 pathway= JOptionPane.showInputDialog(this, "Input path:");
