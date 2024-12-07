@@ -50,6 +50,8 @@ public class GameFrame extends JFrame {
     private JComboBox loadComboBox;
     private JTextField saveNameText;
     private JLabel saveNameLabel;
+    private JLabel minutesLabel;
+    private JLabel secondsLabel;
     private WinFrame winFrame;
 
 
@@ -80,7 +82,11 @@ public class GameFrame extends JFrame {
         this.deleteBtn = FrameUtil.createButton(this,"Delete",new Point(gamePanel.getWidth()+440,210),80,50);
         this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
         this.saveNameText = FrameUtil.createJTextField(this,new Point(gamePanel.getWidth()+340,390),140,50);
+        this.secondsLabel = FrameUtil.createJLabel(this,new Point(10,10),120,50,"00.0");
+        this.minutesLabel = FrameUtil.createJLabel(this,new Point(10,70),120,50,"0");
         FrameController.setGameFrame(this);
+        gamePanel.setBasicTime(mapMatrix.getBasicTime());
+        SetSeconds(mapMatrix.getBasicTime());
 
         tryAddLoadComboBox();//看有没有存档，如果有就把下拉框加入到界面中
 
@@ -129,11 +135,15 @@ public class GameFrame extends JFrame {
 
 
         this.restartBtn.addActionListener(e -> {
+            gamePanel.RestartTimer();
             gameController.restartGame();
             gamePanel.requestFocusInWindow();//enable key listener
         });
 
         this.saveBtn.addActionListener(e->{
+            this.mapMatrix.setBasicTime(gamePanel.getBasicTime());
+            System.out.println("储存的mapMatrix的基本时间为"+this.mapMatrix.getBasicTime());
+
             if(saveNameText.getText().length()>12){
                 this.saveNameLabel = FrameUtil.createJLabel(this,new Point(gamePanel.getWidth()+340,415),200,70,"No more than 12 words");
                 saveNameLabel.setVisible(true);
@@ -238,6 +248,7 @@ public class GameFrame extends JFrame {
         });
 
         this.loadBtn.addActionListener(e -> {
+            gamePanel.StopTimer();
 
             pathway = SetUpFrame.getSavePath()+"/level"+this.levelNumber+".ser";
             ArrayList<MapMatrix> mapMatrixList = new ArrayList<>();
@@ -259,12 +270,15 @@ public class GameFrame extends JFrame {
                 gamePanel.repaint();
 
                 MapMatrix lastMapMatrix = mapMatrixList.get(mapMatrixList.size()-loadComboBox.getSelectedIndex()-1);//取出选中的对象
+                gamePanel.setBasicTime(lastMapMatrix.getBasicTime());
+                SetSeconds(gamePanel.getBasicTime());
 
                 for (int i = 0; i < lastMapMatrix.getMatrix().length; i++) {
                     System.arraycopy(lastMapMatrix.getMatrix()[i], 0, this.mapMatrix.getMatrix()[i], 0, lastMapMatrix.getMatrix()[0].length);
                 }
-                gamePanel.setSteps(lastMapMatrix.getFinalStep() - 1);
-                gamePanel.afterMove();
+                gamePanel.setSteps(lastMapMatrix.getFinalStep() );
+                gamePanel.renewStepsLabel();
+
                 gamePanel.ResetBoxAndHero();
 
                 //若加载了存档，则清空原来的moveBackList()
@@ -306,6 +320,20 @@ public class GameFrame extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
+    }
+    public void SetSeconds (int basic_time) {
+        String tmp = (basic_time%600)/10+"."+basic_time%10;
+        secondsLabel.setText(tmp);
+        if(basic_time/600!=0){
+            SetMinutes(basic_time);
+        }
+        else{
+            minutesLabel.setText("0");
+        }
+    }
+
+    public void SetMinutes(int basic_time){
+        minutesLabel.setText(""+basic_time/600);
     }
 
     public void tryAddLoadComboBox (){//如果文件内有存档，就显示出下拉框

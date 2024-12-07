@@ -13,6 +13,7 @@ public class MapMatrix implements Serializable,Cloneable {
     private String userName;
     private int cnt=1;
     private String saveName = "null";
+    private int basicTime=0;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
@@ -124,5 +125,13 @@ public class MapMatrix implements Serializable,Cloneable {
 
     public void setCnt(int cnt) {
         this.cnt = cnt;
+    }
+
+    public int getBasicTime() {
+        return basicTime;
+    }
+
+    public void setBasicTime(int basicTime) {
+        this.basicTime = basicTime;
     }
 }

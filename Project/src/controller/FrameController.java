@@ -1,6 +1,7 @@
 package controller;
 
 import SetUp.SetUpFrame;
+import view.ending.LoseFrame;
 import view.ending.WinFrame;
 import view.game.GameFrame;
 import view.level.LevelFrame;
@@ -14,7 +15,19 @@ public class FrameController {
     private static SetUpFrame setUpFrame;
     private static WinFrame winFrame;
     private static GameFrame gameFrame;
+    private static LoseFrame loseFrame;
+    //GameFrame的 getter,setter 和 从 levelFrame -> gameFrame 的方法
+    public static GameFrame getGameFrame(LevelFrame levelFrame) {
+        return gameFrame;
+    }
+    public static LoseFrame getLoseFrame() {
+        return loseFrame;
+    }
+    public static void returnGameFrame(LoseFrame loseFrame) {
+        loseFrame.setVisible(false);
+        getGameFrame().setVisible(true);
 
+    }
     public static GameFrame getGameFrame() {
         return gameFrame;
     }

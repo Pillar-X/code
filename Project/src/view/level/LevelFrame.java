@@ -4,6 +4,7 @@ import Data.GameArchive.AutoDeserialize;
 import Data.GameArchive.AutoSerialize;
 import SetUp.SetUpFrame;
 import controller.FrameController;
+import controller.MusicController;
 import model.MapMatrix;
 import view.FrameUtil;
 import view.game.GameFrame;
@@ -17,13 +18,19 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class LevelFrame extends JFrame {
-
+    String BGM = "BGM3";//背景音乐
 
 
     public LevelFrame(int width, int height) {
         this.setTitle("Level");
         this.setLayout(null);
         this.setSize(width, height);
+        try{
+            MusicController.stopMusic();//清除原有音乐
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        MusicController.playMusic("MusicResource/"+BGM+".wav");//设置背景音乐
         JButton level1Btn = FrameUtil.createButton(this, "Level1", new Point(30, height / 2 - 130), 80, 60);
         JButton level2Btn = FrameUtil.createButton(this, "Level2", new Point(140, height / 2 - 130), 80, 60);
         JButton level3Btn = FrameUtil.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60);
@@ -44,6 +51,7 @@ public class LevelFrame extends JFrame {
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getMatrix().clone());
+                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getBasicTime());
                 mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getFinalStep());
 
             } catch (IOException | ClassNotFoundException e) {
@@ -86,6 +94,7 @@ public class LevelFrame extends JFrame {
                     MapMatrix mapMatrix;
                     try {
                         mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getMatrix().clone());
+                        mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getBasicTime());
                         mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getFinalStep());
 
                     } catch (IOException | ClassNotFoundException e) {
@@ -132,6 +141,7 @@ public class LevelFrame extends JFrame {
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getMatrix().clone());
+                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getBasicTime());
                 mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getFinalStep());
 
             } catch (IOException | ClassNotFoundException e) {
@@ -180,6 +190,7 @@ public class LevelFrame extends JFrame {
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getMatrix().clone());
+                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getBasicTime());
                 mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getFinalStep());
 
             } catch (IOException | ClassNotFoundException e) {
@@ -228,6 +239,7 @@ public class LevelFrame extends JFrame {
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getMatrix().clone());
+                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getBasicTime());
                 mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getFinalStep());
 
             } catch (IOException | ClassNotFoundException e) {

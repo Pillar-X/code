@@ -2,8 +2,10 @@ package view.game;
 
 import controller.FrameController;
 import controller.GameController;
+import controller.MusicController;
 import model.Direction;
 import model.MapMatrix;
+import view.ending.LoseFrame;
 import view.ending.WinFrame;
 
 import javax.imageio.ImageIO;
@@ -13,6 +15,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * It is the subclass of ListenerPanel, so that it should implement those four methods: do move left, up, down ,right.
@@ -22,6 +26,7 @@ public class GamePanel extends ListenerPanel {
 
     private GridComponent[][] grids;
     private WinFrame winFrame;
+    private LoseFrame loseFrame;
     private MapMatrix mapMatrix;
     private GameController gameController;
     private JLabel stepLabel;
@@ -31,10 +36,17 @@ public class GamePanel extends ListenerPanel {
     private Hero hero;
     private String direction;
     private ArrayList<MapMatrix> moveBackList;
+    private int basicTime=0;
+    private Timer timer;
+    private boolean letTimerStart = false;
+    private TimerTask task;
     public boolean isWin=false;
+    private GameFrame gameFrame = FrameController.getGameFrame();
     public GamePanel(MapMatrix mapMatrix) {
         this.winFrame = new WinFrame(1000,500);
         winFrame.setVisible(false);
+        this.loseFrame = new LoseFrame(1000,500);
+        loseFrame.setVisible(false);
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
@@ -153,6 +165,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveRight() {
         System.out.println("Click VK_RIGHT");
+        MusicController.playMoveSound();//播放移动声音
         if (gameController.doMove(hero.getRow(), hero.getCol(), Direction.RIGHT)) {
             this.afterMove();
         }
@@ -161,6 +174,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveLeft() {
         System.out.println("Click VK_LEFT");
+        MusicController.playMoveSound();//播放移动声音
         if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.LEFT)){
             this.afterMove();
         }
@@ -169,6 +183,7 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveUp() {
         System.out.println("Click VK_Up");
+        MusicController.playMoveSound();//播放移动声音
        if( gameController.doMove(hero.getRow(), hero.getCol(), Direction.UP)){
            this.afterMove();
        }
@@ -177,24 +192,84 @@ public class GamePanel extends ListenerPanel {
     @Override
     public void doMoveDown() {
         System.out.println("Click VK_DOWN");
+        MusicController.playMoveSound();//播放移动声音
         if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.DOWN)){
             this.afterMove();
         }
     }
+    public void StopTimer(){
+        if(letTimerStart){
+            task.cancel();
+            timer.cancel();
+            letTimerStart = false;
+
+        }
+    }
+
+    public int getBasicTime() {
+        return basicTime;
+    }
+
+    public void RestartTimer(){
+        if(letTimerStart){
+            task.cancel();
+            timer.cancel();
+            letTimerStart = false;
+            basicTime = 0;
+            FrameController.getGameFrame().SetSeconds(basicTime);
+            System.out.println("计时任务停止");
+        }
+        else{
+            basicTime = 0;
+            FrameController.getGameFrame().SetSeconds(basicTime);
+        }
+    }
 
     public void afterMove() {
+        if(!letTimerStart){
+            timer = new Timer();
+            task = new TimerTask() {
+                @Override
+                public void run() {
+                    basicTime++;
+                    FrameController.getGameFrame().SetSeconds(basicTime);
+                    //System.out.printf("%d ",basicTime);
+                }
+            };
+            timer.scheduleAtFixedRate(task,0,100);
+            letTimerStart = true;
+
+        }
 
         this.steps++;
         mapMatrix.setFinalStep(steps);
         moveBackList.add(mapMatrix.clone());
         this.stepLabel.setText(String.format("Step: %d", this.steps));
-        System.out.println(gameController.isGameWin());
-        System.out.println(gameController.isGameFail());
-        System.out.println(gameController.isDeadLocked(0));
-        System.out.println(gameController.isDeadLocked(1));
+//        System.out.println(gameController.isGameWin());
+//        System.out.println(gameController.isGameFail());
+//        System.out.println(gameController.isDeadLocked(0));
+//        System.out.println(gameController.isDeadLocked(1));
         if(gameController.isGameWin()){
             winFrame.setVisible(true);
+            try {
+                MusicController.stopMusic();
+                MusicController.stopMusic();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            MusicController.playWinSound();//播放胜利声音
         }
+        if(gameController.isGameFail()){
+            loseFrame.setVisible(true);
+            try {
+                MusicController.stopMusic();
+                MusicController.stopMusic();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            MusicController.playLoseSound();//播放失败声音
+        }
+
     }
 
     public void renewStepsLabel(){
@@ -227,5 +302,8 @@ public class GamePanel extends ListenerPanel {
         mapMatrix.setFinalStep(steps);
         return mapMatrix;
 
+    }
+    public void setBasicTime(int basicTime) {
+        this.basicTime = basicTime;
     }
 }

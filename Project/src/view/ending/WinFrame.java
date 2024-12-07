@@ -1,10 +1,8 @@
 package view.ending;
-
 import Data.Vector2D;
 import controller.FrameController;
+import controller.MusicController;
 import view.FrameUtil;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -12,8 +10,11 @@ import java.io.IOException;
 public class WinFrame extends JFrame {
     private final JButton returnBtn;
     public WinFrame(int width, int height) {
-
+        // 加载 GIF 图像
+        ImageIcon WinFrameGIF = new ImageIcon("PictureResource/WinFrameGIF.gif");
         this.setTitle("Win Frame");
+        JLabel label = new JLabel(WinFrameGIF);
+        label.setBounds(0, 0, width, height);
         this.setLayout(null);
         this.setSize(width, height);
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -38,14 +39,23 @@ public class WinFrame extends JFrame {
 
         // 启动后立即生成发射粒子
         panel.addLaunchParticle();
-        this.returnBtn = FrameUtil.createButton(this, "Return", new Point(420, 250), 80, 50);//返回按钮
+        this.returnBtn = FrameUtil.createButton(this, "Return", new Point(0,280),120,50);//返回按钮
+        JLabel label1 = new JLabel("You Win!");
+        label1.setBounds(0, 0, width, height);
+        label1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        label1.add(returnBtn);
         this.returnBtn.addActionListener(e -> {
             FrameController.returnLevelFrame(this);
-
+            try {
+                MusicController.stopMusic();
+            } catch (Exception f) {
+                throw new RuntimeException(f);
+            }
             panel.requestFocusInWindow();//返回按钮的监听器
         });
         add(panel);
-
+        add(label);
+        add(label1);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
