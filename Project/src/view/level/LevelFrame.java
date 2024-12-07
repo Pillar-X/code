@@ -129,14 +129,13 @@ public class LevelFrame extends JFrame {
 
             } catch (IOException | ClassNotFoundException e) {
                 mapMatrix = new MapMatrix(new int[][]{
-                        {0, 0, 1, 1, 1, 1, 0},
-                        {1, 1, 1, 0, 0, 1, 0},
-                        {1, 20, 0, 2, 10, 1, 1},
-                        {1, 0, 0, 0, 10, 0, 1},
-                        {1, 0, 1, 2, 0, 0, 1},
+                        {1, 1, 1, 1, 1, 1, 0},
+                        {1, 20, 0, 0, 0, 1, 1},
+                        {1, 0, 10, 10, 0, 0, 1},
+                        {1, 0, 1, 2, 0, 2, 1},
                         {1, 0, 0, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1, 1, 1}}
-                );}
+                        {1, 1, 1, 1, 1, 1, 1}});
+                }
                 mapMatrix.setCopymatrix(new int[][]{
                         {1, 1, 1, 1, 1, 1, 0},
                         {1, 20, 0, 0, 0, 1, 1},
