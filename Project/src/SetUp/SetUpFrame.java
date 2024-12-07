@@ -1,14 +1,19 @@
 package SetUp;
 
+import view.FrameUtil;
+
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class SetUpFrame extends JFrame {
+
     private static String username;
     private String pathway;
     private static  String MainPath;
     private static String savePath;
     private static String autoSavePath;
+    private JLabel nameLabel;
 
 
     public SetUpFrame (int width , int height , String username){
@@ -16,6 +21,12 @@ public class SetUpFrame extends JFrame {
         CreateMainFile();
         CreateSaveFile();
         CreateAutoSaveFile();
+        this.setTitle("Set Up");
+        this.setLayout(null);
+        this.setSize(width,height);
+        this.setLocationRelativeTo(null);
+        nameLabel = FrameUtil.createJLabel(this,new Point(this.getWidth()/2-20, 20),40,40,username);
+        this.setVisible(false);
 
     }
 

@@ -1,6 +1,7 @@
 package controller;
 
 import SetUp.SetUpFrame;
+import view.ending.WinFrame;
 import view.game.GameFrame;
 import view.level.LevelFrame;
 import view.login.LoginFrame;
@@ -11,7 +12,15 @@ public class FrameController {
     private static LevelFrame levelFrame;
     private static LoginFrame loginFrame;
     private static SetUpFrame setUpFrame;
+    private static WinFrame winFrame;
+    private static GameFrame gameFrame;
 
+    public static GameFrame getGameFrame() {
+        return gameFrame;
+    }
+    public static void setGameFrame(GameFrame gameFrame) {
+        FrameController.gameFrame = gameFrame;
+    }
     //LevelFrame的 getter,setter 和 从 gameFrame -> levelFrame
     public static LevelFrame getLevelFrame() {
         return levelFrame;
@@ -19,11 +28,20 @@ public class FrameController {
     public static void setLevelFrame(LevelFrame levelFrame) {
         FrameController.levelFrame = levelFrame;
     }
+    public static void moveToWinFrame(GameFrame gameFrame) {
+        gameFrame.setVisible(false);
+        winFrame.setVisible(true);
+    }
     public static void returnLevelFrame(GameFrame gameFrame) {
-        gameFrame.dispose();
+        gameFrame.setVisible(false);
         levelFrame.setVisible(true);
     }
-
+    public static void returnLevelFrame(WinFrame winFrame) {
+        winFrame.setVisible(false);
+        getGameFrame().setVisible(false);
+        levelFrame.setVisible(true);
+    }
+    public static void setWinFrame(WinFrame winFrame) {FrameController.winFrame = winFrame;}
 
     //LoginFrame的getter,setter 和 从 levelFrame -> LoginFrame 的方法
     public static LoginFrame getLoginFrame() {
@@ -33,11 +51,14 @@ public class FrameController {
         FrameController.loginFrame = loginFrame;
     }
     public static void returnLoginFrame(LevelFrame levelFrame) {
-        levelFrame.dispose();
+        levelFrame.setVisible(false);
         loginFrame.setVisible(true);
     }
 
     public static SetUpFrame getSetUpFrame() {return setUpFrame;}
     public static void setSetUpFrame(SetUpFrame setUpFrame) {FrameController.setUpFrame = setUpFrame;}
-
+    public static void returnLevelFrame(SetUpFrame setUpFrame) {
+        setUpFrame.setVisible(false);
+        levelFrame.setVisible(true);
+    }
 }

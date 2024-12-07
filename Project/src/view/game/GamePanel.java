@@ -1,8 +1,10 @@
 package view.game;
 
+import controller.FrameController;
 import controller.GameController;
 import model.Direction;
 import model.MapMatrix;
+import view.ending.WinFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class GamePanel extends ListenerPanel {
 
     private GridComponent[][] grids;
+    private WinFrame winFrame;
     private MapMatrix mapMatrix;
     private GameController gameController;
     private JLabel stepLabel;
@@ -28,8 +31,10 @@ public class GamePanel extends ListenerPanel {
     private Hero hero;
     private String direction;
     private ArrayList<MapMatrix> moveBackList;
-
+    public boolean isWin=false;
     public GamePanel(MapMatrix mapMatrix) {
+        this.winFrame = new WinFrame(1000,500);
+        winFrame.setVisible(false);
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
@@ -184,6 +189,12 @@ public class GamePanel extends ListenerPanel {
         moveBackList.add(mapMatrix.clone());
         this.stepLabel.setText(String.format("Step: %d", this.steps));
         System.out.println(gameController.isGameWin());
+        System.out.println(gameController.isGameFail());
+        System.out.println(gameController.isDeadLocked(0));
+        System.out.println(gameController.isDeadLocked(1));
+        if(gameController.isGameWin()){
+            winFrame.setVisible(true);
+        }
     }
 
     public void renewStepsLabel(){

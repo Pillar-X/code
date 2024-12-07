@@ -30,9 +30,15 @@ public class LevelFrame extends JFrame {
         JButton level4Btn = FrameUtil.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60);
         JButton level5Btn = FrameUtil.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60);
         JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 120, 60);
+        JButton SetUpBtn = FrameUtil.createButton(this,"Set Up",new Point(300,10),80,20);
         Toolkit tk = Toolkit.getDefaultToolkit();
         java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
+
+        SetUpBtn.addActionListener(l->{
+            SetUpFrame setUpFrame = new SetUpFrame(400,400,SetUpFrame.getUsername());
+            setUpFrame.setVisible(true);
+        });
 
         level1Btn.addActionListener(l->{
             MapMatrix mapMatrix;
@@ -89,7 +95,7 @@ public class LevelFrame extends JFrame {
                                 {1, 0, 10, 10, 0, 0, 1},
                                 {1, 0, 1, 2, 0, 2, 1},
                                 {1, 0, 0, 0, 0, 0, 1},
-                                {1, 1, 1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1, 1, 1}
                         });}
                     mapMatrix.setCopymatrix(new int[][]{
                             {1, 1, 1, 1, 1, 1, 0},
@@ -97,7 +103,8 @@ public class LevelFrame extends JFrame {
                             {1, 0, 10, 10, 0, 0, 1},
                             {1, 0, 1, 2, 0, 2, 1},
                             {1, 0, 0, 0, 0, 0, 1},
-                            {1, 1, 1, 1, 1, 1, 1},});
+                            {1, 1, 1, 1, 1, 1, 1}});
+
 
                             GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,2);
 
@@ -129,18 +136,21 @@ public class LevelFrame extends JFrame {
 
             } catch (IOException | ClassNotFoundException e) {
                 mapMatrix = new MapMatrix(new int[][]{
-                        {1, 1, 1, 1, 1, 1, 0},
-                        {1, 20, 0, 0, 0, 1, 1},
-                        {1, 0, 10, 10, 0, 0, 1},
-                        {1, 0, 1, 2, 0, 2, 1},
+
+                        {0, 0, 1, 1, 1, 1, 0},
+                        {1, 1, 1, 0, 0, 1, 0},
+                        {1, 20, 0, 2, 10, 1, 1},
+                        {1, 0, 0, 0, 10, 0, 1},
+                        {1, 0, 1, 2, 0, 0, 1},
                         {1, 0, 0, 0, 0, 0, 1},
                         {1, 1, 1, 1, 1, 1, 1}});
                 }
                 mapMatrix.setCopymatrix(new int[][]{
-                        {1, 1, 1, 1, 1, 1, 0},
-                        {1, 20, 0, 0, 0, 1, 1},
-                        {1, 0, 10, 10, 0, 0, 1},
-                        {1, 0, 1, 2, 0, 2, 1},
+                        {0, 0, 1, 1, 1, 1, 0},
+                        {1, 1, 1, 0, 0, 1, 0},
+                        {1, 20, 0, 2, 10, 1, 1},
+                        {1, 0, 0, 0, 10, 0, 1},
+                        {1, 0, 1, 2, 0, 0, 1},
                         {1, 0, 0, 0, 0, 0, 1},
                         {1, 1, 1, 1, 1, 1, 1}});
 

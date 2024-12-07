@@ -2,9 +2,7 @@ package view.game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +19,7 @@ import controller.GameController;
 import model.Direction;
 import model.MapMatrix;
 import view.FrameUtil;
+import view.ending.WinFrame;
 import view.level.LevelFrame;
 
 
@@ -40,6 +39,7 @@ public class GameFrame extends JFrame {
 
     private JLabel stepLabel;
     private GamePanel gamePanel;
+
     private MapMatrix mapMatrix;
 
     private JButton upBtn;
@@ -50,9 +50,11 @@ public class GameFrame extends JFrame {
     private JComboBox loadComboBox;
     private JTextField saveNameText;
     private JLabel saveNameLabel;
+    private WinFrame winFrame;
 
 
     public GameFrame(int width, int height, MapMatrix mapMatrix,int levelNumber) {
+
 
         this.levelNumber = levelNumber;
         this.mapMatrix = mapMatrix;
@@ -78,12 +80,37 @@ public class GameFrame extends JFrame {
         this.deleteBtn = FrameUtil.createButton(this,"Delete",new Point(gamePanel.getWidth()+440,210),80,50);
         this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
         this.saveNameText = FrameUtil.createJTextField(this,new Point(gamePanel.getWidth()+340,390),140,50);
-
+        FrameController.setGameFrame(this);
 
         tryAddLoadComboBox();//看有没有存档，如果有就把下拉框加入到界面中
 
         gamePanel.setStepLabel(stepLabel);
         gamePanel.renewStepsLabel();
+
+        //点击页面的其它地方，取消对saveNameText和loadComboBox的焦点，把焦点给到gamePanel
+        this.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if(!saveNameText.getBounds().contains(e.getPoint()) || loadComboBox.getBounds().contains(e.getPoint())){
+                    saveNameText.setFocusable(false);
+                    if(loadComboBox!=null) loadComboBox.setFocusable(false);
+                    gamePanel.requestFocusInWindow();
+                    saveNameText.setFocusable(true);
+                    if(loadComboBox!=null) loadComboBox.setFocusable(true);
+                }
+                else{
+                    saveNameText.setFocusable(true);
+                }
+            }
+        });
+
+        saveNameText.addFocusListener(new FocusAdapter(){
+            public void focusLost(FocusEvent e){
+
+            }
+        });
+
+
+
 
         this.moveBackBtn.addActionListener(e -> {
             gamePanel.MoveBack();
@@ -124,6 +151,7 @@ public class GameFrame extends JFrame {
 
                 try {
                     mapMatrixList = DeserializeGame.deserializeGame(pathway, this.levelNumber, SetUpFrame.getUsername());
+                    //以下处理存档名称
                     this.mapMatrix.setFinalStep(gamePanel.getSteps());
                     //让新加入的mapMatrix的cnt成为数组中最大的
                     if (saveNameText.getText().equals("")) {//如果没有自定义名称就自动生成
@@ -146,6 +174,20 @@ public class GameFrame extends JFrame {
 
                 } catch (IOException | ClassNotFoundException ex) {
                     System.out.println("未成功反序列化，说明文件还不存在，直接序列化一个新文件");
+                    //一下处理存档名称
+                    this.mapMatrix.setFinalStep(gamePanel.getSteps());
+                    //让新加入的mapMatrix的cnt成为数组中最大的
+                    if (saveNameText.getText().equals("")) {//如果没有自定义名称就自动生成
+                        int tmp = 1;
+                        for (MapMatrix m : mapMatrixList) {
+                            if (m.getCnt() >= tmp) tmp = m.getCnt() + 1;
+                        }
+                        this.mapMatrix.setCnt(tmp);
+                    } else {//如果自定义了就按自定义的名称显示
+                        this.mapMatrix.setCnt(0);
+                        this.mapMatrix.setSaveName(saveNameText.getText());
+                        saveNameText.setText("");
+                    }
 
                     mapMatrixList.add(this.mapMatrix.clone());
                     try {
@@ -242,18 +284,22 @@ public class GameFrame extends JFrame {
 
         this.upBtn.addActionListener(e -> {
             gamePanel.doMoveUp();
+
             gamePanel.requestFocusInWindow();//把焦点还给gamePanel让其对键盘事件继续监听
         });
         this.downBtn.addActionListener(e -> {
             gamePanel.doMoveDown();
+
             gamePanel.requestFocusInWindow();
         });
         this.leftBtn.addActionListener(e -> {
             gamePanel.doMoveLeft();
+
             gamePanel.requestFocusInWindow();
         });
         this.rightBtn.addActionListener(e -> {
             gamePanel.doMoveRight();
+
             gamePanel.requestFocusInWindow();
         });
         this.setLocationRelativeTo(null);
@@ -274,17 +320,17 @@ public class GameFrame extends JFrame {
         try {
             try_mapMatrixList = DeserializeGame.deserializeGame(pathway,this.levelNumber,SetUpFrame.getUsername());
 
-            if(!try_mapMatrixList.isEmpty()){
                 Collections.reverse(try_mapMatrixList);
                 loadComboBox = FrameUtil.createComboBox(this,new Point(gamePanel.getWidth()+320,210),120,50,try_mapMatrixList);
-
                 System.out.println("成功加入下拉框");
                 this.repaint();
                 this.requestFocusInWindow();
                 gamePanel.requestFocusInWindow();
-            }
+
         } catch (IOException | ClassNotFoundException ex) {
-            System.out.println("下拉框尝试反序列化失败");
+            System.out.println("下拉框尝试反序列化失败,创建空下拉框");
+            try_mapMatrixList = new ArrayList<>();
+            loadComboBox = FrameUtil.createComboBox(this,new Point(gamePanel.getWidth()+320,210),120,50,try_mapMatrixList);
         }
     }
 
