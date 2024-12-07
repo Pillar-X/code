@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import Data.GameArchive.*;
+import SetUp.SetUpFrame;
 
 /**
  * It is the subclass of ListenerPanel, so that it should implement those four methods: do move left, up, down ,right.
@@ -41,8 +43,10 @@ public class GamePanel extends ListenerPanel {
     private boolean letTimerStart = false;
     private TimerTask task;
     public boolean isWin=false;
+    private MapMatrix BestMapMatrix;
+    boolean letThisMapMatrixBest;
     private GameFrame gameFrame = FrameController.getGameFrame();
-    public GamePanel(MapMatrix mapMatrix) {
+    public GamePanel(MapMatrix mapMatrix)  {
         this.winFrame = new WinFrame(1000,500);
         winFrame.setVisible(false);
         this.loseFrame = new LoseFrame(1000,500);
@@ -198,6 +202,7 @@ public class GamePanel extends ListenerPanel {
         }
     }
     public void StopTimer(){
+        mapMatrix.setBasicTime(basicTime);
         if(letTimerStart){
             task.cancel();
             timer.cancel();
@@ -232,6 +237,7 @@ public class GamePanel extends ListenerPanel {
                 @Override
                 public void run() {
                     basicTime++;
+                    mapMatrix.setBasicTime(basicTime);
                     FrameController.getGameFrame().SetSeconds(basicTime);
                     //System.out.printf("%d ",basicTime);
                 }
@@ -250,6 +256,65 @@ public class GamePanel extends ListenerPanel {
 //        System.out.println(gameController.isDeadLocked(0));
 //        System.out.println(gameController.isDeadLocked(1));
         if(gameController.isGameWin()){
+            StopTimer();
+            this.getMapMatrix();
+            try {
+                BestMapMatrix = DeserializeRecord.deserializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser");
+
+                if(BestMapMatrix == null){
+                    letThisMapMatrixBest = true;
+                }
+                else{
+                    if(BestMapMatrix.getFinalStep()>this.getMapMatrix().getFinalStep()){
+                        letThisMapMatrixBest = true;
+                    }
+                    else if(BestMapMatrix.getFinalStep()==this.getMapMatrix().getFinalStep() && BestMapMatrix.getBasicTime()>this.getMapMatrix().getBasicTime()){
+                        letThisMapMatrixBest = true;
+                    }
+                    else {
+                        letThisMapMatrixBest = false;
+                    }
+                }
+                if(letThisMapMatrixBest){
+                    SerializeRecord.serializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix());
+                }
+
+
+            } catch (IOException | ClassNotFoundException e) {
+                try {
+                    letThisMapMatrixBest = true;
+                    SerializeRecord.serializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            if(letThisMapMatrixBest){
+                FrameController.getGameFrame().getBestStepLabel().setText(""+this.getMapMatrix().getFinalStep());
+                FrameController.getGameFrame().getBestTimeLabel().setText(""+this.getMapMatrix().getBasicTime());
+                FrameController.getGameFrame().repaint();
+
+                System.out.println("当前为最好记录，最佳步数："+this.getMapMatrix().getFinalStep()+"最快时间："+this.getMapMatrix().getBasicTime());
+            }
+            else{
+                FrameController.getGameFrame().getBestStepLabel().setText(""+BestMapMatrix.getFinalStep());
+                FrameController.getGameFrame().getBestStepLabel().setText(""+BestMapMatrix.getBasicTime());
+                FrameController.getGameFrame().repaint();
+
+                System.out.println("最佳步数："+BestMapMatrix.getFinalStep()+"最快时间:"+BestMapMatrix.getBasicTime());
+            }
+
+            this.getMapMatrix().copy();
+            this.getMapMatrix().setBasicTime(0);
+            steps=0;
+            this.getMapMatrix().setFinalStep(0);
+            System.out.println("胜利后矩阵步数重置为"+this.getMapMatrix().getFinalStep());
+            try {
+                AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix().clone());
+                System.out.println("胜利后进行Auto序列化成功");
+            }catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             winFrame.setVisible(true);
             try {
                 MusicController.stopMusic();

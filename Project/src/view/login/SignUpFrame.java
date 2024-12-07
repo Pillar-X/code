@@ -3,6 +3,8 @@ package view.login;
 import Data.SignUp.DeserializeUserList;
 import Data.SignUp.SerializeUserList;
 import Data.SignUp.UserCheck;
+import controller.ButtonController;
+import controller.MusicController;
 import view.FrameUtil;
 import Data.Vector2D;
 import Data.*;
@@ -39,11 +41,11 @@ public class SignUpFrame extends JFrame {
         password = FrameUtil.createJTextField(this, new Point(180, 100), 200, 40);
         repeatPassword = FrameUtil.createJTextField(this,new Point(180,180),200,40);
 
-        submitBtn = FrameUtil.createButton(this, "Confirm", new Point(150, 270), 100, 40);
-        resetBtn = FrameUtil.createButton(this, "Reset", new Point(270, 270), 100, 40);
+        submitBtn = ButtonController.createButton(this, "Confirm", new Point(150, 270), 100, 40,"");
+        resetBtn = ButtonController.createButton(this, "Reset", new Point(270, 270), 100, 40,"");
 
         submitBtn.addActionListener(e -> {
-
+            MusicController.playClickSound();
             Vector2D vector2D = new Vector2D(username.getText(),password.getText());
             try {
                 UserCheck userCheck = new UserCheck(vector2D,repeatPassword.getText(),this);
@@ -56,6 +58,7 @@ public class SignUpFrame extends JFrame {
         });
 
         resetBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             username.setText("");
             password.setText("");
             repeatPassword.setText("");

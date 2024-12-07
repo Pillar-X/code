@@ -14,6 +14,7 @@ public class SetUpFrame extends JFrame {
     private static String savePath;
     private static String autoSavePath;
     private JLabel nameLabel;
+    private static String recordPath;
 
 
     public SetUpFrame (int width , int height , String username){
@@ -21,6 +22,7 @@ public class SetUpFrame extends JFrame {
         CreateMainFile();
         CreateSaveFile();
         CreateAutoSaveFile();
+        CreateRecordSaveFile();
         this.setTitle("Set Up");
         this.setLayout(null);
         this.setSize(width,height);
@@ -62,6 +64,15 @@ public class SetUpFrame extends JFrame {
             System.out.println("AutoSave文件夹创建失败，可能是文件夹已存在或者路径有误。");
         }
     }
+    public void CreateRecordSaveFile(){
+        recordPath = MainPath+"/BestRecord/";
+        File file = new File(recordPath);
+        if(file.mkdirs()){
+            System.out.println("BestRecord文件夹创建成功");
+        }else{
+            System.out.println("BestRecord文件夹创建失败，可能是文件夹已存在或者路径有误。");
+        }
+    }
 
     public static String getUsername() {
         return username;
@@ -73,6 +84,10 @@ public class SetUpFrame extends JFrame {
 
     public static String getAutoSavePath() {
         return autoSavePath;
+    }
+
+    public static String getRecordPath() {
+        return recordPath;
     }
 
     public static void setSavePath(String savePath) {

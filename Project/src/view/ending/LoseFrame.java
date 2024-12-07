@@ -1,12 +1,17 @@
 package view.ending;
 
+import controller.ButtonController;
 import controller.FrameController;
 import controller.MusicController;
 import view.FrameUtil;
 import view.game.GamePanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class LoseFrame extends javax.swing.JFrame {
     private JButton moveBackBtn;
@@ -33,20 +38,34 @@ public class LoseFrame extends javax.swing.JFrame {
         label1.setBounds(0, 0, width, height);
         label1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        this.moveBackBtn = FrameUtil.createButton(this,"Move Back",new Point(0,280),120,50);
+        this.moveBackBtn = ButtonController.createButton(this,"Move Back",new Point(0,280),120,50,"PictureResource/button.png");
         label1.add(moveBackBtn);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.moveBackBtn.addActionListener(e -> {
+
             FrameController.returnGameFrame(this);
             try {
                 MusicController.stopMusic();
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }
+            MusicController.playClickSound();
 //            gamePanel.requestFocusInWindow();
         });
         add(label1);
-
+        // 设置背景
+        JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
+        BufferedImage bufferedImage = null;
+        String path = "PictureResource/background.png";
+        try {
+            bufferedImage = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
+        lblBackground.setIcon(icon); // 设置标签组件要显示的图标
+        lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight()); // 设置组件的显示位置及大小
+        this.getContentPane().add(lblBackground); // 将组件添加到面板中
         this.setVisible(true);
 
     }

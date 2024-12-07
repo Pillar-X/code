@@ -7,7 +7,14 @@ import view.game.GameFrame;
 import view.level.LevelFrame;
 import view.login.LoginFrame;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 //这部分完全按照视频教程内容增加，从而控制游戏界面返回选关界面的Return按钮和重新登录的ReLogin按钮
 public class FrameController {
     private static LevelFrame levelFrame;
@@ -74,4 +81,23 @@ public class FrameController {
         setUpFrame.setVisible(false);
         levelFrame.setVisible(true);
     }
+//    public static JPanel backgroundPanel(String path){
+//        // 设置背景
+//        JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
+//        JPanel panel = new JPanel();
+//        BufferedImage bufferedImage = null;
+//        if (path ==null || path.isEmpty()) {
+//            path = "PictureResource/background.png";
+//        }
+//        try {
+//            bufferedImage = ImageIO.read(new File(path));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
+//        lblBackground.setIcon(icon); // 设置标签组件要显示的图标
+//        lblBackground.setBounds(0, 0, 100, 100); // 设置组件的显示位置及大小
+//        panel.add(lblBackground);
+//        return panel;
+//    }
 }

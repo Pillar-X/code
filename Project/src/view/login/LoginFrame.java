@@ -1,14 +1,19 @@
 package view.login;
 
 import Data.Vector2D;
+import controller.ButtonController;
 import controller.FrameController;
 import controller.MusicController;
 import view.FrameUtil;
 import view.level.LevelFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -27,6 +32,7 @@ public class LoginFrame extends JFrame {
         this.setTitle("Login Frame");
         this.setLayout(null);
         this.setSize(width, height);
+        FrameController.setLoginFrame(this);
         JLabel userLabel = FrameUtil.createJLabel(this, new Point(50, 20), 70, 40, "username:");
         JLabel passLabel = FrameUtil.createJLabel(this, new Point(50, 80), 70, 40, "password:");
         note = FrameUtil.createJLabel(this,new Point(118,110),300,40,"");
@@ -37,12 +43,13 @@ public class LoginFrame extends JFrame {
         java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
 
-        submitBtn = FrameUtil.createButton(this, "Confirm", new Point(40, 140), 100, 40);
-        resetBtn = FrameUtil.createButton(this, "Reset", new Point(160, 140), 100, 40);
-        signupBtn = FrameUtil.createButton(this,"Sign Up",new Point(280,140),100,40);
-        guestBtn = FrameUtil.createButton(this, "Guest", new Point(400, 140), 100, 40);//添加游客按钮
+        submitBtn = ButtonController.createButton(this, "Confirm", new Point(40, 140), 100, 40,"");
+        resetBtn = ButtonController.createButton(this, "Reset", new Point(160, 140), 100, 40,"");
+        signupBtn = ButtonController.createButton(this,"Sign Up",new Point(280,140),100,40,"");
+        guestBtn = ButtonController.createButton(this, "Guest", new Point(400, 140), 100, 40,"");//添加游客按钮
 
         submitBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             System.out.println("Username = " + username.getText());
             System.out.println("Password = " + password.getText());
 
@@ -57,11 +64,13 @@ public class LoginFrame extends JFrame {
         });
 
         resetBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             username.setText("");
             password.setText("");
         });
 
         signupBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             //new一个signUpFrame并处理异常
             SignUpFrame signUpFrame = null;
             try {
@@ -74,6 +83,7 @@ public class LoginFrame extends JFrame {
             });
 
         guestBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             Vector2D vector2D = new Vector2D("youke","123456");
 
             try {
@@ -82,8 +92,19 @@ public class LoginFrame extends JFrame {
                 throw new RuntimeException(ex);
             }
         });//增加游客按钮，以youke账户登录
-
-        FrameController.setLoginFrame(this);
+        // 设置背景
+        JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
+        BufferedImage bufferedImage = null;
+        String path = "PictureResource/background.png";
+        try {
+            bufferedImage = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
+        lblBackground.setIcon(icon); // 设置标签组件要显示的图标
+        lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight()); // 设置组件的显示位置及大小
+        this.getContentPane().add(lblBackground); // 将组件添加到面板中
 
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

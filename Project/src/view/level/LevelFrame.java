@@ -3,6 +3,7 @@ package view.level;
 import Data.GameArchive.AutoDeserialize;
 import Data.GameArchive.AutoSerialize;
 import SetUp.SetUpFrame;
+import controller.ButtonController;
 import controller.FrameController;
 import controller.MusicController;
 import model.MapMatrix;
@@ -11,10 +12,13 @@ import view.game.GameFrame;
 import view.game.GamePanel;
 import view.login.LoginFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class LevelFrame extends JFrame {
@@ -31,23 +35,25 @@ public class LevelFrame extends JFrame {
             System.out.println(e);
         }
         MusicController.playMusic("MusicResource/"+BGM+".wav");//设置背景音乐
-        JButton level1Btn = FrameUtil.createButton(this, "Level1", new Point(30, height / 2 - 130), 80, 60);
-        JButton level2Btn = FrameUtil.createButton(this, "Level2", new Point(140, height / 2 - 130), 80, 60);
-        JButton level3Btn = FrameUtil.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60);
-        JButton level4Btn = FrameUtil.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60);
-        JButton level5Btn = FrameUtil.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60);
-        JButton ReLoginBtn = FrameUtil.createButton(this, "ReLogin", new Point(250, height / 2 +10), 120, 60);
-        JButton SetUpBtn = FrameUtil.createButton(this,"Set Up",new Point(300,10),80,20);
+        JButton level1Btn = ButtonController.createButton(this, "Level1", new Point(30, height / 2 - 130), 80, 60,"");
+        JButton level2Btn = ButtonController.createButton(this, "Level2", new Point(140, height / 2 - 130), 80, 60,"");
+        JButton level3Btn = ButtonController.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60,"");
+        JButton level4Btn = ButtonController.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60,"");
+        JButton level5Btn = ButtonController.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60,"");
+        JButton ReLoginBtn = ButtonController.createButton(this, "ReLogin", new Point(250, height / 2 +10), 120, 60,"");
+        JButton SetUpBtn = ButtonController.createButton(this,"Set Up",new Point(300,10),80,20,"");
         Toolkit tk = Toolkit.getDefaultToolkit();
         java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
 
         SetUpBtn.addActionListener(l->{
+            MusicController.playClickSound();
             SetUpFrame setUpFrame = new SetUpFrame(400,400,SetUpFrame.getUsername());
             setUpFrame.setVisible(true);
         });
 
         level1Btn.addActionListener(l->{
+            MusicController.playClickSound();
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getMatrix().clone());
@@ -91,6 +97,7 @@ public class LevelFrame extends JFrame {
 
 
         level2Btn.addActionListener(l->{
+            MusicController.playClickSound();
                     MapMatrix mapMatrix;
                     try {
                         mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getMatrix().clone());
@@ -137,7 +144,7 @@ public class LevelFrame extends JFrame {
         });
 
         level3Btn.addActionListener(l->{
-
+            MusicController.playClickSound();
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getMatrix().clone());
@@ -186,7 +193,7 @@ public class LevelFrame extends JFrame {
         });
 
         level4Btn.addActionListener(l->{
-
+            MusicController.playClickSound();
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getMatrix().clone());
@@ -235,7 +242,7 @@ public class LevelFrame extends JFrame {
         });
 
         level5Btn.addActionListener(l->{
-
+            MusicController.playClickSound();
             MapMatrix mapMatrix;
             try {
                 mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getMatrix().clone());
@@ -279,13 +286,27 @@ public class LevelFrame extends JFrame {
             });
             this.setVisible(false);
             gameFrame.setVisible(true);
+
         });
 
         ReLoginBtn.addActionListener(e -> {
+            MusicController.playClickSound();
             FrameController.returnLoginFrame(this);
             requestFocusInWindow();
         });//增加重新登录界面按钮
-
+        // 设置背景
+        JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
+        BufferedImage bufferedImage = null;
+        String path = "PictureResource/background.png";
+        try {
+            bufferedImage = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
+        lblBackground.setIcon(icon); // 设置标签组件要显示的图标
+        lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight()); // 设置组件的显示位置及大小
+        this.getContentPane().add(lblBackground); // 将组件添加到面板中
         FrameController.setLevelFrame(this);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
