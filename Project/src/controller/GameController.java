@@ -8,6 +8,7 @@ import view.game.GridComponent;
 import view.game.Hero;
 import view.game.*;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class GameController {
         }
         GridComponent ttargetGrid = gamePanel.getGridComponent(ttRow,ttCol);
         int[][] map = mapMatrix.getMatrix();
-        if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2) {
+        if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2 || map[tRow][tCol] == 4 ||map[tRow][tCol]==6) {
             mapMatrix.getMatrix()[row][col] -= 20;
             mapMatrix.getMatrix()[tRow][tCol] += 20;
             Hero h = currentGrid.removeHeroFromGrid();
@@ -63,7 +64,7 @@ public class GameController {
             h.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
             return true;
         }
-        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)) {
+        if ((map[tRow][tCol]==10||map[tRow][tCol]==12||map[tRow][tCol]==14||map[tRow][tCol]==16) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2||map[ttRow][ttCol]==4||map[ttRow][ttCol]==6)) {
 
             mapMatrix.getMatrix()[row][col] -= 20;
             mapMatrix.getMatrix()[tRow][tCol] += (20 - 10);
@@ -94,7 +95,7 @@ public class GameController {
         }
         GridComponent ttargetGrid = gamePanel.getGridComponent(ttRow,ttCol);
         int[][] map = mapMatrix.getMatrix();
-        if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2) {
+        if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2|| map[tRow][tCol] == 4||map[tRow][tCol]==6) {
             mapMatrix.getMatrix()[row][col] -= 30;
             mapMatrix.getMatrix()[tRow][tCol] += 30;
             SecondHero sech = currentGrid.removeSecondHeroFromGrid();
@@ -104,7 +105,7 @@ public class GameController {
             sech.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
             return true;
         }
-        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)) {
+        if ((map[tRow][tCol]==10||map[tRow][tCol]==12||map[tRow][tCol]==14||map[tRow][tCol]==16) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2||map[ttRow][ttCol]==4||map[ttRow][ttCol]==6)) {
 
             mapMatrix.getMatrix()[row][col] -= 30;
             mapMatrix.getMatrix()[tRow][tCol] += (30 - 10);
@@ -124,28 +125,42 @@ public class GameController {
     }
 
     public boolean isGameWin(){
-        int[][] map = mapMatrix.getMatrix();
-        int count = 0;
-        int total = 0;
-        for(int i=0;i<map.length;i++){
-            for(int j=0;j<map[0].length;j++){
-                if(map[i][j]/10 ==1){
-                    total++;
+        if(FrameController.getGameFrame().getLevelNumber()!=7){
+            int[][] map = mapMatrix.getMatrix();
+            int count = 0;
+            int total = 0;
+            for(int i=0;i<map.length;i++){
+                for(int j=0;j<map[0].length;j++){
+                    if(map[i][j]/10 ==1){
+                        total++;
+                    }
                 }
-            }
-        }//计算有多少个箱子
-        for(int i=0;i<map.length;i++){
-            for(int j=0;j<map[0].length;j++){
-                if(map[i][j]==12){
-                    count++;
+            }//计算有多少个箱子
+            for(int i=0;i<map.length;i++){
+                for(int j=0;j<map[0].length;j++){
+                    if(map[i][j]==12){
+                        count++;
+                    }
                 }
+            }//计算有多少个箱子在目标位置
+            if(count==total){
+                System.out.println("游戏胜利");
+                return true;
             }
-        }//计算有多少个箱子在目标位置
-        if(count==total){
-            System.out.println("游戏胜利");
-            return true;
+            return false;
         }
-        return false;
+        else{
+            int map[][] = mapMatrix.getMatrix();
+            for(int i=0;i<map.length;i++){
+                for(int j=0;j<map[0].length;j++){
+                    if(map[i][j]==12){
+                        return true;
+                    }
+                }
+            }//计算有多少个箱子
+            return false;
+        }
+
     }//判断游戏是否胜利
     public boolean isGameFail(){
         int count=0;
@@ -224,6 +239,48 @@ public class GameController {
             }
         }
         return false;
+    }
+    public boolean isPressurePlateBePressed(int row, int col){
+        int[][] map = mapMatrix.getMatrix();
+        if(map[row][col]==14 || map[row][col]==24 || map[row][col]==34){
+            return true;
+        }
+        return false;
+    }
+    public void dealWithPressurePlate(int row, int col,int X,int Y){
+        int[][] map = mapMatrix.getMatrix();
+        if(isPressurePlateBePressed(row,col)){
+            switch (map[X][Y]/10){
+                case 0:
+                    map[X][Y] = 0;
+                    break;
+                case 1:
+                    map[X][Y] = 10;
+                    break;
+                case 2:
+                    map[X][Y] = 20;
+                    break;
+                case 3:
+                    map[X][Y] = 30;
+                    break;
+            }
+            mapMatrix.setMatrix(map);
+            GridComponent gridComponent = gamePanel.getGridComponent(X,Y);
+            gridComponent.setId(0);
+            System.out.println("["+row+","+col+"]"+"隐藏门已打开");
+            JLabel label = new JLabel();
+            ImageIcon icon = new ImageIcon("PictureResource/wall_broken.gif");
+            label.setIcon(icon);
+            label.setBounds(X*90+2, Y*90+2, 90, 90);
+            FrameController.getGameFrame().add(label);//添加叶落动画
+            MusicController.playMusic("MusicResource/wall_broken.wav");//添加叶落声效
+        }else if(!isPressurePlateBePressed(row,col) && map[X][Y]/10 !=1 && map[X][Y]/10 !=2 && map[X][Y]/10 !=3){
+            map[X][Y] = 5;//XY指隐藏门的坐标
+            mapMatrix.setMatrix(map);
+            GridComponent gridComponent = gamePanel.getGridComponent(X,Y);
+            gridComponent.setId(5);
+            System.out.println("["+row+","+col+"]"+"隐藏门关闭");
+        }
     }
     //todo: add other methods such as loadGame, saveGame...
 

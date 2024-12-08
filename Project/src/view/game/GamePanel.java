@@ -6,6 +6,7 @@ import controller.MusicController;
 import model.Direction;
 import model.MapMatrix;
 import view.FrameUtil;
+import view.ending.EndFrame;
 import view.ending.LoseFrame;
 import view.ending.WinFrame;
 
@@ -58,6 +59,7 @@ public class GamePanel extends ListenerPanel {
             this.setFocusable(true);
             this.setLayout(null);
             this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
+//            this.setSize(mapMatrix.getWidth() * GRID_SIZE , mapMatrix.getHeight() * GRID_SIZE );
             this.mapMatrix = mapMatrix;
             this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
             this.moveBackList = new ArrayList<>();
@@ -106,6 +108,7 @@ public class GamePanel extends ListenerPanel {
                 grids[i][j].setLocation(j * GRID_SIZE + 2, i * GRID_SIZE + 2);
                 //Ten digit maps to Box or Hero in corresponding location in the GridComponent. (Changed value)
                 switch (mapMatrix.getId(i, j) / 10) {
+
                     case 1:
                         grids[i][j].setBoxInGrid(new Box(GRID_SIZE - 10, GRID_SIZE - 10));
                         break;
@@ -222,6 +225,20 @@ public class GamePanel extends ListenerPanel {
         }
     }
 
+    public void RemoveBox(){
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        Box b = grids[i][j].removeBoxFromGrid();
+                        break;
+
+                }
+            }
+        }
+
+    }
+
     public void ResetBoxAndHero(){
         for (int i = 0; i < grids.length; i++) {
             for (int j = 0; j < grids[i].length; j++) {
@@ -233,6 +250,18 @@ public class GamePanel extends ListenerPanel {
                         grids[i][j].setHeroInGrid(hero);
                         hero.setRow(i);
                         hero.setCol(j);
+                        break;
+                }
+                this.add(grids[i][j]);
+            }
+        }
+    }
+    public void ResetBox(){
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        grids[i][j].setBoxInGrid(new Box(GRID_SIZE - 10, GRID_SIZE - 10));
                         break;
                 }
                 this.add(grids[i][j]);
@@ -252,6 +281,13 @@ public class GamePanel extends ListenerPanel {
     public void doMoveRight() {
         System.out.println("Click VK_RIGHT");
         MusicController.playMoveSound();//播放移动声音
+        if(FrameController.getGameFrame().getLevelNumber()==6) {
+            if ( hero.getRow() == 1 && hero.getCol() == 2) {
+                FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
+            } else {
+                FrameController.getGameFrame().getNoteLabel().setText("");
+            }
+        }
         if (gameController.doMove(hero.getRow(), hero.getCol(), Direction.RIGHT)) {
             this.afterMove();
         }
@@ -261,6 +297,13 @@ public class GamePanel extends ListenerPanel {
     public void doMoveLeft() {
         System.out.println("Click VK_LEFT");
         MusicController.playMoveSound();//播放移动声音
+        if(FrameController.getGameFrame().getLevelNumber()==6) {
+            if ( hero.getRow() == 1 && hero.getCol() == 4) {
+                FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
+            } else {
+                FrameController.getGameFrame().getNoteLabel().setText("");
+            }
+        }
         if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.LEFT)){
             this.afterMove();
         }
@@ -270,6 +313,13 @@ public class GamePanel extends ListenerPanel {
     public void doMoveUp() {
         System.out.println("Click VK_Up");
         MusicController.playMoveSound();//播放移动声音
+        if(FrameController.getGameFrame().getLevelNumber()==6) {
+            if ( (hero.getRow() == 2||hero.getRow() == 1) && hero.getCol() == 3) {
+                FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
+            } else {
+                FrameController.getGameFrame().getNoteLabel().setText("");
+            }
+        }
        if( gameController.doMove(hero.getRow(), hero.getCol(), Direction.UP)){
            this.afterMove();
        }
@@ -279,6 +329,9 @@ public class GamePanel extends ListenerPanel {
     public void doMoveDown() {
         System.out.println("Click VK_DOWN");
         MusicController.playMoveSound();//播放移动声音
+        if(FrameController.getGameFrame().getLevelNumber()==6) {
+            FrameController.getGameFrame().getNoteLabel().setText("");
+        }
         if(gameController.doMove(hero.getRow(), hero.getCol(), Direction.DOWN)){
             this.afterMove();
         }
@@ -287,10 +340,48 @@ public class GamePanel extends ListenerPanel {
         System.out.println("Click VK_F");
 
         if(FrameController.getGameFrame().getLevelNumber()==6 && hero.getRow() ==1 && hero.getCol()==3){
+            MusicController.changeLevelMusic();
             this.gameFrame.setVisible(false);
             FrameController.getLevelFrame().openLevel7();
-
         }
+    }
+
+    public boolean isHero1NearPortal(){
+        if(FrameController.getGameFrame().getLevelNumber()== 7 && ((hero.getRow() == 5 && hero.getCol() == 5)||(hero.getRow() ==6 && hero.getCol()==4)||(hero.getRow() ==6 && hero.getCol()==6)||(hero.getRow() ==7 && hero.getCol()==5))) return true;
+        else return false;
+    }
+    public void dealPortal1(){
+        System.out.println("Click VK_H");
+        int[][] map=mapMatrix.getMatrix();
+        if(isHero1NearPortal() && map[1][7]==6 && map[6][5]==16){
+            System.out.println("检测传送门1条件符合，应当传送");
+            MusicController.playMusic("MusicResource/portal.wav");
+            RemoveBox();
+            map[1][7]=16;
+            map[6][5]=6;
+            mapMatrix.setMatrix(map);
+            this.repaint();
+            ResetBox();
+        }
+    }
+    public void dealPortal2(){
+        System.out.println("Click VK_G");
+        int[][] map = mapMatrix.getMatrix();
+        if(secondIsNearPortal() && map[6][5]==6 && map[1][7]==16){
+            System.out.println("监测传送门2条件符合，应当传送");
+            MusicController.playMusic("MusicResource/portal.wav");
+            RemoveBox();
+            map[6][5] = 16;
+            map[1][7] = 6;
+            mapMatrix.setMatrix(map);
+            this.repaint();
+            ResetBox();
+        }
+    }
+
+    public boolean secondIsNearPortal(){
+        if(FrameController.getGameFrame().getLevelNumber()==7 && ((secondHero.getRow() == 1 && secondHero.getCol() == 6) || (secondHero.getRow() == 2 && secondHero.getCol() == 7))) return true;
+        else return false;
     }
     public void secondDoMoveUp(){
         System.out.println("Click VK_W");
@@ -371,10 +462,6 @@ public class GamePanel extends ListenerPanel {
             mapMatrix.setFinalStep(steps);
             moveBackList.add(mapMatrix.clone());
             this.stepLabel.setText(String.format("Step: %d", this.steps));
-//        System.out.println(gameController.isGameWin());
-//        System.out.println(gameController.isGameFail());
-//        System.out.println(gameController.isDeadLocked(0));
-//        System.out.println(gameController.isDeadLocked(1));
             if (gameController.isGameWin()) {
                 StopTimer();
                 this.getMapMatrix();
@@ -452,6 +539,21 @@ public class GamePanel extends ListenerPanel {
                 }
                 MusicController.playLoseSound();//播放失败声音
             }
+        }else if (FrameController.getGameFrame().getLevelNumber()==7){//最后一关对于压板的处理
+            gameController.dealWithPressurePlate(3,2,8,4);
+            gameController.dealWithPressurePlate(7,1,1,5);
+            gameController.dealWithPressurePlate(7,7,1,6);
+            if (gameController.isGameWin()) {
+                FrameController.getGameFrame().setVisible(false);
+                new EndFrame(1400, 1000);
+                try {
+                    MusicController.stopMusic();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                MusicController.playMusic("MusicResource/victory.wav");//播放胜利声音
+            }
+//
         }
 
     }

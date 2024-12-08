@@ -22,7 +22,7 @@ public class WinFrame extends JFrame {
         ImageIcon WinFrameGIF = new ImageIcon("PictureResource/WinFrameGIF.gif");
         this.setTitle("Win Frame");
         JLabel label = new JLabel(WinFrameGIF);
-        label.setBounds(0, 0, width, height);
+        label.setBounds(10, 0, width, height);
         this.setLayout(null);
         this.setSize(width, height);
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -64,6 +64,7 @@ public class WinFrame extends JFrame {
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }
+            MusicController.changeLevelMusic();
             if(levelNext>=8) System.out.println("不存在下一关 ");
             else{
                 FrameController.getLevelFrame().LevelChooser(levelNext);

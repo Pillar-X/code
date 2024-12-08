@@ -61,6 +61,7 @@ public class GameFrame extends JFrame {
     private JLabel saveNameLabel;
     private JLabel minutesLabel;
     private JLabel secondsLabel;
+    private JLabel noteLabel;
     private JLabel bestStepLabel;
     private JLabel bestTimeLabel;
     private MapMatrix BestMapMatrix;
@@ -96,12 +97,12 @@ public class GameFrame extends JFrame {
         this.rightBtn = ButtonController.createButton(this, "→", new Point(gamePanel.getWidth() + 460 - 60, 410 + 80), 80 * 2, 50 * 2, "");//上下左右移动按钮
         this.moveBackBtn = ButtonController.createButton(this, "StepBack", new Point(gamePanel.getWidth() + 80 + 80, 280), 160, 100, "");
         this.deleteBtn = ButtonController.createButton(this, "Delete", new Point(560-80, 30), 80, 50, "");
-        this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 42), new Point(gamePanel.getWidth() + 160-60, 140), 200, 100);
+        this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 42), new Point(gamePanel.getWidth() + 160-60+50+20, 140), 200, 100);
         this.saveNameText = FrameUtil.createJTextField(this, new Point(140-80, 30), 140, 50);
-        this.secondsLabel = ButtonController.createJLabel(this, new Point(gamePanel.getWidth() +280+60-60, 140), 200, 100, "00.0 s");
-        this.minutesLabel = ButtonController.createJLabel(this, new Point(gamePanel.getWidth() +280-60, 140), 200, 100, "0 m");
+        this.secondsLabel = ButtonController.createJLabel(this, new Point(gamePanel.getWidth() +280+60-60+120, 140), 200, 100, "00'0\"");
+        this.minutesLabel = ButtonController.createJLabel(this, new Point(gamePanel.getWidth() +280-60, 140), 200, 100, "");
         this.bestStepLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 160-60, 100), 200, 50, "Best: null");
-        this.bestTimeLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 300, 100), 250, 50, "null");
+        this.bestTimeLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 350, 100), 300, 50, "Time: null");
         FrameController.setGameFrame(this);
         gamePanel.setBasicTime(mapMatrix.getBasicTime());
         SetSeconds(mapMatrix.getBasicTime());
@@ -141,8 +142,8 @@ public class GameFrame extends JFrame {
             if (BestMapMatrix != null) {
                 //if(bestTimeLabel == null) System.out.println("最佳时间标签为空");
                 //else System.out.println("最佳时间标签存在");
-                bestStepLabel.setText("Best: "+BestMapMatrix.getFinalStep() + " Steps");
-                bestTimeLabel.setText(BestMapMatrix.getBasicTime() / 600 + "m " + (BestMapMatrix.getBasicTime() % 600) / 10 + "." + BestMapMatrix.getBasicTime() % 10 + "s");
+                bestStepLabel.setText("Best: Steps:  "+BestMapMatrix.getFinalStep() );
+                bestTimeLabel.setText("Time:  "+BestMapMatrix.getBasicTime() / 600 + "'" + (BestMapMatrix.getBasicTime() % 600) / 10 + "." + BestMapMatrix.getBasicTime() % 10 + "\"");
                 this.repaint();
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -389,7 +390,12 @@ public class GameFrame extends JFrame {
         // 设置背景
         JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
         BufferedImage bufferedImage = null;
-        String path = "PictureResource/background.png";
+            String path;
+        if(levelNumber == 6 || levelNumber == 7){
+            path = "PictureResource/forest.png";
+        }else{
+            path = "PictureResource/background.png";
+        }
         try {
             bufferedImage = ImageIO.read(new File(path));
         } catch (IOException e) {
@@ -405,6 +411,8 @@ public class GameFrame extends JFrame {
             this.setSize(width, height);
             this.setLevelNumber(6);
             FrameController.setGameFrame(this);
+
+            noteLabel = FrameUtil.createJLabel(FrameController.getGameFrame(),new Point(280,10),200,30,"");
 
             gamePanel = new GamePanel(mapMatrix);
             gamePanel.setLocation(width / 2 - 100, height / 2 - gamePanel.getHeight() / 2);
@@ -434,7 +442,7 @@ public class GameFrame extends JFrame {
             // 设置背景
             JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
             BufferedImage bufferedImage = null;
-            String path = "PictureResource/background.png";
+            String path = "PictureResource/forest_2.png";
             try {
                 bufferedImage = ImageIO.read(new File(path));
             } catch (IOException e) {
@@ -451,14 +459,14 @@ public class GameFrame extends JFrame {
             FrameController.setGameFrame(this);
 
             gamePanel = new GamePanel(mapMatrix);
-            gamePanel.setLocation(width / 2 - 100, height / 2 - gamePanel.getHeight() / 2);
+            gamePanel.setLocation(0, 0);
             this.add(gamePanel);
             this.gameController = new GameController(gamePanel, mapMatrix);
             Toolkit tk = Toolkit.getDefaultToolkit();
             Image img = tk.getImage("PictureResource/LOGO.png");
             setIconImage(img);//设置图标
 
-            this.returnBtn = ButtonController.createButton(this, "Return", new Point(gamePanel.getWidth() + 200, 300), 80, 50, "");//返回按钮
+            this.returnBtn = ButtonController.createButton(this, "Return", new Point(gamePanel.getWidth(), 450), 160, 100, "");//返回按钮
 
             this.returnBtn.addActionListener(e -> {
                 MusicController.playClickSound();
@@ -473,7 +481,7 @@ public class GameFrame extends JFrame {
             // 设置背景
             JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
             BufferedImage bufferedImage = null;
-            String path = "PictureResource/background.png";
+            String path = "PictureResource/forest_2.png";
             try {
                 bufferedImage = ImageIO.read(new File(path));
             } catch (IOException e) {
@@ -490,13 +498,7 @@ public class GameFrame extends JFrame {
 
     public void SetSeconds (int basic_time) {
         String tmp = (basic_time%600)/10+"."+basic_time%10;
-        secondsLabel.setText(tmp+" s");
-        if(basic_time/600!=0){
-            SetMinutes(basic_time);
-        }
-        else{
-            minutesLabel.setText("0"+ " m");
-        }
+        secondsLabel.setText(basic_time/600+"'"+tmp+ "\"");
     }
 
     public void SetMinutes(int basic_time){
@@ -526,7 +528,7 @@ public class GameFrame extends JFrame {
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("下拉框尝试反序列化失败,创建空下拉框");
             try_mapMatrixList = new ArrayList<>();
-            loadComboBox = FrameUtil.createComboBox(this,new Point(gamePanel.getWidth()+320,210),120,50,try_mapMatrixList);
+            loadComboBox = FrameUtil.createComboBox(this,new Point(360-80,30),120,50,try_mapMatrixList);
         }
     }
 
@@ -558,6 +560,9 @@ public class GameFrame extends JFrame {
 
     public void setBestTimeLabel(JLabel bestTimeLabel) {
         this.bestTimeLabel = bestTimeLabel;
+    }
+    public JLabel getNoteLabel() {
+        return noteLabel;
     }
     }
 

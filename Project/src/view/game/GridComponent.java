@@ -10,11 +10,13 @@ import java.io.IOException;
 public class GridComponent extends JComponent {
     private int row;
     private int col;
-    private final int id; // represents the units digit value. It cannot be changed during one game.
+    private int id; // represents the units digit value. It cannot be changed during one game.
     private Image wallImage;
     private Image floorImage;
     private Image diamondImage;
     private Image doorImage;
+    private Image pressurePlateImage;
+    private Image portalImage;
     private Hero hero;
     private SecondHero secondHero;
     private Box box;
@@ -33,6 +35,22 @@ public class GridComponent extends JComponent {
         super.printComponents(g);
         Color borderColor = color;
         switch (id % 10) {
+            case 7:
+                g.drawImage(floorImage, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(portalImage, 7, 2, getWidth()-10, getHeight()-10, this);
+
+                break;
+            case 6:
+                g.drawImage(floorImage, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(portalImage, 7, 2, getWidth()-10, getHeight()-10, this);
+                break;
+            case 5:
+                g.drawImage(wallImage, 0, 0, getWidth(), getHeight(), this);
+                break;
+            case 4:
+                g.drawImage(floorImage, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(pressurePlateImage, 7, 2, getWidth()-10, getHeight()-10, this);
+                break;
             case 3:
                 g.drawImage(floorImage, 0, 0, getWidth(), getHeight(), this);
                 g.drawImage(doorImage, 0, 0, getWidth(), getHeight(), this);
@@ -58,7 +76,9 @@ public class GridComponent extends JComponent {
             wallImage = ImageIO.read(new File("PictureResource/wall.png"));
             floorImage = ImageIO.read(new File("PictureResource/floor.png"));
             diamondImage = ImageIO.read(new File("PictureResource/diamond.png"));
-            if (wallImage == null || floorImage == null || diamondImage == null || doorImage == null) {
+            pressurePlateImage = ImageIO.read(new File("PictureResource/pressurePlate.png"));
+            portalImage = ImageIO.read(new File("PictureResource/portal.png"));
+            if (wallImage == null || floorImage == null || diamondImage == null || doorImage == null || pressurePlateImage == null || portalImage == null) {
                 System.out.println("Failed to load images.");
             }
         } catch (IOException e) {
@@ -125,5 +145,13 @@ public class GridComponent extends JComponent {
         this.revalidate();//Update component painting in real time
         this.repaint();
         return b;
+    }
+    public void setFloorInGrid(Box box) {
+        this.box = box;
+        this.add(box);
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 }

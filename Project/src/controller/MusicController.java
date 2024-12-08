@@ -53,7 +53,7 @@ public class MusicController  {
     public static void playBGM4(){
         playMusic("MusicResource/BGM4.wav");
     }
-    public static void changeMusic(){
-
+    public static void changeLevelMusic(){
+        playMusic("MusicResource/changeLevel.wav");
     }
 }

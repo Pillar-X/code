@@ -81,23 +81,4 @@ public class FrameController {
         setUpFrame.setVisible(false);
         levelFrame.setVisible(true);
     }
-//    public static JPanel backgroundPanel(String path){
-//        // 设置背景
-//        JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
-//        JPanel panel = new JPanel();
-//        BufferedImage bufferedImage = null;
-//        if (path ==null || path.isEmpty()) {
-//            path = "PictureResource/background.png";
-//        }
-//        try {
-//            bufferedImage = ImageIO.read(new File(path));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
-//        lblBackground.setIcon(icon); // 设置标签组件要显示的图标
-//        lblBackground.setBounds(0, 0, 100, 100); // 设置组件的显示位置及大小
-//        panel.add(lblBackground);
-//        return panel;
-//    }
 }

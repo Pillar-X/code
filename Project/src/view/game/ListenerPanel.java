@@ -40,6 +40,8 @@ public abstract class ListenerPanel extends JPanel {
                     case KeyEvent.VK_S -> secondDoMoveDown();
                     case KeyEvent.VK_A -> secondDoMoveLeft();
                     case KeyEvent.VK_D -> secondDoMoveRight();
+                    case KeyEvent.VK_G -> dealPortal2();
+                    case KeyEvent.VK_H -> dealPortal1();
                 }
 
             }
@@ -58,5 +60,7 @@ public abstract class ListenerPanel extends JPanel {
     public abstract void secondDoMoveDown();
     public abstract void secondDoMoveRight();
     public abstract void secondDoMoveLeft();
+    public abstract void dealPortal2();
+    public abstract void dealPortal1();
 
 }
