@@ -52,242 +52,11 @@ public class LevelFrame extends JFrame {
             setUpFrame.setVisible(true);
         });
 
-        level1Btn.addActionListener(l->{
-            MusicController.playClickSound();
-            MapMatrix mapMatrix;
-            try {
-                mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getMatrix().clone());
-                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getBasicTime());
-                mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getFinalStep());
-
-            } catch (IOException | ClassNotFoundException e) {
-                mapMatrix = new MapMatrix(new int[][]{
-                        {1, 1, 1, 1, 1, 1},
-                        {1, 20, 0, 0, 0, 1},
-                        {1, 0, 0, 10, 2, 1},
-                        {1, 0, 2, 10, 0, 1},
-                        {1, 1, 1, 1, 1, 1},
-                });}
-                mapMatrix.setCopymatrix(new int[][]{
-                        {1, 1, 1, 1, 1, 1},
-                        {1, 20, 0, 0, 0, 1},
-                        {1, 0, 0, 10, 2, 1},
-                        {1, 0, 2, 10, 0, 1},
-                        {1, 1, 1, 1, 1, 1},});
-
-            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,1);
-
-            gameFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    try {
-                        AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level1.ser",gameFrame.getGamePanel().getMapMatrix().clone());
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    //FrameController.returnLevelFrame(gameFrame);
-
-                    gameFrame.dispose();
-
-                }
-            });
-            this.setVisible(false);
-            gameFrame.setVisible(true);
-        });
-
-
-        level2Btn.addActionListener(l->{
-            MusicController.playClickSound();
-                    MapMatrix mapMatrix;
-                    try {
-                        mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getMatrix().clone());
-                        mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getBasicTime());
-                        mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getFinalStep());
-
-                    } catch (IOException | ClassNotFoundException e) {
-                        mapMatrix = new MapMatrix(new int[][]{
-                                {1, 1, 1, 1, 1, 1, 0},
-                                {1, 20, 0, 0, 0, 1, 1},
-                                {1, 0, 10, 10, 0, 0, 1},
-                                {1, 0, 1, 2, 0, 2, 1},
-                                {1, 0, 0, 0, 0, 0, 1},
-                                {1, 1, 1, 1, 1, 1, 1}
-                        });}
-                    mapMatrix.setCopymatrix(new int[][]{
-                            {1, 1, 1, 1, 1, 1, 0},
-                            {1, 20, 0, 0, 0, 1, 1},
-                            {1, 0, 10, 10, 0, 0, 1},
-                            {1, 0, 1, 2, 0, 2, 1},
-                            {1, 0, 0, 0, 0, 0, 1},
-                            {1, 1, 1, 1, 1, 1, 1}});
-
-
-                            GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,2);
-
-                    gameFrame.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosing(WindowEvent e) {
-                            try {
-                                AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level2.ser",gameFrame.getGamePanel().getMapMatrix().clone());
-
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                            //FrameController.returnLevelFrame(gameFrame);
-
-                            gameFrame.dispose();
-
-                        }
-                    });
-                    this.setVisible(false);
-                    gameFrame.setVisible(true);
-        });
-
-        level3Btn.addActionListener(l->{
-            MusicController.playClickSound();
-            MapMatrix mapMatrix;
-            try {
-                mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getMatrix().clone());
-                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getBasicTime());
-                mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getFinalStep());
-
-            } catch (IOException | ClassNotFoundException e) {
-                mapMatrix = new MapMatrix(new int[][]{
-
-                        {0, 0, 1, 1, 1, 1, 0},
-                        {1, 1, 1, 0, 0, 1, 0},
-                        {1, 20, 0, 2, 10, 1, 1},
-                        {1, 0, 0, 0, 10, 0, 1},
-                        {1, 0, 1, 2, 0, 0, 1},
-                        {1, 0, 0, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1, 1, 1}});
-                }
-                mapMatrix.setCopymatrix(new int[][]{
-                        {0, 0, 1, 1, 1, 1, 0},
-                        {1, 1, 1, 0, 0, 1, 0},
-                        {1, 20, 0, 2, 10, 1, 1},
-                        {1, 0, 0, 0, 10, 0, 1},
-                        {1, 0, 1, 2, 0, 0, 1},
-                        {1, 0, 0, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1, 1, 1}});
-
-                        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,3);
-
-                gameFrame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        try {
-                            AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level3.ser",gameFrame.getGamePanel().getMapMatrix().clone());
-
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        //FrameController.returnLevelFrame(gameFrame);
-
-                        gameFrame.dispose();
-
-                    }
-                });
-                this.setVisible(false);
-                gameFrame.setVisible(true);
-        });
-
-        level4Btn.addActionListener(l->{
-            MusicController.playClickSound();
-            MapMatrix mapMatrix;
-            try {
-                mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getMatrix().clone());
-                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getBasicTime());
-                mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getFinalStep());
-
-            } catch (IOException | ClassNotFoundException e) {
-                mapMatrix = new MapMatrix(new int[][]{
-                        {0, 1, 1, 1, 1, 1, 0},
-                        {1, 1, 20, 0, 0, 1, 1},
-                        {1, 0, 0, 1, 0, 0, 1},
-                        {1, 0, 10, 12, 10, 0, 1},
-                        {1, 0, 0, 2, 0, 0, 1},
-                        {1, 1, 0, 2, 0, 1, 1},
-                        {0, 1, 1, 1, 1, 1, 0}}
-                );}
-                mapMatrix.setCopymatrix(new int[][]{
-                        {0, 1, 1, 1, 1, 1, 0},
-                        {1, 1, 20, 0, 0, 1, 1},
-                        {1, 0, 0, 1, 0, 0, 1},
-                        {1, 0, 10, 12, 10, 0, 1},
-                        {1, 0, 0, 2, 0, 0, 1},
-                        {1, 1, 0, 2, 0, 1, 1},
-                        {0, 1, 1, 1, 1, 1, 0}}
-                );
-
-                        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,4);
-
-                gameFrame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        try {
-                            AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level4.ser",gameFrame.getGamePanel().getMapMatrix().clone());
-
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        //FrameController.returnLevelFrame(gameFrame);
-
-                        gameFrame.dispose();
-
-                    }
-                });
-                this.setVisible(false);
-                gameFrame.setVisible(true);
-        });
-
-        level5Btn.addActionListener(l->{
-            MusicController.playClickSound();
-            MapMatrix mapMatrix;
-            try {
-                mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getMatrix().clone());
-                mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getBasicTime());
-                mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getFinalStep());
-
-            } catch (IOException | ClassNotFoundException e) {
-                mapMatrix = new MapMatrix(new int[][]{
-                        {1, 1, 1, 1, 1, 1, 0, 0},
-                        {1, 0, 0, 0, 0, 1, 1, 1},
-                        {1, 0, 0, 0, 2, 2, 0, 1},
-                        {1, 0, 10, 10, 10, 20, 0, 1},
-                        {1, 0, 0, 1, 0, 2, 0, 1},
-                        {1, 1, 1, 1, 1, 1, 1, 1}}
-                );}
-            mapMatrix.setCopymatrix(new int[][] {
-                    {1, 1, 1, 1, 1, 1, 0, 0},
-                    {1, 0, 0, 0, 0, 1, 1, 1},
-                    {1, 0, 0, 0, 2, 2, 0, 1},
-                    {1, 0, 10, 10, 10, 20, 0, 1},
-                    {1, 0, 0, 1, 0, 2, 0, 1},
-                    {1, 1, 1, 1, 1, 1, 1, 1},
-            });
-
-            GameFrame gameFrame = new GameFrame(1000, 500, mapMatrix,5);
-
-            gameFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    try {
-                        AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level5.ser",gameFrame.getGamePanel().getMapMatrix().clone());
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    //FrameController.returnLevelFrame(gameFrame);
-
-                    gameFrame.dispose();
-
-                }
-            });
-            this.setVisible(false);
-            gameFrame.setVisible(true);
-
-        });
+        level1Btn.addActionListener(l->{openLevel1();});
+        level2Btn.addActionListener(l->{openLevel2();});
+        level3Btn.addActionListener(l->{openLevel3();});
+        level4Btn.addActionListener(l->{openLevel4();});
+        level5Btn.addActionListener(l->{openLevel5();});
 
         ReLoginBtn.addActionListener(e -> {
             MusicController.playClickSound();
@@ -310,6 +79,249 @@ public class LevelFrame extends JFrame {
         FrameController.setLevelFrame(this);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void openLevel1(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        try {
+            mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getMatrix().clone());
+            mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getBasicTime());
+            mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getFinalStep());
+
+        } catch (IOException | ClassNotFoundException e) {
+            mapMatrix = new MapMatrix(new int[][]{
+                    {1, 1, 1, 1, 1, 1},
+                    {1, 20, 0, 0, 0, 1},
+                    {1, 0, 0, 10, 2, 1},
+                    {1, 0, 2, 10, 0, 1},
+                    {1, 1, 1, 1, 1, 1},
+            });}
+        mapMatrix.setCopymatrix(new int[][]{
+                {1, 1, 1, 1, 1, 1},
+                {1, 20, 0, 0, 0, 1},
+                {1, 0, 0, 10, 2, 1},
+                {1, 0, 2, 10, 0, 1},
+                {1, 1, 1, 1, 1, 1},});
+
+        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,1);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level1.ser",gameFrame.getGamePanel().getMapMatrix().clone());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //FrameController.returnLevelFrame(gameFrame);
+
+                gameFrame.dispose();
+
+            }
+        });
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+
+    }
+
+    public void openLevel2(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        try {
+            mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getMatrix().clone());
+            mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getBasicTime());
+            mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getFinalStep());
+
+        } catch (IOException | ClassNotFoundException e) {
+            mapMatrix = new MapMatrix(new int[][]{
+                    {1, 1, 1, 1, 1, 1, 0},
+                    {1, 20, 0, 0, 0, 1, 1},
+                    {1, 0, 10, 10, 0, 0, 1},
+                    {1, 0, 1, 2, 0, 2, 1},
+                    {1, 0, 0, 0, 0, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1}
+            });}
+        mapMatrix.setCopymatrix(new int[][]{
+                {1, 1, 1, 1, 1, 1, 0},
+                {1, 20, 0, 0, 0, 1, 1},
+                {1, 0, 10, 10, 0, 0, 1},
+                {1, 0, 1, 2, 0, 2, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1}});
+
+
+        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,2);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level2.ser",gameFrame.getGamePanel().getMapMatrix().clone());
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //FrameController.returnLevelFrame(gameFrame);
+
+                gameFrame.dispose();
+
+            }
+        });
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+    }
+
+    public void openLevel3(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        try {
+            mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getMatrix().clone());
+            mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getBasicTime());
+            mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getFinalStep());
+
+        } catch (IOException | ClassNotFoundException e) {
+            mapMatrix = new MapMatrix(new int[][]{
+
+                    {0, 0, 1, 1, 1, 1, 0},
+                    {1, 1, 1, 0, 0, 1, 0},
+                    {1, 20, 0, 2, 10, 1, 1},
+                    {1, 0, 0, 0, 10, 0, 1},
+                    {1, 0, 1, 2, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1}});
+        }
+        mapMatrix.setCopymatrix(new int[][]{
+                {0, 0, 1, 1, 1, 1, 0},
+                {1, 1, 1, 0, 0, 1, 0},
+                {1, 20, 0, 2, 10, 1, 1},
+                {1, 0, 0, 0, 10, 0, 1},
+                {1, 0, 1, 2, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1}});
+
+        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,3);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level3.ser",gameFrame.getGamePanel().getMapMatrix().clone());
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //FrameController.returnLevelFrame(gameFrame);
+
+                gameFrame.dispose();
+
+            }
+        });
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+    }
+
+    public void openLevel4(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        try {
+            mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getMatrix().clone());
+            mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getBasicTime());
+            mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getFinalStep());
+
+        } catch (IOException | ClassNotFoundException e) {
+            mapMatrix = new MapMatrix(new int[][]{
+                    {0, 1, 1, 1, 1, 1, 0},
+                    {1, 1, 20, 0, 0, 1, 1},
+                    {1, 0, 0, 1, 0, 0, 1},
+                    {1, 0, 10, 12, 10, 0, 1},
+                    {1, 0, 0, 2, 0, 0, 1},
+                    {1, 1, 0, 2, 0, 1, 1},
+                    {0, 1, 1, 1, 1, 1, 0}}
+            );}
+        mapMatrix.setCopymatrix(new int[][]{
+                {0, 1, 1, 1, 1, 1, 0},
+                {1, 1, 20, 0, 0, 1, 1},
+                {1, 0, 0, 1, 0, 0, 1},
+                {1, 0, 10, 12, 10, 0, 1},
+                {1, 0, 0, 2, 0, 0, 1},
+                {1, 1, 0, 2, 0, 1, 1},
+                {0, 1, 1, 1, 1, 1, 0}}
+        );
+
+        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,4);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level4.ser",gameFrame.getGamePanel().getMapMatrix().clone());
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //FrameController.returnLevelFrame(gameFrame);
+
+                gameFrame.dispose();
+
+            }
+        });
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+    }
+
+    public void openLevel5(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        try {
+            mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getMatrix().clone());
+            mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getBasicTime());
+            mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getFinalStep());
+
+        } catch (IOException | ClassNotFoundException e) {
+            mapMatrix = new MapMatrix(new int[][]{
+                    {1, 1, 1, 1, 1, 1, 0, 0},
+                    {1, 0, 0, 0, 0, 1, 1, 1},
+                    {1, 0, 0, 0, 2, 2, 0, 1},
+                    {1, 0, 10, 10, 10, 20, 0, 1},
+                    {1, 0, 0, 1, 0, 2, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1}}
+            );}
+        mapMatrix.setCopymatrix(new int[][] {
+                {1, 1, 1, 1, 1, 1, 0, 0},
+                {1, 0, 0, 0, 0, 1, 1, 1},
+                {1, 0, 0, 0, 2, 2, 0, 1},
+                {1, 0, 10, 10, 10, 20, 0, 1},
+                {1, 0, 0, 1, 0, 2, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+        });
+
+        GameFrame gameFrame = new GameFrame(1000, 500, mapMatrix,5);
+
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level5.ser",gameFrame.getGamePanel().getMapMatrix().clone());
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //FrameController.returnLevelFrame(gameFrame);
+
+                gameFrame.dispose();
+
+            }
+        });
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+    }
+
+    public void LevelChooser(int levelNumber){
+        if(levelNumber==2) openLevel2();
+        else if(levelNumber==3) openLevel3();
+        else if(levelNumber == 4) openLevel4();
+        else if(levelNumber == 5) openLevel5();
     }
     //public static FrameController getFrameController() {
      //   return frameController;

@@ -92,8 +92,8 @@ public class GameFrame extends JFrame {
         this.deleteBtn = ButtonController.createButton(this,"Delete",new Point(gamePanel.getWidth()+440,210),80,50,"");
         this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
         this.saveNameText = FrameUtil.createJTextField(this,new Point(gamePanel.getWidth()+340,390),140,50);
-        this.secondsLabel = ButtonController.createJLabel(this,new Point(10,10),120,50,"00.0");
-        this.minutesLabel = ButtonController.createJLabel(this,new Point(10,70),120,50,"0");
+        this.secondsLabel = ButtonController.createJLabel(this,new Point(70,10),120,50,"00.0 s");
+        this.minutesLabel = ButtonController.createJLabel(this,new Point(10,10),120,50,"0 m");
         this.bestStepLabel = FrameUtil.createJLabel(this,new Point(200,10),120,50,"null");
         this.bestTimeLabel = FrameUtil.createJLabel(this,new Point(320,10),120,50,"null");
         FrameController.setGameFrame(this);
@@ -110,8 +110,8 @@ public class GameFrame extends JFrame {
             if(BestMapMatrix != null){
                 //if(bestTimeLabel == null) System.out.println("最佳时间标签为空");
                 //else System.out.println("最佳时间标签存在");
-                bestStepLabel.setText(""+BestMapMatrix.getFinalStep());
-                bestTimeLabel.setText(""+BestMapMatrix.getBasicTime());
+                bestStepLabel.setText(BestMapMatrix.getFinalStep()+" Steps");
+                bestTimeLabel.setText(BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds");
                 this.repaint();
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -377,17 +377,17 @@ public class GameFrame extends JFrame {
     }
     public void SetSeconds (int basic_time) {
         String tmp = (basic_time%600)/10+"."+basic_time%10;
-        secondsLabel.setText(tmp);
+        secondsLabel.setText(tmp+" s");
         if(basic_time/600!=0){
             SetMinutes(basic_time);
         }
         else{
-            minutesLabel.setText("0");
+            minutesLabel.setText("0"+ " min");
         }
     }
 
     public void SetMinutes(int basic_time){
-        minutesLabel.setText(""+basic_time/600);
+        minutesLabel.setText(basic_time/600+" min");
     }
 
     public void tryAddLoadComboBox (){//如果文件内有存档，就显示出下拉框

@@ -14,6 +14,9 @@ import java.io.IOException;
 
 public class WinFrame extends JFrame {
     private JButton returnBtn;
+    private JButton nextBtn;
+    private JLabel BestRecordLabel;
+    private JLabel ThisReocrdLabel;
     public WinFrame(int width, int height)  {
         // 加载 GIF 图像
         ImageIcon WinFrameGIF = new ImageIcon("PictureResource/WinFrameGIF.gif");
@@ -45,12 +48,24 @@ public class WinFrame extends JFrame {
         // 启动后立即生成发射粒子
         panel.addLaunchParticle();
         returnBtn = ButtonController.createButton(this, "Return", new Point(0,280),120,50,"");//返回按钮
+        nextBtn = ButtonController.createButton(this,"Next Level",new Point(140,280),120,50,"");
 //        returnBtn.setIcon(new ImageIcon("PictureResource/button.png"));
 //        Image temp = ImageIO.read(new File("PictureResource/button.png")).getScaledInstance(width, height, Image.SCALE_SMOOTH);
         JLabel label1 = new JLabel("You Win!");
         label1.setBounds(0, 0, width, height);
         label1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         label1.add(returnBtn);
+        nextBtn.addActionListener(e -> {
+            int levelNow = FrameController.getGameFrame().getLevelNumber();
+            int levelNext = levelNow+1;
+            if(levelNext>=6) System.out.println("不存在下一关 ");
+            else{
+                FrameController.getLevelFrame().LevelChooser(levelNext);
+                this.setVisible(false);
+            }
+
+        });
+
         returnBtn.addActionListener(e -> {
             FrameController.returnLevelFrame(this);
             try {
@@ -83,5 +98,19 @@ public class WinFrame extends JFrame {
 
     }
 
+    public JLabel getThisReocrdLabel() {
+        return ThisReocrdLabel;
+    }
 
+    public void setThisReocrdLabel(JLabel thisReocrdLabel) {
+        ThisReocrdLabel = thisReocrdLabel;
+    }
+
+    public JLabel getBestRecordLabel() {
+        return BestRecordLabel;
+    }
+
+    public void setBestRecordLabel(JLabel bestRecordLabel) {
+        BestRecordLabel = bestRecordLabel;
+    }
 }

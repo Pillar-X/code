@@ -5,6 +5,7 @@ import controller.GameController;
 import controller.MusicController;
 import model.Direction;
 import model.MapMatrix;
+import view.FrameUtil;
 import view.ending.LoseFrame;
 import view.ending.WinFrame;
 
@@ -290,16 +291,20 @@ public class GamePanel extends ListenerPanel {
             }
 
             if(letThisMapMatrixBest){
-                FrameController.getGameFrame().getBestStepLabel().setText(""+this.getMapMatrix().getFinalStep());
-                FrameController.getGameFrame().getBestTimeLabel().setText(""+this.getMapMatrix().getBasicTime());
+                FrameController.getGameFrame().getBestStepLabel().setText(this.getMapMatrix().getFinalStep()+" Steps");
+                FrameController.getGameFrame().getBestTimeLabel().setText(this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds");
                 FrameController.getGameFrame().repaint();
-
                 System.out.println("当前为最好记录，最佳步数："+this.getMapMatrix().getFinalStep()+"最快时间："+this.getMapMatrix().getBasicTime());
+                this.winFrame.setThisReocrdLabel(FrameUtil.createJLabel(winFrame,new Point(400,800),200,60,"It is the best record!   Steps: "+this.getMapMatrix().getFinalStep()+"  Time："+this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds"));
+
             }
+
             else{
-                FrameController.getGameFrame().getBestStepLabel().setText(""+BestMapMatrix.getFinalStep());
-                FrameController.getGameFrame().getBestStepLabel().setText(""+BestMapMatrix.getBasicTime());
+                FrameController.getGameFrame().getBestStepLabel().setText(BestMapMatrix.getFinalStep()+" Steps");
+                FrameController.getGameFrame().getBestTimeLabel().setText(BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds");
                 FrameController.getGameFrame().repaint();
+                this.winFrame.setBestRecordLabel(FrameUtil.createJLabel(winFrame,new Point(400,800),200,60,"The best record:    Steps: "+BestMapMatrix.getFinalStep()+"  Time："+BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds"));
+                this.winFrame.setThisReocrdLabel(FrameUtil.createJLabel(winFrame,new Point(400,900),200,60,"This record:        Steps: "+this.getMapMatrix().getFinalStep()+"  Time："+this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds"));
 
                 System.out.println("最佳步数："+BestMapMatrix.getFinalStep()+"最快时间:"+BestMapMatrix.getBasicTime());
             }
@@ -316,6 +321,7 @@ public class GamePanel extends ListenerPanel {
                 throw new RuntimeException(ex);
             }
             winFrame.setVisible(true);
+            FrameController.getGameFrame().setVisible(false);
             try {
                 MusicController.stopMusic();
                 MusicController.stopMusic();
