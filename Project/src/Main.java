@@ -13,9 +13,9 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            LoginFrame loginFrame = new LoginFrame(550,280);
+            LoginFrame loginFrame = new LoginFrame(850,400);
             loginFrame.setVisible(true);
-            LevelFrame levelFrame = new LevelFrame(500,400);
+            LevelFrame levelFrame = new LevelFrame(1100,700);
             levelFrame.setVisible(false);
             loginFrame.setLevelFrame(levelFrame);
         });

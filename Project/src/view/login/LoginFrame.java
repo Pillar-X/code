@@ -33,21 +33,31 @@ public class LoginFrame extends JFrame {
         this.setLayout(null);
         this.setSize(width, height);
         FrameController.setLoginFrame(this);
-        JLabel userLabel = FrameUtil.createJLabel(this, new Point(50, 20), 70, 40, "username:");
-        JLabel passLabel = FrameUtil.createJLabel(this, new Point(50, 80), 70, 40, "password:");
-        note = FrameUtil.createJLabel(this,new Point(118,110),300,40,"");
-
-        username = FrameUtil.createJTextField(this, new Point(120, 20), 120, 40);
-        password = FrameUtil.createJTextField(this, new Point(120, 80), 120, 40);
+        JLabel userLabel = FrameUtil.createJLabel(this, new Point(200, 20+30), 120, 60, "username:");
+        JLabel passLabel = FrameUtil.createJLabel(this, new Point(200, 100+30), 120, 60, "password:");
+        note = FrameUtil.createJLabel(this,new Point(250,160+30),350,40,"");
+        Font font = new Font("Times New Roman", Font.PLAIN, 28);
+        Font font1 = new Font("Times New Roman", Font.PLAIN, 20);
+        note.setFont(font1);
+        note.setForeground(Color.RED);
+        userLabel.setFont(font);
+        passLabel.setFont(font);
+        username = FrameUtil.createJTextField(this, new Point(320, 20+30), 280, 60);
+        password = FrameUtil.createJTextField(this, new Point(320, 100+30), 280, 60);
+        username.setFont(font);
+        password.setFont(font);
         Toolkit tk = Toolkit.getDefaultToolkit();
         java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
 
-        submitBtn = ButtonController.createButton(this, "Confirm", new Point(40, 140), 100, 40,"");
-        resetBtn = ButtonController.createButton(this, "Reset", new Point(160, 140), 100, 40,"");
-        signupBtn = ButtonController.createButton(this,"Sign Up",new Point(280,140),100,40,"");
-        guestBtn = ButtonController.createButton(this, "Guest", new Point(400, 140), 100, 40,"");//添加游客按钮
-
+        submitBtn = ButtonController.createButton(this, "Confirm", new Point(40+50, 210+30), 150, 60,"");
+        resetBtn = ButtonController.createButton(this, "Reset", new Point(220+50, 210+30), 150, 60,"");
+        signupBtn = ButtonController.createButton(this,"Sign Up",new Point(400+50,210+30),150,60,"");
+        guestBtn = ButtonController.createButton(this, "Guest", new Point(580+50, 210+30), 150, 60,"");//添加游客按钮
+        submitBtn.setFont(font);
+        resetBtn.setFont(font);
+        signupBtn.setFont(font);
+        guestBtn.setFont(font);
         submitBtn.addActionListener(e -> {
             MusicController.playClickSound();
             System.out.println("Username = " + username.getText());
@@ -74,7 +84,7 @@ public class LoginFrame extends JFrame {
             //new一个signUpFrame并处理异常
             SignUpFrame signUpFrame = null;
             try {
-                signUpFrame = new SignUpFrame(500,350);
+                signUpFrame = new SignUpFrame(700,400);
             } catch (IOException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }

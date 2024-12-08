@@ -34,7 +34,7 @@ public class GamePanel extends ListenerPanel {
     private GameController gameController;
     private JLabel stepLabel;
     private int steps;
-    private final int GRID_SIZE = 50;
+    private final int GRID_SIZE = 90;//单位格子边长
     private Image image;
     private Hero hero;
     private String direction;
@@ -47,21 +47,34 @@ public class GamePanel extends ListenerPanel {
     private MapMatrix BestMapMatrix;
     boolean letThisMapMatrixBest;
     private GameFrame gameFrame = FrameController.getGameFrame();
-    public GamePanel(MapMatrix mapMatrix)  {
-        this.winFrame = new WinFrame(1000,500);
-        winFrame.setVisible(false);
-        this.loseFrame = new LoseFrame(1000,500);
-        loseFrame.setVisible(false);
-        this.setVisible(true);
-        this.setFocusable(true);
-        this.setLayout(null);
-        this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
-        this.mapMatrix = mapMatrix;
-        this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
-        this.moveBackList = new ArrayList<>();
-        initialGame();
+    public GamePanel(MapMatrix mapMatrix) {
+        if (gameFrame.getLevelNumber() != 6) {
+            this.winFrame = new WinFrame(1000, 500);
+            winFrame.setVisible(false);
+            this.loseFrame = new LoseFrame(1000, 500);
+            loseFrame.setVisible(false);
+            this.setVisible(true);
+            this.setFocusable(true);
+            this.setLayout(null);
+            this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
+            this.mapMatrix = mapMatrix;
+            this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
+            this.moveBackList = new ArrayList<>();
+            initialGame();
 
+        } else {
+            int tmp_GridSize = 35;
+            this.setVisible(true);
+            this.setFocusable(true);
+            this.setLayout(null);
+            this.setSize(mapMatrix.getWidth() * tmp_GridSize + 3, mapMatrix.getHeight() * tmp_GridSize + 3);
+            this.mapMatrix = mapMatrix;
+            this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
+            initialLevel6Game();
+
+        }
     }
+
 
     public void initialGame() {
         if(mapMatrix.getFinalStep() ==0) this.steps = 0;
@@ -92,6 +105,31 @@ public class GamePanel extends ListenerPanel {
             }
         }
         this.repaint();
+
+    }
+    public void initialLevel6Game(){
+        int tmpGrid_size = 35;
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                //Units digit maps to id attribute in GridComponent. (The no change value)
+                grids[i][j] = new GridComponent(i, j, mapMatrix.getId(i, j) % 10, tmpGrid_size);
+                System.out.println("大小为"+tmpGrid_size);
+                grids[i][j].setLocation(j * tmpGrid_size + 1, i * tmpGrid_size + 1);
+                //Ten digit maps to Box or Hero in corresponding location in the GridComponent. (Changed value)
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        grids[i][j].setBoxInGrid(new Box(tmpGrid_size - 10, tmpGrid_size - 10));
+                        break;
+                    case 2:
+                        this.hero = new Hero(tmpGrid_size - 14, tmpGrid_size - 14, i, j);
+                        grids[i][j].setHeroInGrid(hero);
+                        break;
+                }
+                this.add(grids[i][j]);
+            }
+        }
+        this.repaint();
+
 
     }
 
@@ -232,113 +270,110 @@ public class GamePanel extends ListenerPanel {
     }
 
     public void afterMove() {
-        if(!letTimerStart){
-            timer = new Timer();
-            task = new TimerTask() {
-                @Override
-                public void run() {
-                    basicTime++;
-                    mapMatrix.setBasicTime(basicTime);
-                    FrameController.getGameFrame().SetSeconds(basicTime);
-                    //System.out.printf("%d ",basicTime);
-                }
-            };
-            timer.scheduleAtFixedRate(task,0,100);
-            letTimerStart = true;
+        if(FrameController.getGameFrame().getLevelNumber()!=6) {
+            if (!letTimerStart) {
+                timer = new Timer();
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        basicTime++;
+                        mapMatrix.setBasicTime(basicTime);
+                        FrameController.getGameFrame().SetSeconds(basicTime);
+                        //System.out.printf("%d ",basicTime);
+                    }
+                };
+                timer.scheduleAtFixedRate(task, 0, 100);
+                letTimerStart = true;
 
-        }
+            }
 
-        this.steps++;
-        mapMatrix.setFinalStep(steps);
-        moveBackList.add(mapMatrix.clone());
-        this.stepLabel.setText(String.format("Step: %d", this.steps));
+            this.steps++;
+            mapMatrix.setFinalStep(steps);
+            moveBackList.add(mapMatrix.clone());
+            this.stepLabel.setText(String.format("Step: %d", this.steps));
 //        System.out.println(gameController.isGameWin());
 //        System.out.println(gameController.isGameFail());
 //        System.out.println(gameController.isDeadLocked(0));
 //        System.out.println(gameController.isDeadLocked(1));
-        if(gameController.isGameWin()){
-            StopTimer();
-            this.getMapMatrix();
-            try {
-                BestMapMatrix = DeserializeRecord.deserializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser");
-
-                if(BestMapMatrix == null){
-                    letThisMapMatrixBest = true;
-                }
-                else{
-                    if(BestMapMatrix.getFinalStep()>this.getMapMatrix().getFinalStep()){
-                        letThisMapMatrixBest = true;
-                    }
-                    else if(BestMapMatrix.getFinalStep()==this.getMapMatrix().getFinalStep() && BestMapMatrix.getBasicTime()>this.getMapMatrix().getBasicTime()){
-                        letThisMapMatrixBest = true;
-                    }
-                    else {
-                        letThisMapMatrixBest = false;
-                    }
-                }
-                if(letThisMapMatrixBest){
-                    SerializeRecord.serializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix());
-                }
-
-
-            } catch (IOException | ClassNotFoundException e) {
+            if (gameController.isGameWin()) {
+                StopTimer();
+                this.getMapMatrix();
                 try {
-                    letThisMapMatrixBest = true;
-                    SerializeRecord.serializeRecord(SetUpFrame.getRecordPath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix());
+                    BestMapMatrix = DeserializeRecord.deserializeRecord(SetUpFrame.getRecordPath() + "level" + FrameController.getGameFrame().getLevelNumber() + ".ser");
+
+                    if (BestMapMatrix == null) {
+                        letThisMapMatrixBest = true;
+                    } else {
+                        if (BestMapMatrix.getFinalStep() > this.getMapMatrix().getFinalStep()) {
+                            letThisMapMatrixBest = true;
+                        } else if (BestMapMatrix.getFinalStep() == this.getMapMatrix().getFinalStep() && BestMapMatrix.getBasicTime() > this.getMapMatrix().getBasicTime()) {
+                            letThisMapMatrixBest = true;
+                        } else {
+                            letThisMapMatrixBest = false;
+                        }
+                    }
+                    if (letThisMapMatrixBest) {
+                        SerializeRecord.serializeRecord(SetUpFrame.getRecordPath() + "level" + FrameController.getGameFrame().getLevelNumber() + ".ser", this.getMapMatrix());
+                    }
+
+
+                } catch (IOException | ClassNotFoundException e) {
+                    try {
+                        letThisMapMatrixBest = true;
+                        SerializeRecord.serializeRecord(SetUpFrame.getRecordPath() + "level" + FrameController.getGameFrame().getLevelNumber() + ".ser", this.getMapMatrix());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                if (letThisMapMatrixBest) {
+                    FrameController.getGameFrame().getBestStepLabel().setText(this.getMapMatrix().getFinalStep() + " Steps");
+                    FrameController.getGameFrame().getBestTimeLabel().setText(this.getMapMatrix().getBasicTime() / 600 + "min " + (this.getMapMatrix().getBasicTime() % 600) / 10 + "." + this.getMapMatrix().getBasicTime() % 10 + "seconds");
+                    FrameController.getGameFrame().repaint();
+                    System.out.println("当前为最好记录，最佳步数：" + this.getMapMatrix().getFinalStep() + "最快时间：" + this.getMapMatrix().getBasicTime());
+                    this.winFrame.setThisRecordLabel(FrameUtil.createJLabel(winFrame, new Point(400, 800), 200, 60, "It is the best record!   Steps: " + this.getMapMatrix().getFinalStep() + "  Time：" + this.getMapMatrix().getBasicTime() / 600 + "min " + (this.getMapMatrix().getBasicTime() % 600) / 10 + "." + this.getMapMatrix().getBasicTime() % 10 + "seconds"));
+
+                } else {
+                    FrameController.getGameFrame().getBestStepLabel().setText(BestMapMatrix.getFinalStep() + " Steps");
+                    FrameController.getGameFrame().getBestTimeLabel().setText(BestMapMatrix.getBasicTime() / 600 + "min " + (BestMapMatrix.getBasicTime() % 600) / 10 + "." + BestMapMatrix.getBasicTime() % 10 + "seconds");
+                    FrameController.getGameFrame().repaint();
+                    this.winFrame.setBestRecordLabel(FrameUtil.createJLabel(winFrame, new Point(400, 800), 200, 60, "The best record:    Steps: " + BestMapMatrix.getFinalStep() + "  Time：" + BestMapMatrix.getBasicTime() / 600 + "min " + (BestMapMatrix.getBasicTime() % 600) / 10 + "." + BestMapMatrix.getBasicTime() % 10 + "seconds"));
+                    this.winFrame.setThisRecordLabel(FrameUtil.createJLabel(winFrame, new Point(400, 900), 200, 60, "This record:        Steps: " + this.getMapMatrix().getFinalStep() + "  Time：" + this.getMapMatrix().getBasicTime() / 600 + "min " + (this.getMapMatrix().getBasicTime() % 600) / 10 + "." + this.getMapMatrix().getBasicTime() % 10 + "seconds"));
+
+                    System.out.println("最佳步数：" + BestMapMatrix.getFinalStep() + "最快时间:" + BestMapMatrix.getBasicTime());
+                }
+
+                this.getMapMatrix().copy();
+                this.getMapMatrix().setBasicTime(0);
+                steps = 0;
+                this.getMapMatrix().setFinalStep(0);
+                System.out.println("胜利后矩阵步数重置为" + this.getMapMatrix().getFinalStep());
+                try {
+                    AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath() + "level" + FrameController.getGameFrame().getLevelNumber() + ".ser", this.getMapMatrix().clone());
+                    System.out.println("胜利后进行Auto序列化成功");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                winFrame.setVisible(true);
+                FrameController.getGameFrame().setVisible(false);
+                try {
+                    MusicController.stopMusic();
+                    MusicController.stopMusic();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                MusicController.playWinSound();//播放胜利声音
             }
-
-            if(letThisMapMatrixBest){
-                FrameController.getGameFrame().getBestStepLabel().setText(this.getMapMatrix().getFinalStep()+" Steps");
-                FrameController.getGameFrame().getBestTimeLabel().setText(this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds");
-                FrameController.getGameFrame().repaint();
-                System.out.println("当前为最好记录，最佳步数："+this.getMapMatrix().getFinalStep()+"最快时间："+this.getMapMatrix().getBasicTime());
-                this.winFrame.setThisReocrdLabel(FrameUtil.createJLabel(winFrame,new Point(400,800),200,60,"It is the best record!   Steps: "+this.getMapMatrix().getFinalStep()+"  Time："+this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds"));
-
+            if (gameController.isGameFail()) {
+                loseFrame.setVisible(true);
+                try {
+                    MusicController.stopMusic();
+                    MusicController.stopMusic();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                MusicController.playLoseSound();//播放失败声音
             }
-
-            else{
-                FrameController.getGameFrame().getBestStepLabel().setText(BestMapMatrix.getFinalStep()+" Steps");
-                FrameController.getGameFrame().getBestTimeLabel().setText(BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds");
-                FrameController.getGameFrame().repaint();
-                this.winFrame.setBestRecordLabel(FrameUtil.createJLabel(winFrame,new Point(400,800),200,60,"The best record:    Steps: "+BestMapMatrix.getFinalStep()+"  Time："+BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds"));
-                this.winFrame.setThisReocrdLabel(FrameUtil.createJLabel(winFrame,new Point(400,900),200,60,"This record:        Steps: "+this.getMapMatrix().getFinalStep()+"  Time："+this.getMapMatrix().getBasicTime()/600+"min "+(this.getMapMatrix().getBasicTime()%600)/10+"."+this.getMapMatrix().getBasicTime()%10+"seconds"));
-
-                System.out.println("最佳步数："+BestMapMatrix.getFinalStep()+"最快时间:"+BestMapMatrix.getBasicTime());
-            }
-
-            this.getMapMatrix().copy();
-            this.getMapMatrix().setBasicTime(0);
-            steps=0;
-            this.getMapMatrix().setFinalStep(0);
-            System.out.println("胜利后矩阵步数重置为"+this.getMapMatrix().getFinalStep());
-            try {
-                AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level"+FrameController.getGameFrame().getLevelNumber()+".ser",this.getMapMatrix().clone());
-                System.out.println("胜利后进行Auto序列化成功");
-            }catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            winFrame.setVisible(true);
-            FrameController.getGameFrame().setVisible(false);
-            try {
-                MusicController.stopMusic();
-                MusicController.stopMusic();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            MusicController.playWinSound();//播放胜利声音
-        }
-        if(gameController.isGameFail()){
-            loseFrame.setVisible(true);
-            try {
-                MusicController.stopMusic();
-                MusicController.stopMusic();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            MusicController.playLoseSound();//播放失败声音
         }
 
     }

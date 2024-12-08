@@ -16,7 +16,7 @@ public class WinFrame extends JFrame {
     private JButton returnBtn;
     private JButton nextBtn;
     private JLabel BestRecordLabel;
-    private JLabel ThisReocrdLabel;
+    private JLabel ThisRecordLabel;
     public WinFrame(int width, int height)  {
         // 加载 GIF 图像
         ImageIcon WinFrameGIF = new ImageIcon("PictureResource/WinFrameGIF.gif");
@@ -27,6 +27,7 @@ public class WinFrame extends JFrame {
         this.setSize(width, height);
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = tk.getImage("PictureResource/LOGO.png");
+        setIconImage(img);//设置图标
         // 获取屏幕大小
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -58,7 +59,12 @@ public class WinFrame extends JFrame {
         nextBtn.addActionListener(e -> {
             int levelNow = FrameController.getGameFrame().getLevelNumber();
             int levelNext = levelNow+1;
-            if(levelNext>=6) System.out.println("不存在下一关 ");
+            try {
+                MusicController.stopMusic();
+            } catch (Exception f) {
+                throw new RuntimeException(f);
+            }
+            if(levelNext>=7) System.out.println("不存在下一关 ");
             else{
                 FrameController.getLevelFrame().LevelChooser(levelNext);
                 this.setVisible(false);
@@ -98,12 +104,12 @@ public class WinFrame extends JFrame {
 
     }
 
-    public JLabel getThisReocrdLabel() {
-        return ThisReocrdLabel;
+    public JLabel getThisRecordLabel() {
+        return ThisRecordLabel;
     }
 
-    public void setThisReocrdLabel(JLabel thisReocrdLabel) {
-        ThisReocrdLabel = thisReocrdLabel;
+    public void setThisRecordLabel(JLabel thisRecordLabel) {
+        ThisRecordLabel = thisRecordLabel;
     }
 
     public JLabel getBestRecordLabel() {

@@ -32,7 +32,7 @@ import view.level.LevelFrame;
 
 public class GameFrame extends JFrame {
 
-    
+
     private final JButton returnBtn;
     private GameController gameController;
 
@@ -65,14 +65,16 @@ public class GameFrame extends JFrame {
     private WinFrame winFrame;
 
 
-    public GameFrame(int width, int height, MapMatrix mapMatrix,int levelNumber)  {
+    public GameFrame(int width, int height, MapMatrix mapMatrix, int levelNumber) {
 
 
         this.levelNumber = levelNumber;
         this.mapMatrix = mapMatrix;
-        this.setTitle("Level "+levelNumber);
+        this.setTitle("Level " + levelNumber);
         this.setLayout(null);
+        if(levelNumber!=6){
         this.setSize(width, height);
+        FrameController.setGameFrame(this);
         gamePanel = new GamePanel(mapMatrix);
         gamePanel.setLocation(30, height / 2 - gamePanel.getHeight() / 2);
         this.add(gamePanel);
@@ -80,22 +82,22 @@ public class GameFrame extends JFrame {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
-        this.restartBtn = ButtonController.createButton(this, "Restart", new Point(gamePanel.getWidth() + 80, 120), 80, 50,"");
-        this.loadBtn = ButtonController.createButton(this, "Load", new Point(gamePanel.getWidth() + 80, 210), 80, 50,"");
-        this.returnBtn = ButtonController.createButton(this, "Return", new Point(gamePanel.getWidth() + 80, 300), 80, 50,"");//返回按钮
-        this.saveBtn = ButtonController.createButton(this, "Save", new Point(gamePanel.getWidth() + 80, 390), 80, 50,"");
-        this.upBtn = ButtonController.createButton(this, "↑", new Point(gamePanel.getWidth() + 200, 120), 80, 50,"");
-        this.downBtn = ButtonController.createButton(this, "↓", new Point(gamePanel.getWidth() + 200, 210), 80, 50,"");
-        this.leftBtn = ButtonController.createButton(this, "←", new Point(gamePanel.getWidth() + 200, 300), 80, 50,"");
-        this.rightBtn = ButtonController.createButton(this, "→", new Point(gamePanel.getWidth() + 200, 390), 80, 50,"");//上下左右移动按钮
-        this.moveBackBtn = ButtonController.createButton(this,"Move Back",new Point(gamePanel.getWidth()+320,120),120,50,"");
-        this.deleteBtn = ButtonController.createButton(this,"Delete",new Point(gamePanel.getWidth()+440,210),80,50,"");
-        this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
-        this.saveNameText = FrameUtil.createJTextField(this,new Point(gamePanel.getWidth()+340,390),140,50);
-        this.secondsLabel = ButtonController.createJLabel(this,new Point(70,10),120,50,"00.0 s");
-        this.minutesLabel = ButtonController.createJLabel(this,new Point(10,10),120,50,"0 m");
-        this.bestStepLabel = FrameUtil.createJLabel(this,new Point(200,10),120,50,"null");
-        this.bestTimeLabel = FrameUtil.createJLabel(this,new Point(320,10),120,50,"null");
+        this.restartBtn = ButtonController.createButton(this, "Restart", new Point(gamePanel.getWidth() + 400 - 80, 280), 160, 100, "");
+        this.loadBtn = ButtonController.createButton(this, "Load", new Point(gamePanel.getWidth() + 80, 30), 80, 50, "");
+        this.returnBtn = ButtonController.createButton(this, "Return", new Point(gamePanel.getWidth() + 80, 30), 80, 50, "");//返回按钮
+        this.saveBtn = ButtonController.createButton(this, "Save", new Point(280, 30), 80, 50, "");
+        this.upBtn = ButtonController.createButton(this, "↑", new Point(gamePanel.getWidth() + 300 - 60, 360 + 80), 80 * 2, 50 * 2, "");
+        this.downBtn = ButtonController.createButton(this, "↓", new Point(gamePanel.getWidth() + 300 - 60, 460 + 80), 80 * 2, 50 * 2, "");
+        this.leftBtn = ButtonController.createButton(this, "←", new Point(gamePanel.getWidth() + 140 - 60, 410 + 80), 80 * 2, 50 * 2, "");
+        this.rightBtn = ButtonController.createButton(this, "→", new Point(gamePanel.getWidth() + 460 - 60, 410 + 80), 80 * 2, 50 * 2, "");//上下左右移动按钮
+        this.moveBackBtn = ButtonController.createButton(this, "Move Back", new Point(gamePanel.getWidth() + 80 + 80, 280), 160, 100, "");
+        this.deleteBtn = ButtonController.createButton(this, "Delete", new Point(gamePanel.getWidth() + 440, 30), 80, 50, "");
+        this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 42), new Point(gamePanel.getWidth() + 160, 140), 200, 100);
+        this.saveNameText = FrameUtil.createJTextField(this, new Point(140, 30), 140, 50);
+        this.secondsLabel = ButtonController.createJLabel(this, new Point(70, 100), 120, 50, "00.0 s");
+        this.minutesLabel = ButtonController.createJLabel(this, new Point(10, 100), 120, 50, "0 m");
+        this.bestStepLabel = FrameUtil.createJLabel(this, new Point(200, 100), 120, 50, "null");
+        this.bestTimeLabel = FrameUtil.createJLabel(this, new Point(320, 100), 120, 50, "null");
         FrameController.setGameFrame(this);
         gamePanel.setBasicTime(mapMatrix.getBasicTime());
         SetSeconds(mapMatrix.getBasicTime());
@@ -106,12 +108,12 @@ public class GameFrame extends JFrame {
         gamePanel.renewStepsLabel();
 
         try {
-            BestMapMatrix = DeserializeRecord.deserializeRecord(SetUpFrame.getRecordPath()+"level"+this.getLevelNumber()+".ser");
-            if(BestMapMatrix != null){
+            BestMapMatrix = DeserializeRecord.deserializeRecord(SetUpFrame.getRecordPath() + "level" + this.getLevelNumber() + ".ser");
+            if (BestMapMatrix != null) {
                 //if(bestTimeLabel == null) System.out.println("最佳时间标签为空");
                 //else System.out.println("最佳时间标签存在");
-                bestStepLabel.setText(BestMapMatrix.getFinalStep()+" Steps");
-                bestTimeLabel.setText(BestMapMatrix.getBasicTime()/600+"min "+(BestMapMatrix.getBasicTime()%600)/10+"."+BestMapMatrix.getBasicTime()%10+"seconds");
+                bestStepLabel.setText(BestMapMatrix.getFinalStep() + " Steps");
+                bestTimeLabel.setText(BestMapMatrix.getBasicTime() / 600 + "min " + (BestMapMatrix.getBasicTime() % 600) / 10 + "." + BestMapMatrix.getBasicTime() % 10 + "seconds");
                 this.repaint();
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -121,26 +123,23 @@ public class GameFrame extends JFrame {
         //点击页面的其它地方，取消对saveNameText和loadComboBox的焦点，把焦点给到gamePanel
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if(!saveNameText.getBounds().contains(e.getPoint()) || loadComboBox.getBounds().contains(e.getPoint())){
+                if (!saveNameText.getBounds().contains(e.getPoint()) || loadComboBox.getBounds().contains(e.getPoint())) {
                     saveNameText.setFocusable(false);
-                    if(loadComboBox!=null) loadComboBox.setFocusable(false);
+                    if (loadComboBox != null) loadComboBox.setFocusable(false);
                     gamePanel.requestFocusInWindow();
                     saveNameText.setFocusable(true);
-                    if(loadComboBox!=null) loadComboBox.setFocusable(true);
-                }
-                else{
+                    if (loadComboBox != null) loadComboBox.setFocusable(true);
+                } else {
                     saveNameText.setFocusable(true);
                 }
             }
         });
 
-        saveNameText.addFocusListener(new FocusAdapter(){
-            public void focusLost(FocusEvent e){
+        saveNameText.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
 
             }
         });
-
-
 
 
         this.moveBackBtn.addActionListener(e -> {
@@ -149,7 +148,7 @@ public class GameFrame extends JFrame {
             gamePanel.requestFocusInWindow();
         });
 
-        if(loadComboBox != null) {
+        if (loadComboBox != null) {
             loadComboBox.addActionListener(new ActionListener() {
 
                 @Override
@@ -160,7 +159,6 @@ public class GameFrame extends JFrame {
         }
 
 
-
         this.restartBtn.addActionListener(e -> {
             MusicController.playClickSound();
             gamePanel.RestartTimer();
@@ -168,19 +166,18 @@ public class GameFrame extends JFrame {
             gamePanel.requestFocusInWindow();//enable key listener
         });
 
-        this.saveBtn.addActionListener(e->{
+        this.saveBtn.addActionListener(e -> {
             MusicController.playClickSound();
             this.mapMatrix.setBasicTime(gamePanel.getBasicTime());
-            System.out.println("储存的mapMatrix的基本时间为"+this.mapMatrix.getBasicTime());
+            System.out.println("储存的mapMatrix的基本时间为" + this.mapMatrix.getBasicTime());
 
-            if(saveNameText.getText().length()>12){
-                this.saveNameLabel = FrameUtil.createJLabel(this,new Point(gamePanel.getWidth()+340,415),200,70,"No more than 12 words");
+            if (saveNameText.getText().length() > 12) {
+                this.saveNameLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 340, 415), 200, 70, "No more than 12 words");
                 saveNameLabel.setVisible(true);
                 this.repaint();
-            }
-            else {
+            } else {
 
-                if(this.saveNameLabel!=null){
+                if (this.saveNameLabel != null) {
                     this.saveNameLabel.setVisible(false);
                     this.repaint();
                 }
@@ -243,9 +240,9 @@ public class GameFrame extends JFrame {
 
         });
 
-        this.deleteBtn.addActionListener(e ->  {
+        this.deleteBtn.addActionListener(e -> {
             MusicController.playClickSound();
-            if(loadComboBox != null){
+            if (loadComboBox != null) {
                 //获取当前下拉框中选项
                 MapMatrix selectedItem = (MapMatrix) loadComboBox.getSelectedItem();
                 if (selectedItem != null) {
@@ -256,18 +253,18 @@ public class GameFrame extends JFrame {
                     //System.out.println("删除后下拉框中还有 "+loadComboBox.getItemCount());
                     ArrayList<MapMatrix> mapMatrixList = new ArrayList<>();
                     try {
-                        mapMatrixList = DeserializeGame.deserializeGame(pathway,levelNumber,SetUpFrame.getUsername());
+                        mapMatrixList = DeserializeGame.deserializeGame(pathway, levelNumber, SetUpFrame.getUsername());
 
                     } catch (IOException | ClassNotFoundException ex) {
 
                     }
-                    if(!mapMatrixList.isEmpty()) {
-                        mapMatrixList.remove(mapMatrixList.size() - selectedIndex-1);//把对应的mapMatrix从数组中删除
+                    if (!mapMatrixList.isEmpty()) {
+                        mapMatrixList.remove(mapMatrixList.size() - selectedIndex - 1);//把对应的mapMatrix从数组中删除
                         // 由于下拉框从后往前显示数组，删除下拉框中索引i，相当于索引n-i-1处的mapMatrix
-                        System.out.println("删完后，数组长度为："+mapMatrixList.size());
+                        System.out.println("删完后，数组长度为：" + mapMatrixList.size());
                     }
                     try {
-                        SerializeGame.serializeGame(pathway,mapMatrixList);
+                        SerializeGame.serializeGame(pathway, mapMatrixList);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -280,10 +277,10 @@ public class GameFrame extends JFrame {
         this.loadBtn.addActionListener(e -> {
             gamePanel.StopTimer();
             MusicController.playClickSound();
-            pathway = SetUpFrame.getSavePath()+"/level"+this.levelNumber+".ser";
+            pathway = SetUpFrame.getSavePath() + "/level" + this.levelNumber + ".ser";
             ArrayList<MapMatrix> mapMatrixList = new ArrayList<>();
             try {
-                mapMatrixList = DeserializeGame.deserializeGame(pathway,this.levelNumber,SetUpFrame.getUsername());
+                mapMatrixList = DeserializeGame.deserializeGame(pathway, this.levelNumber, SetUpFrame.getUsername());
                 System.out.println("反序列化进mapMatrixList");
 
             } catch (IOException | ClassNotFoundException ex) {
@@ -292,14 +289,13 @@ public class GameFrame extends JFrame {
                 gamePanel.requestFocusInWindow();
             }
 
-            if(mapMatrixList.isEmpty()){
-                JOptionPane.showMessageDialog(this,"The GameArchive is empty","Warning",JOptionPane.INFORMATION_MESSAGE);
-            }
-            else {
+            if (mapMatrixList.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "The GameArchive is empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
+            } else {
                 gamePanel.RemoveBoxAndHero();
                 gamePanel.repaint();
 
-                MapMatrix lastMapMatrix = mapMatrixList.get(mapMatrixList.size()-loadComboBox.getSelectedIndex()-1);//取出选中的对象
+                MapMatrix lastMapMatrix = mapMatrixList.get(mapMatrixList.size() - loadComboBox.getSelectedIndex() - 1);//取出选中的对象
                 gamePanel.setBasicTime(lastMapMatrix.getBasicTime());
                 SetSeconds(gamePanel.getBasicTime());
 
@@ -307,7 +303,7 @@ public class GameFrame extends JFrame {
                     System.arraycopy(lastMapMatrix.getMatrix()[i], 0, this.mapMatrix.getMatrix()[i], 0, lastMapMatrix.getMatrix()[0].length);
                 }
                 this.mapMatrix.setBasicTime(lastMapMatrix.getBasicTime());
-                gamePanel.setSteps(lastMapMatrix.getFinalStep() );
+                gamePanel.setSteps(lastMapMatrix.getFinalStep());
                 gamePanel.renewStepsLabel();
 
                 gamePanel.ResetBoxAndHero();
@@ -325,7 +321,7 @@ public class GameFrame extends JFrame {
             MusicController.playClickSound();
             gamePanel.StopTimer();
             try {
-                AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath()+"level"+this.levelNumber+".ser",this.getGamePanel().getMapMatrix().clone());
+                AutoSerialize.autoserialize(SetUpFrame.getAutoSavePath() + "level" + this.levelNumber + ".ser", this.getGamePanel().getMapMatrix().clone());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -373,8 +369,53 @@ public class GameFrame extends JFrame {
         lblBackground.setIcon(icon); // 设置标签组件要显示的图标
         lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight()); // 设置组件的显示位置及大小
         this.getContentPane().add(lblBackground); // 将组件添加到面板中
-
     }
+        else
+        {
+            this.setSize(width, height);
+            this.setLevelNumber(6);
+            FrameController.setGameFrame(this);
+
+            gamePanel = new GamePanel(mapMatrix);
+            gamePanel.setLocation(width / 2 - 100, height / 2 - gamePanel.getHeight() / 2);
+            this.add(gamePanel);
+            this.gameController = new GameController(gamePanel, mapMatrix);
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            Image img = tk.getImage("PictureResource/LOGO.png");
+            setIconImage(img);//设置图标
+
+            this.returnBtn = ButtonController.createButton(this, "Return", new Point(gamePanel.getWidth() + 200, 300), 80, 50, "");//返回按钮
+            //this.stepLabel = FrameUtil.createJLabel(this, "Start", new Font("serif", Font.ITALIC, 22), new Point(gamePanel.getWidth() + 80, 70), 180, 50);
+            //this.remove(stepLabel);
+
+
+            FrameController.setGameFrame(this);
+            this.returnBtn.addActionListener(e -> {
+                MusicController.playClickSound();
+
+                FrameController.returnLevelFrame(this);
+                gamePanel.requestFocusInWindow();//返回按钮的监听器
+            });
+
+
+            this.setLocationRelativeTo(null);
+            this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            // 设置背景
+            JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
+            BufferedImage bufferedImage = null;
+            String path = "PictureResource/background.png";
+            try {
+                bufferedImage = ImageIO.read(new File(path));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon icon = new ImageIcon(bufferedImage); // 创建背景图片对象
+            lblBackground.setIcon(icon); // 设置标签组件要显示的图标
+            lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight()); // 设置组件的显示位置及大小
+            this.getContentPane().add(lblBackground); // 将组件添加到面板中
+        }
+        }
+
     public void SetSeconds (int basic_time) {
         String tmp = (basic_time%600)/10+"."+basic_time%10;
         secondsLabel.setText(tmp+" s");
@@ -392,8 +433,8 @@ public class GameFrame extends JFrame {
 
     public void tryAddLoadComboBox (){//如果文件内有存档，就显示出下拉框
         if(loadComboBox!=null){
-        this.remove(loadComboBox);//每次存档先把原来的下拉框移除，编辑好再重新加入
-        this.repaint();
+            this.remove(loadComboBox);//每次存档先把原来的下拉框移除，编辑好再重新加入
+            this.repaint();
         }
         System.out.println("尝试加入下拉框");
         pathway = SetUpFrame.getSavePath()+"/level"+this.levelNumber+".ser";
@@ -402,12 +443,12 @@ public class GameFrame extends JFrame {
         try {
             try_mapMatrixList = DeserializeGame.deserializeGame(pathway,this.levelNumber,SetUpFrame.getUsername());
 
-                Collections.reverse(try_mapMatrixList);
-                loadComboBox = FrameUtil.createComboBox(this,new Point(gamePanel.getWidth()+320,210),120,50,try_mapMatrixList);
-                System.out.println("成功加入下拉框");
-                this.repaint();
-                this.requestFocusInWindow();
-                gamePanel.requestFocusInWindow();
+            Collections.reverse(try_mapMatrixList);
+            loadComboBox = FrameUtil.createComboBox(this,new Point(gamePanel.getWidth()+320,30),120,50,try_mapMatrixList);
+            System.out.println("成功加入下拉框");
+            this.repaint();
+            this.requestFocusInWindow();
+            gamePanel.requestFocusInWindow();
 
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("下拉框尝试反序列化失败,创建空下拉框");
@@ -438,10 +479,15 @@ public class GameFrame extends JFrame {
     public JLabel getBestTimeLabel() {
         return bestTimeLabel;
     }
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
 
     public void setBestTimeLabel(JLabel bestTimeLabel) {
         this.bestTimeLabel = bestTimeLabel;
     }
-}
+    }
+
+
 
 

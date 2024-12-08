@@ -14,6 +14,7 @@ public class GridComponent extends JComponent {
     private Image wallImage;
     private Image floorImage;
     private Image diamondImage;
+    private Image doorImage;
     private Hero hero;
     private Box box;
     static Color color = new Color(246, 246, 229);
@@ -31,8 +32,11 @@ public class GridComponent extends JComponent {
         super.printComponents(g);
         Color borderColor = color;
         switch (id % 10) {
+            case 3:
+                g.drawImage(floorImage, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(doorImage, 0, 0, getWidth(), getHeight(), this);
+                break;
             case 1:
-
                 g.drawImage(wallImage, 0, 0, getWidth(), getHeight(), this);
                 borderColor = Color.DARK_GRAY;
                 break;
@@ -49,10 +53,11 @@ public class GridComponent extends JComponent {
     }//绘制墙壁、地板、钻石图片，其中钻石图片代表终点
     private void loadImages() {
         try {
+            doorImage = ImageIO.read(new File("PictureResource/door.png"));
             wallImage = ImageIO.read(new File("PictureResource/wall.png"));
             floorImage = ImageIO.read(new File("PictureResource/floor.png"));
             diamondImage = ImageIO.read(new File("PictureResource/diamond.png"));
-            if (wallImage == null || floorImage == null || diamondImage == null) {
+            if (wallImage == null || floorImage == null || diamondImage == null || doorImage == null) {
                 System.out.println("Failed to load images.");
             }
         } catch (IOException e) {

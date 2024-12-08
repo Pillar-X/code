@@ -35,15 +35,21 @@ public class LevelFrame extends JFrame {
             System.out.println(e);
         }
         MusicController.playMusic("MusicResource/"+BGM+".wav");//设置背景音乐
-        JButton level1Btn = ButtonController.createButton(this, "Level1", new Point(30, height / 2 - 130), 80, 60,"");
-        JButton level2Btn = ButtonController.createButton(this, "Level2", new Point(140, height / 2 - 130), 80, 60,"");
-        JButton level3Btn = ButtonController.createButton(this, "Level3", new Point(250, height / 2 - 130), 80, 60,"");
-        JButton level4Btn = ButtonController.createButton(this, "Level4", new Point(30, height / 2 +10), 80, 60,"");
-        JButton level5Btn = ButtonController.createButton(this, "Level5", new Point(140, height / 2 +10), 80, 60,"");
-        JButton ReLoginBtn = ButtonController.createButton(this, "ReLogin", new Point(250, height / 2 +10), 120, 60,"");
-        JButton SetUpBtn = ButtonController.createButton(this,"Set Up",new Point(300,10),80,20,"");
+        JButton level1Btn = ButtonController.createButton(this, "Level1", new Point(width/2-370, height / 2 -165-50+30), 200, 130,"");
+        JButton level2Btn = ButtonController.createButton(this, "Level2", new Point(width/2-100, height / 2 - 165-50+30), 200, 130,"");
+        JButton level3Btn = ButtonController.createButton(this, "Level3", new Point(width/2+170, height / 2 - 165-50+30), 200, 130,"");
+        JButton level4Btn = ButtonController.createButton(this, "Level4", new Point(width/2-370+135, height / 2 + 35-50+30), 200, 130,"");
+        JButton level5Btn = ButtonController.createButton(this, "Level5", new Point(width/2-100+135,height / 2 + 35-50+30), 200, 130,"");
+        Font font = new Font("Times New Roman", Font.PLAIN, 42);
+        level1Btn.setFont(font);
+        level2Btn.setFont(font);
+        level3Btn.setFont(font);
+        level4Btn.setFont(font);
+        level5Btn.setFont(font);
+        JButton ReLoginBtn = ButtonController.createButton(this, "ReLogin", new Point(920, 10), 100, 30,"");
+        JButton SetUpBtn = ButtonController.createButton(this,"Set Up",new Point(800,10),100,30,"");
         Toolkit tk = Toolkit.getDefaultToolkit();
-        java.awt.Image img = tk.getImage("PictureResource/LOGO.png");
+        Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
 
         SetUpBtn.addActionListener(l->{
@@ -104,7 +110,7 @@ public class LevelFrame extends JFrame {
                 {1, 0, 2, 10, 0, 1},
                 {1, 1, 1, 1, 1, 1},});
 
-        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,1);
+        GameFrame gameFrame = new GameFrame(1200, 800, mapMatrix,1);
 
         gameFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -151,7 +157,7 @@ public class LevelFrame extends JFrame {
                 {1, 1, 1, 1, 1, 1, 1}});
 
 
-        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,2);
+        GameFrame gameFrame = new GameFrame(1300, 800, mapMatrix,2);
 
         gameFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -200,7 +206,7 @@ public class LevelFrame extends JFrame {
                 {1, 0, 0, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1}});
 
-        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,3);
+        GameFrame gameFrame = new GameFrame(1300, 800, mapMatrix,3);
 
         gameFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -249,7 +255,7 @@ public class LevelFrame extends JFrame {
                 {0, 1, 1, 1, 1, 1, 0}}
         );
 
-        GameFrame gameFrame = new GameFrame(900, 500, mapMatrix,4);
+        GameFrame gameFrame = new GameFrame(1300, 800, mapMatrix,4);
 
         gameFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -296,7 +302,7 @@ public class LevelFrame extends JFrame {
                 {1, 1, 1, 1, 1, 1, 1, 1},
         });
 
-        GameFrame gameFrame = new GameFrame(1000, 500, mapMatrix,5);
+        GameFrame gameFrame = new GameFrame(1400, 800, mapMatrix,5);
 
         gameFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -316,12 +322,74 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
     }
+    public void openLevel6(){
+        MusicController.playClickSound();
+        MapMatrix mapMatrix;
+        //try {
+        //    mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level6.ser").getMatrix().clone());
+        //    mapMatrix.setBasicTime(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level6.ser").getBasicTime());
+        //    mapMatrix.setFinalStep(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level6.ser").getFinalStep());
+//
+        //} catch (IOException | ClassNotFoundException e) {
+        mapMatrix = new MapMatrix(new int[][]{
+                {1, 1, 1, 3, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 10, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 10, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 10, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 10, 0, 0, 0, 1},
+                {1, 0, 0, 0, 10, 0, 1},
+                {1, 0, 10, 0, 0, 0, 1},
+                {1, 0, 0, 10, 0, 10, 1},
+                {1, 10, 0, 10, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 10, 10, 10, 0, 1},
+                {1, 0, 0, 0, 0, 10, 1},
+                {1, 10, 0, 10, 0, 10, 1},
+                {1, 0, 10, 0, 10, 0, 1},
+                {1, 10, 10, 10, 0, 10, 1},
+                {1, 10, 0, 20, 10, 10,1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},}
+        );
+        mapMatrix.setCopymatrix(new int[][] {
+                {1, 1, 1, 3, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 10, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 10, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 10, 0, 0, 1},
+                {1, 0, 0, 0, 0, 10, 1},
+                {1, 0, 10, 0, 0, 0, 1},
+                {1, 10, 0, 0, 10, 10, 1},
+                {1, 0, 10, 0, 0, 0, 1},
+                {1, 0, 0, 10, 0, 10, 1},
+                {1, 10, 0, 10, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1},
+                {1, 0, 10, 10, 10, 0, 1},
+                {1, 0, 0, 0, 0, 10, 1},
+                {1, 10, 0, 10, 0, 10, 1},
+                {1, 0, 10, 0, 10, 0, 1},
+                {1, 10, 10, 10, 0, 10, 1},
+                {1, 10, 0, 20, 10, 10,1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},}
+        );
+
+        GameFrame gameFrame = new GameFrame(600, 800, mapMatrix,6);
+
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+    }
 
     public void LevelChooser(int levelNumber){
         if(levelNumber==2) openLevel2();
         else if(levelNumber==3) openLevel3();
         else if(levelNumber == 4) openLevel4();
         else if(levelNumber == 5) openLevel5();
+        else if(levelNumber == 6) openLevel6();
     }
     //public static FrameController getFrameController() {
      //   return frameController;
