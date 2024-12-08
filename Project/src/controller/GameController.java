@@ -6,6 +6,7 @@ import view.game.Box;
 import view.game.GamePanel;
 import view.game.GridComponent;
 import view.game.Hero;
+import view.game.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -74,6 +75,47 @@ public class GameController {
             h.setRow(tRow);
             h.setCol(tCol);
             h.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public boolean secondDoMove(int row, int col,Direction direction){
+        GridComponent currentGrid = gamePanel.getGridComponent(row, col);
+        int tRow = row + direction.getRow();
+        int tCol = col + direction.getCol();
+        int ttRow = tRow + direction.getRow();
+        int ttCol = tCol + direction.getCol();
+        GridComponent targetGrid = gamePanel.getGridComponent(tRow, tCol);
+        if(ttRow<0 || ttRow>= mapMatrix.getHeight() || ttCol<0 || ttCol>= mapMatrix.getWidth()) {
+            return false;//如果ttRow 或者ttCol越界说明箱子已经靠到了外围墙面，直接返回false，避免数组越界
+        }
+        GridComponent ttargetGrid = gamePanel.getGridComponent(ttRow,ttCol);
+        int[][] map = mapMatrix.getMatrix();
+        if (map[tRow][tCol] == 0 || map[tRow][tCol] == 2) {
+            mapMatrix.getMatrix()[row][col] -= 30;
+            mapMatrix.getMatrix()[tRow][tCol] += 30;
+            SecondHero sech = currentGrid.removeSecondHeroFromGrid();
+            targetGrid.setSecondHeroInGrid(sech);
+            sech.setRow(tRow);
+            sech.setCol(tCol);
+            sech.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
+            return true;
+        }
+        if ((map[tRow][tCol]==10||map[tRow][tCol]==12) && (map[ttRow][ttCol]==0 ||map[ttRow][ttCol]==2)) {
+
+            mapMatrix.getMatrix()[row][col] -= 30;
+            mapMatrix.getMatrix()[tRow][tCol] += (30 - 10);
+            mapMatrix.getMatrix()[ttRow][ttCol] += 10;
+            SecondHero sech = currentGrid.removeSecondHeroFromGrid();//从当前格子中移除玩家（将当前图形换成白底）
+            Box b = targetGrid.removeBoxFromGrid();
+            targetGrid.setSecondHeroInGrid(sech);//在目标单元格图形改为“英雄”图形
+            ttargetGrid.setBoxInGrid(b);
+            sech.setRow(tRow);
+            sech.setCol(tCol);
+            sech.loadImage(direction.toString().toLowerCase());//根据移动方向切换英雄朝向
             return true;
         }
 

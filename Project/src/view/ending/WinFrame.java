@@ -64,7 +64,7 @@ public class WinFrame extends JFrame {
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }
-            if(levelNext>=7) System.out.println("不存在下一关 ");
+            if(levelNext>=8) System.out.println("不存在下一关 ");
             else{
                 FrameController.getLevelFrame().LevelChooser(levelNext);
                 this.setVisible(false);

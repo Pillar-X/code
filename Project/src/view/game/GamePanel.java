@@ -37,6 +37,7 @@ public class GamePanel extends ListenerPanel {
     private final int GRID_SIZE = 90;//单位格子边长
     private Image image;
     private Hero hero;
+    private SecondHero secondHero;
     private String direction;
     private ArrayList<MapMatrix> moveBackList;
     private int basicTime=0;
@@ -48,7 +49,7 @@ public class GamePanel extends ListenerPanel {
     boolean letThisMapMatrixBest;
     private GameFrame gameFrame = FrameController.getGameFrame();
     public GamePanel(MapMatrix mapMatrix) {
-        if (gameFrame.getLevelNumber() != 6) {
+        if (gameFrame.getLevelNumber() != 6 && gameFrame.getLevelNumber() !=7) {
             this.winFrame = new WinFrame(1000, 500);
             winFrame.setVisible(false);
             this.loseFrame = new LoseFrame(1000, 500);
@@ -62,7 +63,7 @@ public class GamePanel extends ListenerPanel {
             this.moveBackList = new ArrayList<>();
             initialGame();
 
-        } else {
+        } else if(gameFrame.getLevelNumber()==6){
             int tmp_GridSize = 35;
             this.setVisible(true);
             this.setFocusable(true);
@@ -71,6 +72,18 @@ public class GamePanel extends ListenerPanel {
             this.mapMatrix = mapMatrix;
             this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
             initialLevel6Game();
+
+        }
+        else{
+            this.winFrame = new WinFrame(1000, 500);
+            winFrame.setVisible(false);
+            this.setVisible(true);
+            this.setFocusable(true);
+            this.setLayout(null);
+            this.setSize(mapMatrix.getWidth() * GRID_SIZE + 4, mapMatrix.getHeight() * GRID_SIZE + 4);
+            this.mapMatrix = mapMatrix;
+            this.grids = new GridComponent[mapMatrix.getHeight()][mapMatrix.getWidth()];
+            initialLevel7Game();
 
         }
     }
@@ -123,6 +136,36 @@ public class GamePanel extends ListenerPanel {
                     case 2:
                         this.hero = new Hero(tmpGrid_size - 14, tmpGrid_size - 14, i, j);
                         grids[i][j].setHeroInGrid(hero);
+                        break;
+                }
+                this.add(grids[i][j]);
+            }
+        }
+        this.repaint();
+
+
+    }
+    public void initialLevel7Game(){
+
+
+        for (int i = 0; i < grids.length; i++) {
+            for (int j = 0; j < grids[i].length; j++) {
+                //Units digit maps to id attribute in GridComponent. (The no change value)
+                grids[i][j] = new GridComponent(i, j, mapMatrix.getId(i, j) % 10, this.GRID_SIZE);
+                grids[i][j].setLocation(j * GRID_SIZE + 2, i * GRID_SIZE + 2);
+                //Ten digit maps to Box or Hero in corresponding location in the GridComponent. (Changed value)
+                switch (mapMatrix.getId(i, j) / 10) {
+                    case 1:
+                        grids[i][j].setBoxInGrid(new Box(GRID_SIZE - 10, GRID_SIZE - 10));
+                        break;
+                    case 2:
+                        this.hero = new Hero(GRID_SIZE - 16, GRID_SIZE - 16, i, j);
+                        grids[i][j].setHeroInGrid(hero);
+                        break;
+
+                    case 3:
+                        this.secondHero = new SecondHero(GRID_SIZE -16, GRID_SIZE -16,i,j);
+                        grids[i][j].setSecondHeroInGrid(secondHero);
                         break;
                 }
                 this.add(grids[i][j]);
@@ -240,6 +283,43 @@ public class GamePanel extends ListenerPanel {
             this.afterMove();
         }
     }
+    public void doInteract(){
+        System.out.println("Click VK_F");
+
+        if(FrameController.getGameFrame().getLevelNumber()==6 && hero.getRow() ==1 && hero.getCol()==3){
+            this.gameFrame.setVisible(false);
+            FrameController.getLevelFrame().openLevel7();
+
+        }
+    }
+    public void secondDoMoveUp(){
+        System.out.println("Click VK_W");
+        MusicController.playMoveSound();//播放移动声音
+        if(gameController.secondDoMove(secondHero.getRow(),secondHero.getCol(),Direction.UP)){
+            this.afterMove();
+        }
+    }
+    public void secondDoMoveDown(){
+        System.out.println("Click VK_S");
+        MusicController.playMoveSound();//播放移动声音
+        if(gameController.secondDoMove(secondHero.getRow(),secondHero.getCol(),Direction.DOWN)){
+            this.afterMove();
+        }
+    }
+    public void secondDoMoveLeft(){
+        System.out.println("Click VK_A");
+        MusicController.playMoveSound();//播放移动声音
+        if(gameController.secondDoMove(secondHero.getRow(),secondHero.getCol(),Direction.LEFT)){
+            this.afterMove();
+        }
+    }
+    public void secondDoMoveRight(){
+        System.out.println("Click VK_D");
+        MusicController.playMoveSound();//播放移动声音
+        if(gameController.secondDoMove(secondHero.getRow(),secondHero.getCol(),Direction.RIGHT)){
+            this.afterMove();
+        }
+    }
     public void StopTimer(){
         mapMatrix.setBasicTime(basicTime);
         if(letTimerStart){
@@ -270,7 +350,7 @@ public class GamePanel extends ListenerPanel {
     }
 
     public void afterMove() {
-        if(FrameController.getGameFrame().getLevelNumber()!=6) {
+        if(FrameController.getGameFrame().getLevelNumber()!=6 && FrameController.getGameFrame().getLevelNumber()!=7) {
             if (!letTimerStart) {
                 timer = new Timer();
                 task = new TimerTask() {
@@ -358,7 +438,6 @@ public class GamePanel extends ListenerPanel {
                 FrameController.getGameFrame().setVisible(false);
                 try {
                     MusicController.stopMusic();
-                    MusicController.stopMusic();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -367,7 +446,6 @@ public class GamePanel extends ListenerPanel {
             if (gameController.isGameFail()) {
                 loseFrame.setVisible(true);
                 try {
-                    MusicController.stopMusic();
                     MusicController.stopMusic();
                 } catch (Exception e) {
                     throw new RuntimeException(e);

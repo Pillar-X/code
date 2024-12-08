@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 public class MusicController  {
-    static Clip music = null; //声明Clip接口
+    public static Clip music = null; //声明Clip接口
     static File sourceFile = null; //声明文件变量
     /**
      * 音乐播放方法
@@ -43,6 +43,15 @@ public class MusicController  {
     }
     public static void playClickSound(){
         playMusic("MusicResource/click.wav");
+    }
+    public static void playBGM2(){
+        playMusic("MusicResource/BGM2.wav");
+    }
+    public static void playBGM3(){
+        playMusic("MusicResource/BGM3.wav");
+    }
+    public static void playBGM4(){
+        playMusic("MusicResource/BGM4.wav");
     }
     public static void changeMusic(){
 

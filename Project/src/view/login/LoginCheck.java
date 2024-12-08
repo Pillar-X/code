@@ -5,6 +5,7 @@ import Data.Vector2D;
 
 import SetUp.SetUpFrame;
 import controller.FrameController;
+import controller.MusicController;
 import view.level.LevelFrame;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class LoginCheck {
                 loginFrame.setVisible(false);
                 setUpFrame = new SetUpFrame(500,500, vector2D.getUsername());
                 FrameController.setSetUpFrame(setUpFrame);
-
+//                MusicController.playBGM2();
 
             }
             else{

@@ -16,6 +16,7 @@ public class GridComponent extends JComponent {
     private Image diamondImage;
     private Image doorImage;
     private Hero hero;
+    private SecondHero secondHero;
     private Box box;
     static Color color = new Color(246, 246, 229);
 
@@ -95,6 +96,10 @@ public class GridComponent extends JComponent {
         this.box = box;
         this.add(box);
     }
+    public void setSecondHeroInGrid(SecondHero secondHero){
+        this.secondHero = secondHero;
+        this.add(secondHero);
+    }
     //When removing hero from this grid, invoking this method
     public Hero removeHeroFromGrid() {
         this.remove(this.hero);//remove hero component from grid component
@@ -103,6 +108,14 @@ public class GridComponent extends JComponent {
         this.revalidate();//Update component painting in real time
         this.repaint();
         return h;
+    }
+    public SecondHero removeSecondHeroFromGrid(){
+        this.remove(this.secondHero);
+        SecondHero sech = this.secondHero;
+        this.secondHero = null;
+        this.revalidate();
+        this.repaint();
+        return sech;
     }
     //When removing box from this grid, invoking this method
     public Box removeBoxFromGrid() {

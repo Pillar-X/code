@@ -13,6 +13,7 @@ import view.game.GamePanel;
 import view.login.LoginFrame;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -22,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class LevelFrame extends JFrame {
-    String BGM = "BGM3";//背景音乐
+//    String BGM = "BGM3";//背景音乐
 
 
     public LevelFrame(int width, int height) {
@@ -34,7 +35,20 @@ public class LevelFrame extends JFrame {
         }catch (Exception e){
             System.out.println(e);
         }
-        MusicController.playMusic("MusicResource/"+BGM+".wav");//设置背景音乐
+        MusicController.playMusic("MusicResource/BGM3.wav");//设置背景音乐
+//        File bgMusicFile = new File("MusicResource/BGM2.wav");
+//        if (bgMusicFile.exists()) {
+//            Clip bgMusic ;
+//            try {
+//                bgMusic = AudioSystem.getClip();
+//                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bgMusicFile);
+//                bgMusic.open(audioInputStream);
+//            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//                throw new RuntimeException(e);
+//            }
+//            bgMusic.loop(1);
+//        }
+
         JButton level1Btn = ButtonController.createButton(this, "Level1", new Point(width/2-370, height / 2 -165-50+30), 200, 130,"");
         JButton level2Btn = ButtonController.createButton(this, "Level2", new Point(width/2-100, height / 2 - 165-50+30), 200, 130,"");
         JButton level3Btn = ButtonController.createButton(this, "Level3", new Point(width/2+170, height / 2 - 165-50+30), 200, 130,"");
@@ -47,25 +61,33 @@ public class LevelFrame extends JFrame {
         level4Btn.setFont(font);
         level5Btn.setFont(font);
         JButton ReLoginBtn = ButtonController.createButton(this, "ReLogin", new Point(920, 10), 100, 30,"");
-        JButton SetUpBtn = ButtonController.createButton(this,"Set Up",new Point(800,10),100,30,"");
+//        JButton SetUpBtn = ButtonController.createButton(this,"Set Up",new Point(800,10),100,30,"");
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
 
-        SetUpBtn.addActionListener(l->{
-            MusicController.playClickSound();
-            SetUpFrame setUpFrame = new SetUpFrame(400,400,SetUpFrame.getUsername());
-            setUpFrame.setVisible(true);
-        });
+//        SetUpBtn.addActionListener(l->{
+//            MusicController.playClickSound();
+//            SetUpFrame setUpFrame = new SetUpFrame(400,400,SetUpFrame.getUsername());
+//            setUpFrame.setVisible(true);
+//        });
 
-        level1Btn.addActionListener(l->{openLevel1();});
-        level2Btn.addActionListener(l->{openLevel2();});
-        level3Btn.addActionListener(l->{openLevel3();});
-        level4Btn.addActionListener(l->{openLevel4();});
-        level5Btn.addActionListener(l->{openLevel5();});
+        level1Btn.addActionListener(l->{MusicController.stopMusic();
+            openLevel1();
+        });
+        level2Btn.addActionListener(l->{MusicController.stopMusic();openLevel2();
+            });
+        level3Btn.addActionListener(l->{MusicController.stopMusic();openLevel3();
+            });
+        level4Btn.addActionListener(l->{MusicController.stopMusic();openLevel4();
+            });
+        level5Btn.addActionListener(l->{MusicController.stopMusic();openLevel5();
+            });
 
         ReLoginBtn.addActionListener(e -> {
+            MusicController.stopMusic();
             MusicController.playClickSound();
+
             FrameController.returnLoginFrame(this);
             requestFocusInWindow();
         });//增加重新登录界面按钮
@@ -86,9 +108,13 @@ public class LevelFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-
+//    public void clearBGM(){
+//        MusicController.stopMusic();
+//    }
     public void openLevel1(){
+//        FrameController.getLevelFrame().clearBGM();
         MusicController.playClickSound();
+//        MusicController.playMusic("MusicResource/BGM2.wav");
         MapMatrix mapMatrix;
         try {
             mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level1.ser").getMatrix().clone());
@@ -128,11 +154,14 @@ public class LevelFrame extends JFrame {
         });
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
+
 
     }
 
     public void openLevel2(){
         MusicController.playClickSound();
+//        MusicController.playMusic("MusicResource/BGM2.wav");
         MapMatrix mapMatrix;
         try {
             mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level2.ser").getMatrix().clone());
@@ -176,10 +205,12 @@ public class LevelFrame extends JFrame {
         });
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
     }
 
     public void openLevel3(){
         MusicController.playClickSound();
+//        MusicController.playMusic("MusicResource/BGM2.wav");
         MapMatrix mapMatrix;
         try {
             mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level3.ser").getMatrix().clone());
@@ -225,10 +256,12 @@ public class LevelFrame extends JFrame {
         });
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
     }
 
     public void openLevel4(){
         MusicController.playClickSound();
+//        MusicController.playMusic("MusicResource/BGM4.wav");
         MapMatrix mapMatrix;
         try {
             mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level4.ser").getMatrix().clone());
@@ -274,10 +307,12 @@ public class LevelFrame extends JFrame {
         });
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
     }
 
     public void openLevel5(){
         MusicController.playClickSound();
+//        MusicController.playMusic("MusicResource/BGM4.wav");
         MapMatrix mapMatrix;
         try {
             mapMatrix = new MapMatrix(AutoDeserialize.autodeserialize(SetUpFrame.getAutoSavePath()+"level5.ser").getMatrix().clone());
@@ -321,6 +356,7 @@ public class LevelFrame extends JFrame {
         });
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
     }
     public void openLevel6(){
         MusicController.playClickSound();
@@ -382,6 +418,42 @@ public class LevelFrame extends JFrame {
 
         this.setVisible(false);
         gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
+    }
+
+    public void openLevel7(){
+        MapMatrix mapMatrix;
+        //4:传送门
+        //5:压力板
+        //6:门方块
+
+        mapMatrix = new MapMatrix(new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 30, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 20, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1}}
+        );
+        mapMatrix.setCopymatrix(new int[][] {
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 30, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 0, 0, 20, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1}}
+        );
+
+        GameFrame gameFrame = new GameFrame(1400,800,mapMatrix,7);
+        this.setVisible(false);
+        gameFrame.setVisible(true);
+        gameFrame.getGamePanel().requestFocusInWindow();
     }
 
     public void LevelChooser(int levelNumber){
