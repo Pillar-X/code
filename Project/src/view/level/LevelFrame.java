@@ -35,7 +35,10 @@ public class LevelFrame extends JFrame {
         }catch (Exception e){
             System.out.println(e);
         }
-        MusicController.playMusic("MusicResource/BGM3.wav");//设置背景音乐
+//        MusicController.playMusic("MusicResource/BGM3.wav");//设置背景音乐
+        MusicController.playMusic("MusicResource/BGM2.wav");
+        //设置背景音乐（12.10注：换了个时间长点的音乐，防止夹断）
+        MusicController.setMusicVolume(-1.0);
 //        File bgMusicFile = new File("MusicResource/BGM2.wav");
 //        if (bgMusicFile.exists()) {
 //            Clip bgMusic ;

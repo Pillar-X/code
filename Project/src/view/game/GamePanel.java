@@ -48,6 +48,7 @@ public class GamePanel extends ListenerPanel {
     public boolean isWin=false;
     private MapMatrix BestMapMatrix;
     boolean letThisMapMatrixBest;
+    public int[] isPressurePlateOpen = {0,0,0};
     private GameFrame gameFrame = FrameController.getGameFrame();
     public GamePanel(MapMatrix mapMatrix) {
         if (gameFrame.getLevelNumber() != 6 && gameFrame.getLevelNumber() !=7) {
@@ -283,6 +284,7 @@ public class GamePanel extends ListenerPanel {
         MusicController.playMoveSound();//播放移动声音
         if(FrameController.getGameFrame().getLevelNumber()==6) {
             if ( hero.getRow() == 1 && hero.getCol() == 2) {
+                FrameController.getGameFrame().getNoteLabel().setForeground(Color.RED);
                 FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
             } else {
                 FrameController.getGameFrame().getNoteLabel().setText("");
@@ -299,6 +301,7 @@ public class GamePanel extends ListenerPanel {
         MusicController.playMoveSound();//播放移动声音
         if(FrameController.getGameFrame().getLevelNumber()==6) {
             if ( hero.getRow() == 1 && hero.getCol() == 4) {
+                FrameController.getGameFrame().getNoteLabel().setForeground(Color.RED);
                 FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
             } else {
                 FrameController.getGameFrame().getNoteLabel().setText("");
@@ -315,6 +318,7 @@ public class GamePanel extends ListenerPanel {
         MusicController.playMoveSound();//播放移动声音
         if(FrameController.getGameFrame().getLevelNumber()==6) {
             if ( (hero.getRow() == 2||hero.getRow() == 1) && hero.getCol() == 3) {
+                FrameController.getGameFrame().getNoteLabel().setForeground(Color.RED);
                 FrameController.getGameFrame().getNoteLabel().setText("Press 'F' to enter!");
             } else {
                 FrameController.getGameFrame().getNoteLabel().setText("");
@@ -539,10 +543,20 @@ public class GamePanel extends ListenerPanel {
                 }
                 MusicController.playLoseSound();//播放失败声音
             }
-        }else if (FrameController.getGameFrame().getLevelNumber()==7){//最后一关对于压板的处理
-            gameController.dealWithPressurePlate(3,2,8,4);
-            gameController.dealWithPressurePlate(7,1,1,5);
-            gameController.dealWithPressurePlate(7,7,1,6);
+        }
+        else if (FrameController.getGameFrame().getLevelNumber()==7){//最后一关对于压板的处理
+            int[] tempIsPressurePlateChanged = new int[3];
+            for (int i = 0; i < 3; i++) {
+                tempIsPressurePlateChanged[i] = getIsPressurePlateOpen()[i];
+            }//复制数组
+            gameController.dealWithPressurePlate(3,2,8,4,0);
+            gameController.dealWithPressurePlate(7,1,1,5,1);
+            gameController.dealWithPressurePlate(7,7,1,6,2);
+            for (int i = 0; i < tempIsPressurePlateChanged.length; i++) {
+                if (tempIsPressurePlateChanged[i]!= getIsPressurePlateOpen()[i]) {
+                    MusicController.playMusic("MusicResource/wall_broken.wav");//添加叶落声效
+                }
+            }//判断压板状态是否改变，有变化则播放对应音效
             if (gameController.isGameWin()) {
                 FrameController.getGameFrame().setVisible(false);
                 new EndFrame(1400, 1000);
@@ -567,7 +581,12 @@ public class GamePanel extends ListenerPanel {
     }
 
 
-
+    public int[] getIsPressurePlateOpen(){
+        return isPressurePlateOpen;
+    }
+    public void setIsPressurePlateOpen(int[] isPressurePlateOpen) {
+        this.isPressurePlateOpen = isPressurePlateOpen;
+    }
     public void setController(GameController controller) {
         this.gameController = controller;
     }

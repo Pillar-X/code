@@ -56,4 +56,8 @@ public class MusicController  {
     public static void changeLevelMusic(){
         playMusic("MusicResource/changeLevel.wav");
     }
+    public static void setMusicVolume(double volume){
+        FloatControl volumeControl = (FloatControl) music.getControl(FloatControl.Type.MASTER_GAIN);
+        volumeControl.setValue((float) volume); // 设置音量
+    }
 }

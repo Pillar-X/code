@@ -247,7 +247,7 @@ public class GameController {
         }
         return false;
     }
-    public void dealWithPressurePlate(int row, int col,int X,int Y){
+    public void dealWithPressurePlate(int row, int col,int X,int Y,int number){
         int[][] map = mapMatrix.getMatrix();
         if(isPressurePlateBePressed(row,col)){
             switch (map[X][Y]/10){
@@ -267,19 +267,21 @@ public class GameController {
             mapMatrix.setMatrix(map);
             GridComponent gridComponent = gamePanel.getGridComponent(X,Y);
             gridComponent.setId(0);
-            System.out.println("["+row+","+col+"]"+"隐藏门已打开");
-            JLabel label = new JLabel();
-            ImageIcon icon = new ImageIcon("PictureResource/wall_broken.gif");
-            label.setIcon(icon);
-            label.setBounds(X*90+2, Y*90+2, 90, 90);
-            FrameController.getGameFrame().add(label);//添加叶落动画
-            MusicController.playMusic("MusicResource/wall_broken.wav");//添加叶落声效
+            gamePanel.isPressurePlateOpen[number] = 1;
+//            System.out.println("["+row+","+col+"]"+"隐藏门已打开");
+//            JLabel label = new JLabel();
+//            ImageIcon icon = new ImageIcon("PictureResource/wall_broken.gif");
+//            label.setIcon(icon);
+//            label.setBounds(X*90+2, Y*90+2, 90, 90);
+//            FrameController.getGameFrame().add(label);//添加叶落动画
+//            MusicController.playMusic("MusicResource/wall_broken.wav");//添加叶落声效
         }else if(!isPressurePlateBePressed(row,col) && map[X][Y]/10 !=1 && map[X][Y]/10 !=2 && map[X][Y]/10 !=3){
             map[X][Y] = 5;//XY指隐藏门的坐标
             mapMatrix.setMatrix(map);
             GridComponent gridComponent = gamePanel.getGridComponent(X,Y);
             gridComponent.setId(5);
-            System.out.println("["+row+","+col+"]"+"隐藏门关闭");
+            gamePanel.isPressurePlateOpen[number] = 0;
+//            System.out.println("["+row+","+col+"]"+"隐藏门关闭");
         }
     }
     //todo: add other methods such as loadGame, saveGame...
