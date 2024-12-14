@@ -145,6 +145,30 @@ public class GameController {
             }//计算有多少个箱子在目标位置
             if(count==total){
                 System.out.println("游戏胜利");
+                switch (FrameController.getGameFrame().getLevelNumber()){
+                    case 1:
+                        FrameController.getMusicController_level1().stopMusic();
+                        System.out.println("已经执行暂停音乐指令");
+                        break;
+                    case 2:
+                        FrameController.getMusicController_level2().stopMusic();
+                        break;
+                    case 3:
+                        FrameController.getMusicController_level3().stopMusic();
+                        break;
+                    case 4:
+                        FrameController.getMusicController_level4().stopMusic();
+                        break;
+                    case 5:
+                        FrameController.getMusicController_level5().stopMusic();
+                        break;
+                    case 6:
+                        FrameController.getMusicController_level6().stopMusic();
+                        break;
+                    case 7:
+                        FrameController.getMusicController_level7().stopMusic();
+                        break;
+                }
                 return true;
             }
             return false;
@@ -154,6 +178,31 @@ public class GameController {
             for(int i=0;i<map.length;i++){
                 for(int j=0;j<map[0].length;j++){
                     if(map[i][j]==12){
+
+                        switch (FrameController.getGameFrame().getLevelNumber()){
+                            case 1:
+                                FrameController.getMusicController_level1().stopMusic();
+                                System.out.println("已经执行暂停音乐指令");
+                                break;
+                            case 2:
+                                FrameController.getMusicController_level2().stopMusic();
+                                break;
+                            case 3:
+                                FrameController.getMusicController_level3().stopMusic();
+                                break;
+                            case 4:
+                                FrameController.getMusicController_level4().stopMusic();
+                                break;
+                            case 5:
+                                FrameController.getMusicController_level5().stopMusic();
+                                break;
+                            case 6:
+                                FrameController.getMusicController_level6().stopMusic();
+                                break;
+                            case 7:
+                                FrameController.getMusicController_level7().stopMusic();
+                                break;
+                        }
                         return true;
                     }
                 }
@@ -178,16 +227,65 @@ public class GameController {
 
         for(int i=0;i<boxList.length;i++){
             if(isDeadLocked(i)){
+                switch (FrameController.getGameFrame().getLevelNumber()){
+                    case 1:
+                        FrameController.getMusicController_level1().stopMusic();
+                        System.out.println("已经执行暂停音乐指令");
+                        break;
+                    case 2:
+                        FrameController.getMusicController_level2().stopMusic();
+                        break;
+                    case 3:
+                        FrameController.getMusicController_level3().stopMusic();
+                        break;
+                    case 4:
+                        FrameController.getMusicController_level4().stopMusic();
+                        break;
+                    case 5:
+                        FrameController.getMusicController_level5().stopMusic();
+                        break;
+                    case 6:
+                        FrameController.getMusicController_level6().stopMusic();
+                        break;
+                    case 7:
+                        FrameController.getMusicController_level7().stopMusic();
+                        break;
+                }
                 return true;
             }
             if(isLocked(i)){
                 count++;
                 if(count==boxList.length){
                     System.out.println("游戏失败");
+                    switch (FrameController.getGameFrame().getLevelNumber()){
+                        case 1:
+                            FrameController.getMusicController_level1().stopMusic();
+                            System.out.println("已经执行暂停音乐指令");
+                            break;
+                        case 2:
+                            FrameController.getMusicController_level2().stopMusic();
+                            break;
+                        case 3:
+                            FrameController.getMusicController_level3().stopMusic();
+                            break;
+                        case 4:
+                            FrameController.getMusicController_level4().stopMusic();
+                            break;
+                        case 5:
+                            FrameController.getMusicController_level5().stopMusic();
+                            break;
+                        case 6:
+                            FrameController.getMusicController_level6().stopMusic();
+                            break;
+                        case 7:
+                            FrameController.getMusicController_level7().stopMusic();
+                            break;
+                    }
                     return true;
                 }
             }
         }
+
         return false;
 
     }

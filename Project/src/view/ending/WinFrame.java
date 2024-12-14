@@ -13,11 +13,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class WinFrame extends JFrame {
+    private MusicController musicController;
     private JButton returnBtn;
     private JButton nextBtn;
     private JLabel BestRecordLabel;
     private JLabel ThisRecordLabel;
     public WinFrame(int width, int height)  {
+
         // 加载 GIF 图像
         ImageIcon WinFrameGIF = new ImageIcon("PictureResource/WinFrameGIF.gif");
         this.setTitle("Win Frame");
@@ -60,7 +62,8 @@ public class WinFrame extends JFrame {
             int levelNow = FrameController.getGameFrame().getLevelNumber();
             int levelNext = levelNow+1;
             try {
-                MusicController.stopMusic();
+
+                musicController.stopMusic();
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }
@@ -74,14 +77,16 @@ public class WinFrame extends JFrame {
         });
 
         returnBtn.addActionListener(e -> {
+
             FrameController.returnLevelFrame(this);
             try {
-                MusicController.stopMusic();
+                musicController.stopMusic();
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }
             MusicController.playClickSound();
             panel.requestFocusInWindow();//返回按钮的监听器
+            FrameController.getMusicController().startMusic();
         });
         add(panel);
         add(label);
@@ -103,6 +108,7 @@ public class WinFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
+
     }
 
     public JLabel getThisRecordLabel() {
@@ -115,6 +121,10 @@ public class WinFrame extends JFrame {
 
     public JLabel getBestRecordLabel() {
         return BestRecordLabel;
+    }
+
+    public void playWinSound(){
+        this.musicController =MusicController.playWinSound();
     }
 
     public void setBestRecordLabel(JLabel bestRecordLabel) {

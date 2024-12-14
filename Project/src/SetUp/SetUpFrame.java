@@ -1,5 +1,6 @@
 package SetUp;
 
+import controller.MusicController;
 import view.FrameUtil;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class SetUpFrame extends JFrame {
     private static String recordPath;
 
 
+
     public SetUpFrame (int width , int height , String username){
         SetUpFrame.username = username;
         CreateMainFile();
@@ -29,7 +31,6 @@ public class SetUpFrame extends JFrame {
         this.setLocationRelativeTo(null);
         nameLabel = FrameUtil.createJLabel(this,new Point(this.getWidth()/2-20, 20),40,40,username);
         this.setVisible(false);
-
     }
 
     public void CreateMainFile (){

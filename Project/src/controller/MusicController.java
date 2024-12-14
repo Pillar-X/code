@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 
 public class MusicController  {
-    public static Clip music = null; //声明Clip接口
-    static File sourceFile = null; //声明文件变量
+    private Clip music = null; //声明Clip接口
+    private File sourceFile = null; //声明文件变量
     /**
      * 音乐播放方法
      */
-    public static void playMusic(String path){
+    public MusicController (String path){
         try {
             music = AudioSystem.getClip(); // 获取可用于播放音频文件或音频流的数据流
             sourceFile = new File(path);//获取文件
@@ -29,35 +29,58 @@ public class MusicController  {
         }
 
     }
-    public static void stopMusic(){
-        music.stop();
+
+
+
+    public void stopMusic(){
+        if(music!=null){
+            music.stop();
+
+
+        }
+    }
+
+    public void startMusic(){
+        music.setFramePosition(0);
+        music.start();
     }
     public static void playMoveSound(){
-        playMusic("MusicResource/move.wav");
+        MusicController musicController = new MusicController("MusicResource/move.wav");
     }
-    public static void playWinSound(){
-        playMusic("MusicResource/BGM1.wav");
+
+    public static MusicController playWinSound(){
+        MusicController musicController = new MusicController("MusicResource/BGM1.wav");
+        return musicController;
+
     }
     public static void playLoseSound(){
-        playMusic("MusicResource/failed.wav");
+        MusicController musicController = new MusicController("MusicResource/failed.wav");
+
     }
     public static void playClickSound(){
-        playMusic("MusicResource/click.wav");
+        MusicController musicController = new MusicController("MusicResource/click.wav");
+
     }
-    public static void playBGM2(){
-        playMusic("MusicResource/BGM2.wav");
-    }
-    public static void playBGM3(){
-        playMusic("MusicResource/BGM3.wav");
-    }
-    public static void playBGM4(){
-        playMusic("MusicResource/BGM4.wav");
-    }
+
+//    public static void playBGM3(){
+//        playMusic("MusicResource/BGM3.wav");
+//    }
+//    public static void playBGM4(){
+//        playMusic("MusicResource/BGM4.wav");
+//    }
     public static void changeLevelMusic(){
-        playMusic("MusicResource/changeLevel.wav");
+        MusicController musicController = new MusicController("MusicResource/changeLevel.wav");
+
     }
-    public static void setMusicVolume(double volume){
+    //public static void stopMusic_Force(){
+    //    music = null;
+    //}
+    public void setMusicVolume(double volume){
         FloatControl volumeControl = (FloatControl) music.getControl(FloatControl.Type.MASTER_GAIN);
         volumeControl.setValue((float) volume); // 设置音量
+    }
+
+    public void checkMusic(){
+        System.out.println(music);
     }
 }

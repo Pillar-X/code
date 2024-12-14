@@ -267,7 +267,6 @@ public class GameFrame extends JFrame {
 
             gamePanel.requestFocusInWindow();//enable key listener
 
-
         });
 
         this.deleteBtn.addActionListener(e -> {
@@ -348,7 +347,7 @@ public class GameFrame extends JFrame {
         });
 
         this.returnBtn.addActionListener(e -> {
-            MusicController.stopMusic();
+            //MusicController.stopMusic();
             MusicController.playClickSound();
             gamePanel.StopTimer();
             try {
@@ -358,6 +357,7 @@ public class GameFrame extends JFrame {
             }
             FrameController.returnLevelFrame(this);
             gamePanel.requestFocusInWindow();//返回按钮的监听器
+            FrameController.getMusicController().startMusic();
         });
 
 
@@ -429,11 +429,13 @@ public class GameFrame extends JFrame {
 
             FrameController.setGameFrame(this);
             this.returnBtn.addActionListener(e -> {
-                MusicController.stopMusic();
+                //MusicController.stopMusic();
                 MusicController.playClickSound();
 
                 FrameController.returnLevelFrame(this);
                 gamePanel.requestFocusInWindow();//返回按钮的监听器
+                //MusicController musicController = new MusicController("MusicResource/BGM2.wav");
+                //musicController.setMusicVolume(-1.0);
             });
 
 
@@ -470,7 +472,6 @@ public class GameFrame extends JFrame {
 
             this.returnBtn.addActionListener(e -> {
                 MusicController.playClickSound();
-
                 FrameController.returnLevelFrame(this);
                 gamePanel.requestFocusInWindow();//返回按钮的监听器
             });

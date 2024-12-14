@@ -1,5 +1,7 @@
 package view.ending;
 
+import controller.MusicController;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +11,7 @@ import java.io.IOException;
 
 public class EndFrame extends JFrame {
     public EndFrame(int width, int height) {
+        MusicController musicController = new MusicController("MusicResource/FinalPage~1.wav");
 
         this.setTitle("End Frame");
 

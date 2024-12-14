@@ -44,8 +44,32 @@ public class LoseFrame extends javax.swing.JFrame {
         this.moveBackBtn.addActionListener(e -> {
 
             FrameController.returnGameFrame(this);
+            switch (FrameController.getGameFrame().getLevelNumber()){
+                case 1:
+                    FrameController.getMusicController_level1().startMusic();
+                    System.out.println("已经执行暂停音乐指令");
+                    break;
+                case 2:
+                    FrameController.getMusicController_level2().startMusic();
+                    break;
+                case 3:
+                    FrameController.getMusicController_level3().startMusic();
+                    break;
+                case 4:
+                    FrameController.getMusicController_level4().startMusic();
+                    break;
+                case 5:
+                    FrameController.getMusicController_level5().startMusic();
+                    break;
+                case 6:
+                    FrameController.getMusicController_level6().startMusic();
+                    break;
+                case 7:
+                    FrameController.getMusicController_level7().startMusic();
+                    break;
+            }
             try {
-                MusicController.stopMusic();
+                //MusicController.stopMusic();
             } catch (Exception f) {
                 throw new RuntimeException(f);
             }

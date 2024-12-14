@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class LevelFrame extends JFrame {
+    MusicController musicController;
 //    String BGM = "BGM3";//背景音乐
 
 
@@ -30,15 +31,18 @@ public class LevelFrame extends JFrame {
         this.setTitle("Level");
         this.setLayout(null);
         this.setSize(width, height);
+
         try{
-            MusicController.stopMusic();//清除原有音乐
+            musicController = new MusicController("MusicResource/BGM2.wav");
+            musicController.setMusicVolume(-1.0);
+            FrameController.setMusicController(musicController);
         }catch (Exception e){
             System.out.println(e);
         }
 //        MusicController.playMusic("MusicResource/BGM3.wav");//设置背景音乐
-        MusicController.playMusic("MusicResource/BGM2.wav");
+
         //设置背景音乐（12.10注：换了个时间长点的音乐，防止夹断）
-        MusicController.setMusicVolume(-1.0);
+
 //        File bgMusicFile = new File("MusicResource/BGM2.wav");
 //        if (bgMusicFile.exists()) {
 //            Clip bgMusic ;
@@ -75,20 +79,23 @@ public class LevelFrame extends JFrame {
 //            setUpFrame.setVisible(true);
 //        });
 
-        level1Btn.addActionListener(l->{MusicController.stopMusic();
+        level1Btn.addActionListener(l->{musicController.stopMusic();
+            //MusicController.stopMusic_Force();
+            musicController.checkMusic();
+
             openLevel1();
         });
-        level2Btn.addActionListener(l->{MusicController.stopMusic();openLevel2();
+        level2Btn.addActionListener(l->{musicController.stopMusic();openLevel2();
             });
-        level3Btn.addActionListener(l->{MusicController.stopMusic();openLevel3();
+        level3Btn.addActionListener(l->{musicController.stopMusic();openLevel3();
             });
-        level4Btn.addActionListener(l->{MusicController.stopMusic();openLevel4();
+        level4Btn.addActionListener(l->{musicController.stopMusic();openLevel4();
             });
-        level5Btn.addActionListener(l->{MusicController.stopMusic();openLevel5();
+        level5Btn.addActionListener(l->{musicController.stopMusic();openLevel5();
             });
 
         ReLoginBtn.addActionListener(e -> {
-            MusicController.stopMusic();
+            //musicController.stopMusic();
             MusicController.playClickSound();
 
             FrameController.returnLoginFrame(this);
@@ -117,6 +124,7 @@ public class LevelFrame extends JFrame {
     public void openLevel1(){
 //        FrameController.getLevelFrame().clearBGM();
         MusicController.playClickSound();
+        //MusicController.stopMusic();
 //        MusicController.playMusic("MusicResource/BGM2.wav");
         MapMatrix mapMatrix;
         try {
@@ -158,6 +166,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController1 = new MusicController("MusicResource/level1 - Stardew-Valley.wav");
+        FrameController.setMusicController_level1(musicController1);
 
 
     }
@@ -209,6 +219,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController2 = new MusicController("MusicResource/level2-Minecraft.wav");
+        FrameController.setMusicController_level2(musicController2);
     }
 
     public void openLevel3(){
@@ -260,6 +272,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController3 = new MusicController("MusicResource/level3-Terraria.wav");
+        FrameController.setMusicController_level3(musicController3);
     }
 
     public void openLevel4(){
@@ -311,6 +325,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController4 = new MusicController("MusicResource/level4-Undertale.wav");
+        FrameController.setMusicController_level4(musicController4);
     }
 
     public void openLevel5(){
@@ -360,6 +376,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController5 = new MusicController("MusicResource/level5-Celeste.wav");
+        FrameController.setMusicController_level5(musicController5);
     }
     public void openLevel6(){
         MusicController.playClickSound();
@@ -422,9 +440,12 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController6 = new MusicController("MusicResource/level6-Celeste.wav");
+        FrameController.setMusicController_level6(musicController6);
     }
 
     public void openLevel7(){
+        FrameController.getMusicController_level6().stopMusic();
         MapMatrix mapMatrix;
         //4:压力板
         //5:门方块
@@ -462,6 +483,8 @@ public class LevelFrame extends JFrame {
         this.setVisible(false);
         gameFrame.setVisible(true);
         gameFrame.getGamePanel().requestFocusInWindow();
+        MusicController musicController7 = new MusicController("MusicResource/level7-Undertale.wav");
+        FrameController.setMusicController_level7(musicController7);
     }
 
     public void LevelChooser(int levelNumber){
@@ -470,6 +493,14 @@ public class LevelFrame extends JFrame {
         else if(levelNumber == 4) openLevel4();
         else if(levelNumber == 5) openLevel5();
         else if(levelNumber == 6) openLevel6();
+    }
+
+    public MusicController getMusicController() {
+        return musicController;
+    }
+
+    public void setMusicController(MusicController musicController) {
+        this.musicController = musicController;
     }
     //public static FrameController getFrameController() {
      //   return frameController;

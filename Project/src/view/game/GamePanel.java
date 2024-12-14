@@ -359,7 +359,8 @@ public class GamePanel extends ListenerPanel {
         int[][] map=mapMatrix.getMatrix();
         if(isHero1NearPortal() && map[1][7]==6 && map[6][5]==16){
             System.out.println("检测传送门1条件符合，应当传送");
-            MusicController.playMusic("MusicResource/portal.wav");
+            MusicController musicController = new MusicController("MusicResource/portal.wav");
+
             RemoveBox();
             map[1][7]=16;
             map[6][5]=6;
@@ -373,7 +374,8 @@ public class GamePanel extends ListenerPanel {
         int[][] map = mapMatrix.getMatrix();
         if(secondIsNearPortal() && map[6][5]==6 && map[1][7]==16){
             System.out.println("监测传送门2条件符合，应当传送");
-            MusicController.playMusic("MusicResource/portal.wav");
+            MusicController musicController = new MusicController("MusicResource/portal.wav");
+
             RemoveBox();
             map[6][5] = 16;
             map[1][7] = 6;
@@ -528,16 +530,17 @@ public class GamePanel extends ListenerPanel {
                 winFrame.setVisible(true);
                 FrameController.getGameFrame().setVisible(false);
                 try {
-                    MusicController.stopMusic();
+                    //MusicController.stopMusic();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                MusicController.playWinSound();//播放胜利声音
+                winFrame.playWinSound();
+
             }
             if (gameController.isGameFail()) {
                 loseFrame.setVisible(true);
                 try {
-                    MusicController.stopMusic();
+                    //MusicController.stopMusic();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -554,18 +557,21 @@ public class GamePanel extends ListenerPanel {
             gameController.dealWithPressurePlate(7,7,1,6,2);
             for (int i = 0; i < tempIsPressurePlateChanged.length; i++) {
                 if (tempIsPressurePlateChanged[i]!= getIsPressurePlateOpen()[i]) {
-                    MusicController.playMusic("MusicResource/wall_broken.wav");//添加叶落声效
+                    MusicController musicController = new MusicController("MusicResource/wall_broken.wav");
+
                 }
             }//判断压板状态是否改变，有变化则播放对应音效
             if (gameController.isGameWin()) {
+
                 FrameController.getGameFrame().setVisible(false);
                 new EndFrame(1400, 1000);
                 try {
-                    MusicController.stopMusic();
+                   // MusicController.stopMusic();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                MusicController.playMusic("MusicResource/victory.wav");//播放胜利声音
+                MusicController musicController = new MusicController("MusicResource/victory.wav");
+               // MusicController.playMusic("MusicResource/victory.wav");//播放胜利声音
             }
 //
         }

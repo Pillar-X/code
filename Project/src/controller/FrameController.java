@@ -22,6 +22,16 @@ public class FrameController {
     private static SetUpFrame setUpFrame;
     private static WinFrame winFrame;
     private static GameFrame gameFrame;
+    private static MusicController musicController;
+    private static MusicController musicController_level1;
+    private static MusicController musicController_level2;
+    private static MusicController musicController_level3;
+    private static MusicController musicController_level4;
+    private static MusicController musicController_level5;
+    private static MusicController musicController_level6;
+    private static MusicController musicController_level7;
+
+
     private static LoseFrame loseFrame;
     //GameFrame的 getter,setter 和 从 levelFrame -> gameFrame 的方法
     public static GameFrame getGameFrame(LevelFrame levelFrame) {
@@ -35,6 +45,15 @@ public class FrameController {
         getGameFrame().setVisible(true);
 
     }
+
+    public static MusicController getMusicController() {
+        return musicController;
+    }
+
+    public static void setMusicController(MusicController musicController) {
+        FrameController.musicController = musicController;
+    }
+
     public static GameFrame getGameFrame() {
         return gameFrame;
     }
@@ -53,6 +72,30 @@ public class FrameController {
         winFrame.setVisible(true);
     }
     public static void returnLevelFrame(GameFrame gameFrame) {
+        musicController.startMusic();
+        switch (getGameFrame().getLevelNumber()){
+            case 1:
+                musicController_level1.stopMusic();
+                break;
+            case 2:
+                musicController_level2.stopMusic();
+                break;
+            case 3:
+                musicController_level3.stopMusic();
+                break;
+            case 4:
+                musicController_level4.stopMusic();
+                break;
+            case 5:
+                musicController_level5.stopMusic();
+                break;
+            case 6:
+                musicController_level6.stopMusic();
+                break;
+            case 7:
+                musicController_level7.stopMusic();
+                break;
+        }
         gameFrame.setVisible(false);
         levelFrame.setVisible(true);
     }
@@ -80,5 +123,61 @@ public class FrameController {
     public static void returnLevelFrame(SetUpFrame setUpFrame) {
         setUpFrame.setVisible(false);
         levelFrame.setVisible(true);
+    }
+
+    public static MusicController getMusicController_level1() {
+        return musicController_level1;
+    }
+
+    public static void setMusicController_level1(MusicController musicController_level1) {
+        FrameController.musicController_level1 = musicController_level1;
+    }
+
+    public static MusicController getMusicController_level2() {
+        return musicController_level2;
+    }
+
+    public static void setMusicController_level2(MusicController musicController_level2) {
+        FrameController.musicController_level2 = musicController_level2;
+    }
+
+    public static MusicController getMusicController_level3() {
+        return musicController_level3;
+    }
+
+    public static void setMusicController_level3(MusicController musicController_level3) {
+        FrameController.musicController_level3 = musicController_level3;
+    }
+
+    public static MusicController getMusicController_level4() {
+        return musicController_level4;
+    }
+
+    public static void setMusicController_level4(MusicController musicController_level4) {
+        FrameController.musicController_level4 = musicController_level4;
+    }
+
+    public static MusicController getMusicController_level5() {
+        return musicController_level5;
+    }
+
+    public static void setMusicController_level5(MusicController musicController_level5) {
+        FrameController.musicController_level5 = musicController_level5;
+    }
+
+    public static MusicController getMusicController_level6() {
+        return musicController_level6;
+    }
+
+    public static void setMusicController_level6(MusicController musicController_level6) {
+        FrameController.musicController_level6 = musicController_level6;
+    }
+
+    public static MusicController getMusicController_level7() {
+        return musicController_level7;
+    }
+
+    public static void setMusicController_level7(MusicController musicController_level7) {
+        FrameController.musicController_level7 = musicController_level7;
     }
 }
