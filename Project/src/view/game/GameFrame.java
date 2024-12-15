@@ -421,13 +421,13 @@ public class GameFrame extends JFrame {
 //            path = "PictureResource/background.png";
 //        }
         switch (this.levelNumber) {
-            case 1:
+            case 1, 5:
                 path = "PictureResource/level1.png";
                 break;
             case 2:
                 path = "PictureResource/level2.png";
                 break;
-            case 3, 5:
+            case 3:
                 path = "PictureResource/level3.png";
                 break;
             case 4:
