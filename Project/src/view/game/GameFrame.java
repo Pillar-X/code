@@ -64,6 +64,8 @@ public class GameFrame extends JFrame {
     private JLabel noteLabel;
     private JLabel bestStepLabel;
     private JLabel bestTimeLabel;
+    private JLabel tipsLabel;
+    private String tipsText;
     private MapMatrix BestMapMatrix;
     private WinFrame winFrame;
 
@@ -87,6 +89,23 @@ public class GameFrame extends JFrame {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image img = tk.getImage("PictureResource/LOGO.png");
         setIconImage(img);//设置图标
+        switch (this.levelNumber) {
+            case 1:
+                tipsText = "推箱水晶玉，此处真龙居";
+                break;
+            case 2:
+                tipsText = "此退为彼进，回环见初心";
+                break;
+            case 3:
+                tipsText = "漫漫推箱路，矢志北向行";
+                break;
+            case 4:
+                tipsText = "一魂分两人，并立抵至尊";
+                break;
+            case 5:
+                tipsText = "光辉通南北，石板踏路晴";
+                break;
+        }
         this.restartBtn = ButtonController.createButton(this, "Restart", new Point(gamePanel.getWidth() + 400 - 80, 280), 160, 100, "");
         this.loadBtn = ButtonController.createButton(this, "Load", new Point(480-80, 30), 80, 50, "");
         this.returnBtn = ButtonController.createButton(this, "Return", new Point(640-80, 30), 100, 50, "");//返回按钮
@@ -103,11 +122,13 @@ public class GameFrame extends JFrame {
         this.minutesLabel = ButtonController.createJLabel(this, new Point(gamePanel.getWidth() +280-60, 140), 200, 100, "");
         this.bestStepLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 160-60, 100), 200, 50, "Best: null");
         this.bestTimeLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 350, 100), 300, 50, "Time: null");
+        this.tipsLabel = FrameUtil.createJLabel(this, new Point(gamePanel.getWidth() + 300 - 60-30, 410 + 80+120), 200+100, 100, tipsText);
         FrameController.setGameFrame(this);
         gamePanel.setBasicTime(mapMatrix.getBasicTime());
         SetSeconds(mapMatrix.getBasicTime());
         Font font = new Font("New Roman", Font.PLAIN, 28);
         Font font1 = new Font("New Roman", Font.PLAIN, 16);
+        Font font2 = new Font("微软雅黑", Font.PLAIN, 20);
         this.stepLabel.setFont(font);
         this.bestStepLabel.setFont(font);
         this.bestTimeLabel.setFont(font);
@@ -124,6 +145,9 @@ public class GameFrame extends JFrame {
         this.deleteBtn.setFont(font1);
         this.saveNameText.setFont(font1);
         this.returnBtn.setFont(font1);
+        this.tipsLabel.setFont(font2);
+        this.tipsLabel.setForeground(Color.RED);
+        this.add(tipsLabel);
         tryAddLoadComboBox();//看有没有存档，如果有就把下拉框加入到界面中
 
         gamePanel.setStepLabel(stepLabel);
@@ -390,11 +414,28 @@ public class GameFrame extends JFrame {
         // 设置背景
         JLabel lblBackground = new JLabel(); // 创建一个标签组件对象
         BufferedImage bufferedImage = null;
-            String path;
-        if(levelNumber == 6 || levelNumber == 7){
-            path = "PictureResource/forest.png";
-        }else{
-            path = "PictureResource/background.png";
+            String path = "";
+//        if(levelNumber == 6 || levelNumber == 7){
+//            path = "PictureResource/forest.png";
+//        }else{
+//            path = "PictureResource/background.png";
+//        }
+        switch (this.levelNumber) {
+            case 1:
+                path = "PictureResource/level1.png";
+                break;
+            case 2:
+                path = "PictureResource/level2.png";
+                break;
+            case 3, 5:
+                path = "PictureResource/level3.png";
+                break;
+            case 4:
+                path = "PictureResource/level4.png";
+                break;
+            case 6, 7:
+                path = "PictureResource/forest_2.png";
+                break;
         }
         try {
             bufferedImage = ImageIO.read(new File(path));

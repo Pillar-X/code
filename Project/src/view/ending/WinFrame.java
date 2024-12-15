@@ -125,9 +125,11 @@ public class WinFrame extends JFrame {
 
     public void playWinSound(){
         this.musicController =MusicController.playWinSound();
+        musicController.setMusicVolume(-0.3f);
     }
 
     public void setBestRecordLabel(JLabel bestRecordLabel) {
         BestRecordLabel = bestRecordLabel;
     }
+
 }
