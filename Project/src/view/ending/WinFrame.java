@@ -106,7 +106,7 @@ public class WinFrame extends JFrame {
         this.getContentPane().add(lblBackground); // 将组件添加到面板中
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        this.setVisible(false);
 
 
     }
