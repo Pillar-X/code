@@ -343,7 +343,13 @@ public class GameFrame extends JFrame {
             }
 
             if (mapMatrixList.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "The GameArchive is empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                if(loadComboBox.getItemCount()!=0){
+                    JOptionPane.showMessageDialog(this, "The save has been destroyed", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "The GameArchive is empty", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             } else {
                 gamePanel.RemoveBoxAndHero();
                 gamePanel.repaint();
