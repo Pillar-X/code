@@ -58,6 +58,7 @@ public class UserCheck {
         }
         if(!checkUserName()){
             signUpFrame.setUserNoteLabel("The name repeat");
+            return false;
         }
         signUpFrame.setUserNoteLabel("Accepted");
 
